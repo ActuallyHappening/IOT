@@ -33,7 +33,9 @@ jobs:
         python -m pip install -r requirements.txt
         pip install build twine
     - name: Build package
-      run: python -m build
+      run: |
+        cd python
+        python -m build
     - name: Publish package
       env:
         TWINE_USERNAME: __token__
