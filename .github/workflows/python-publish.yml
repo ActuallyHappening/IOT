@@ -36,5 +36,6 @@ jobs:
       run: python -m build
     - name: Publish package
       env:
-        TWINE_USERNAME: Smartguy88
-        TWINE_PASSWORD: 
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: {{secrets.PYPI_API_TOKEN}}
+      run: python -m twine upload --verbose -c CI dist/*
