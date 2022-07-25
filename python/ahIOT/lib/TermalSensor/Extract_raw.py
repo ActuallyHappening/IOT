@@ -37,7 +37,7 @@ def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0,
 def get_ascii_char_from_num(num):
   """Put in number from 15-45 and get back ascii char from ascii_chars"""
   charNum = map_num_ranges(num)
-  print(f"{charNum=}")
+  # print(f"{charNum=}")
   return ascii_chars[charNum]
 
 def get_char(temp, info):
