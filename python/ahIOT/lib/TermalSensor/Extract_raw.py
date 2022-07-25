@@ -4,6 +4,9 @@ import time
 import board
 import busio
 import adafruit_mlx90640
+from rich import pretty as p
+from rich import print as rprint
+p.install()
 
 i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
 
@@ -14,15 +17,19 @@ print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 # try decreasing this value to work with certain pi/camera combinations
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
-def get_char(temp):
-  return str(temp)[1]
+def get_char(temp, info):
+  ctrlChar = "red" if temp > info.avg else "green"
+  return f"[{ctrlChar}]{temp:.1f}[/{ctrlChar}]"
 
-def print_frame(value, x, y):
-  print(get_char(value), end="")
+def print_frame(value, x, y, l):
+  avg = sum(l) / len(l)
+  rprint(get_char(value, {
+    "avg": avg
+  }), end="")
   if x == 31:
     print()
-  # if y == 23:
-  #   print()
+    if y == 23:
+      print()
 
 def main():
   while True:
@@ -38,7 +45,7 @@ def iterate(f):
   if frame == None:
     return frame
   for value, x, y in iterate_frame(frame):
-    f(value, x, y)
+    f(value, x, y, frame)
 
 def get_frame():
   frame = [0] * (24*32)
