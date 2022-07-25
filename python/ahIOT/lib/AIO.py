@@ -1,36 +1,40 @@
 import Adafruit_IO as AIO
+from dotenv import dotenv_values
+
+aio = None
 
 class Aio:
-  client: AIO.Client
+  client: AIO.Client = None
   schema: dict[str, str]
   
-  def __init__(self, username: str, password: str, scheme: dict[str, str] = {
+  def __init__(self, username: str, key: str, scheme: dict[str, str] = {
     "group": "brad",
-    "data": "test_data",
-    "status": "test_status",
-    "control": "test_control",
-    "stream": "ir_stream",
+    "data": "test-data",
+    "status": "test-status",
+    "control": "test-control",
+    "stream": "ir-stream",
   }):
-    self.client = AIO.Client(username, password)
+    self.client = AIO.Client(username, key)
     self.schema = scheme
   
-  @classmethod
+  # @classmethod
   def send(cls, group: str, feed: str, *, data):
       fullName = group + "." + feed
       cls.client.send(fullName, data)
   
-  @classmethod
+  # @classmethod
   def receive(cls, group: str, feed: str):
       fullName = group + "." + feed
+      print(f"Getting from {fullName=}")
       return cls.client.receive(fullName)
 
-  @classmethod
+  # @classmethod
   def send_schema(cls, scheme_option, data):
-    cls.client.send(cls.scheme.group, cls.schema.keys[scheme_option], data)
+    cls.send(cls.scheme.group, cls.schema.keys[scheme_option], data)
     
-  @classmethod
+  # @classmethod
   def receive_schema(cls, scheme_option):
-    return cls.client.receive(cls.scheme.group, cls.schema.keys[scheme_option])
+    return cls.receive(cls.schema["group"], cls.schema[scheme_option])
 
   def send_data(self, data):
       self.send_schema("data", data=data)
@@ -46,3 +50,13 @@ class Aio:
   
   def receive_stream(self):
       return self.receive_schema("stream")
+
+env_variables = dotenv_values()
+try:
+  defaultPassword = env_variables["ADAFRUIT_IO_USERNAME"]
+  defaultKey = env_variables["ADAFRUIT_IO_KEY"]
+except KeyError as exc:
+  print(f"Couldn't load password and username for Adafruit IO defaults: {exc}")
+else:
+  aio = Aio(username=defaultPassword, key=defaultKey)
+  print("AIO: Loaded credentials from environment variables")

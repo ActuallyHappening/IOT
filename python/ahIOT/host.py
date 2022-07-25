@@ -1,10 +1,11 @@
 import json
-from lib.AIO import Aio
+from lib.AIO import aio
 from lib.ThermalSensor.Extract_raw import iterate, print_frame
 
 while True:
   try:
-    data = json.loads(Aio.receive_stream())
+    loaded = aio.receive_stream()
+    data = json.loads(loaded)
   except json.JSONDecodeError as exc:
     print(f"(Error: Received stream bad: {exc}")
     continue
