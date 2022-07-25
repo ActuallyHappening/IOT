@@ -18,7 +18,7 @@ print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
 def get_char(temp, info):
-  ctrlChar = "red" if temp > info.avg else "green"
+  ctrlChar = "red" if temp > info["avg"] else "green"
   return f"[{ctrlChar}]{temp:.1f}[/{ctrlChar}]"
 
 def print_frame(value, x, y, l):
