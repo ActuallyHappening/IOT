@@ -17,9 +17,18 @@ print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 # try decreasing this value to work with certain pi/camera combinations
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
+ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'."
+
+lowest_temp = 15
+highest_temp = 45
+
+def get_ascii_char_from_num(num):
+  """Put in number from 15-45 and get back ascii char from ascii_chars"""
+  return ascii_chars[int((num - lowest_temp) / (highest_temp - lowest_temp) * len(ascii_chars))]
+
 def get_char(temp, info):
   ctrlChar = "red" if temp > info["avg"] else "green"
-  return f"[{ctrlChar}]{temp:.1f}[/{ctrlChar}]"
+  return f"[{ctrlChar}]{get_ascii_char_from_num(int(temp))}[/{ctrlChar}]"
 
 def print_frame(value, x, y, l):
   avg = sum(l) / len(l)
