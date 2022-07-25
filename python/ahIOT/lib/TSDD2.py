@@ -29,7 +29,7 @@ while True:
         data_array = (np.reshape(frame,mlx_shape)) # reshape to 24x32
         therm1.set_data(np.fliplr(data_array)) # flip left to right
         therm1.set_clim(vmin=np.min(data_array),vmax=np.max(data_array)) # set bounds
-        # cbar.on_mappable_changed(therm1) # update colorbar range
+        cbar.on_mappable_changed(therm1) # update colorbar range
         plt.pause(0.001) # required
         fig.savefig('mlx90640_test_fliplr.png',dpi=300,facecolor='#FCFCFC',
                     bbox_inches='tight') # comment out to speed up
