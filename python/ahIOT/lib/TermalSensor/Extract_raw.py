@@ -14,18 +14,41 @@ print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 # try decreasing this value to work with certain pi/camera combinations
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
-frame = [0] * (24*32)
-while True:
-    try:
-        mlx.getFrame(frame)
-    except ValueError:
-        # these happen, no biggie - retry
-        print("(Error)")
-        continue
+def get_char(temp):
+  return str(temp)[1]
 
-    for h in range(24):
-        for w in range(32):
-            t = frame[h*32 + w]
-            print("%0.1f, " % t, end="")
-        print()
+def print_frame(value, x, y):
+  print(get_char(value), end="")
+  if x == 31:
     print()
+  if y == 23:
+    print()
+
+def main():
+  while True:
+    iterate(print_frame)
+
+def iterate_frame(frame):
+  for y in range(24):
+    for x in range(32):
+      yield frame[y*32 + x], x, y
+
+def iterate(f):
+  frame = get_frame()
+  if frame == None:
+    return frame
+  for value, x, y in iterate_frame(frame):
+    f(value, x, y)
+
+def get_frame():
+  frame = [0] * (24*32)
+  try:
+      mlx.getFrame(frame)
+  except ValueError:
+      # these happen, no biggie - retry
+      print("(Error)")
+      return None
+  return frame
+
+if __name__ == "__main__":
+  main()
