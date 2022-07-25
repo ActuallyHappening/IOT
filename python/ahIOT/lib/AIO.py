@@ -9,6 +9,7 @@ class Aio:
     "data": "test_data",
     "status": "test_status",
     "control": "test_control",
+    "stream": "ir_stream",
   }):
     self.client = AIO.Client(username, password)
     self.schema = scheme
@@ -39,3 +40,9 @@ class Aio:
 
   def receive_control(self):
       return self.receive_schema("control")
+  
+  def send_stream(self, data):
+      self.send_schema("stream", data=data)
+  
+  def receive_stream(self):
+      return self.receive_schema("stream")

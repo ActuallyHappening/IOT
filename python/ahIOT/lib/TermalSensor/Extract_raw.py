@@ -63,10 +63,10 @@ def iterate_frame(frame):
     for x in range(32):
       yield frame[y*32 + x], x, y
 
-def iterate(f):
-  frame = get_frame()
+def iterate(f, frame=None):
   if frame == None:
-    return frame
+    frame = get_frame()
+    if frame == None: return frame # retry
   for value, x, y in iterate_frame(frame):
     f(value, x, y, frame)
 
