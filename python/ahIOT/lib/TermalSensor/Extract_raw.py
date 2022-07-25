@@ -22,9 +22,20 @@ ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,
 lowest_temp = 15
 highest_temp = 45
 
+def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0, rightMax=len(ascii_chars) - 1):
+    # Figure out how 'wide' each range is
+    leftSpan = leftMax - leftMin
+    rightSpan = rightMax - rightMin
+
+    # Convert the left range into a 0-1 range (float)
+    valueScaled = float(value - leftMin) / float(leftSpan)
+
+    # Convert the 0-1 range into a value in the right range.
+    return rightMin + (valueScaled * rightSpan)
+
 def get_ascii_char_from_num(num):
   """Put in number from 15-45 and get back ascii char from ascii_chars"""
-  return ascii_chars[int((num - lowest_temp) / (highest_temp - lowest_temp) * len(ascii_chars))]
+  return ascii_chars[map_num_ranges(num)]
 
 def get_char(temp, info):
   ctrlChar = "red" if temp > info["avg"] else "green"
