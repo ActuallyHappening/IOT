@@ -14,7 +14,7 @@ print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 # try decreasing this value to work with certain pi/camera combinations
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
-frame = [0] * 768
+frame = [0] * (24*32)
 while True:
     try:
         mlx.getFrame(frame)
