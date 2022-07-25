@@ -31,7 +31,7 @@ def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0,
     valueScaled = float(value - leftMin) / float(leftSpan)
 
     # Convert the 0-1 range into a value in the right range.
-    return rightMin + (valueScaled * rightSpan)
+    return int(rightMin + (valueScaled * rightSpan))
 
 def get_ascii_char_from_num(num):
   """Put in number from 15-45 and get back ascii char from ascii_chars"""
