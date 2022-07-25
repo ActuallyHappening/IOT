@@ -21,8 +21,8 @@ def print_frame(value, x, y):
   print(get_char(value), end="")
   if x == 31:
     print()
-  if y == 23:
-    print()
+  # if y == 23:
+  #   print()
 
 def main():
   while True:
