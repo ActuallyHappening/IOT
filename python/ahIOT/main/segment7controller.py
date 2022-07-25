@@ -2,9 +2,9 @@ from typing import Dict
 from gpiozero import LED
 
 _pin_numbers: Dict[str, int] = {
-  "dp": 2,
-  "a": 3,
-  "b": 4,
+  "dp": 24,
+  "a": 23,
+  "b": 25,
   "c": 7,
   "d": 8,
   "e": 9,
