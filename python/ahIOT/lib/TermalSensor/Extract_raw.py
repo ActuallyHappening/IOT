@@ -22,7 +22,7 @@ ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,
 lowest_temp = 15
 highest_temp = 45
 
-def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0, rightMax=len(ascii_chars) - 1):
+def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0, rightMax=int(len(ascii_chars) - 1)):
     # Figure out how 'wide' each range is
     leftSpan = leftMax - leftMin
     rightSpan = rightMax - rightMin
