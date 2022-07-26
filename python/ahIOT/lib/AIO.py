@@ -1,19 +1,23 @@
+import json
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
 
 aio = None
 
+defaultSchema = {
+  "group": "brad",
+  "data": "test-data",
+  "status": "test-status",
+  "control": "test-control",
+  "stream": "ir-stream",
+  "test": "test"
+}
+
 class Aio:
   client: AIO.Client = None
-  schema: dict[str, str]
+  schema: dict[str, str] = None
   
-  def __init__(self, username: str, key: str, scheme: dict[str, str] = {
-    "group": "brad",
-    "data": "test-data",
-    "status": "test-status",
-    "control": "test-control",
-    "stream": "ir-stream",
-  }):
+  def __init__(self, username: str, key: str, scheme: dict[str, str] = defaultSchema):
     self.client = AIO.Client(username, key)
     self.schema = scheme
   
@@ -30,7 +34,7 @@ class Aio:
 
   # @classmethod
   def send_schema(cls, scheme_option, data):
-    cls.send(cls.scheme.group, cls.schema.keys[scheme_option], data)
+    cls.send(cls.schema["group"], cls.schema[scheme_option], data=data)
     
   # @classmethod
   def receive_schema(cls, scheme_option):
@@ -50,6 +54,14 @@ class Aio:
   
   def receive_stream(self):
       return self.receive_schema("stream")
+  
+  def send_stream_data(self, data):
+      self.send_stream(json.dumps({
+        "stream": data,
+      }))
+  
+  def receive_stream_data(self):
+    return json.loads(self.receive_stream().value)["stream"]
 
 env_variables = dotenv_values()
 try:

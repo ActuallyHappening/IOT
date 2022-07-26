@@ -1,0 +1,121 @@
+
+import json
+from typing import Callable, Tuple
+import uuid
+
+
+def test_aio_import():
+  import AIO
+  return AIO
+
+def test_aio_class_exists():
+  aio = test_aio_import()
+  assert aio.Aio
+  return aio.Aio
+
+def test_aio_has_instance():
+  aio = test_aio_import()
+  assert aio.aio is None or isinstance(aio.aio, aio.Aio)
+  return aio.aio if aio.aio is not None else False
+
+def test_env_credentials():
+  from dotenv import dotenv_values
+  secrets = dotenv_values(verbose=True)
+  # print(f"Secrets: {secrets}")
+  if secrets == None:
+    return False
+  # print("Checking for ADAFRUIT_IO_USERNAME in dotenv values ...")
+  assert "ADAFRUIT_IO_USERNAME" in secrets
+  # print("Checking for ADAFRUIT_IO_KEY in dotenv values ...")
+  assert "ADAFRUIT_IO_KEY" in secrets
+  return secrets
+
+def test_proper_credentials():
+  secrets = test_env_credentials()
+  if secrets is None:
+    return False
+  aio = test_aio_has_instance()
+  assert aio is not False
+  assert aio.client
+  assert aio.client.username == secrets["ADAFRUIT_IO_USERNAME"]
+  assert aio.client.key == secrets["ADAFRUIT_IO_KEY"]
+  return True, aio
+
+def ensure_signed_in(f: Callable) -> Callable:
+  """Decorator, passes aio instance signed in (or doesn't call func)"""
+  status, aio = test_proper_credentials()
+  if status is False:
+    return lambda *x, **y: print("No signed-in AIO instance")
+  return lambda *x, **y: f(aio, *x, **y)
+
+def test_aio_instance_schema():
+  AIO = test_aio_import()
+  aio = test_aio_has_instance()
+  if aio is False: return False
+  assert aio.schema == AIO.defaultSchema
+  assert aio.schema["group"]
+  return True
+
+def check_AIO(post, receive, extractID=lambda s: s.split(":")[1]):
+  id = str(uuid.uuid4())
+  
+  post(id)
+  received = receive()
+  
+  assert received
+  receivedID = extractID(received)
+  assert receivedID == id
+
+@ensure_signed_in
+def test_raw_send_receive(aio):
+  check_AIO(
+    lambda id: aio.client.send("default.test", f"Send from pytest (default.test) test_raw_send_receive:{id}"),
+    lambda: aio.client.receive("default.test").value
+  )
+  check_AIO(
+    lambda id: aio.client.send("brad.test", f"Send from pytest (brad.test) test_raw_send_receive:{id}"),
+    lambda: aio.client.receive("brad.test").value
+  )
+
+@ensure_signed_in
+def test_custom_send_receive(aio):
+  check_AIO(
+    lambda id:
+    aio.send("default", "test", data=f"Send from pytest (default.test) test_custom_send_receive:{id}"),
+    lambda: aio.receive("default", "test").value
+  )
+  check_AIO(
+    lambda id:
+    aio.send("brad", "test", data=f"Send from pytest (brad.test) test_custom_send_receive:{id}"),
+    lambda: aio.receive("brad", "test").value
+  )
+
+@ensure_signed_in
+def test_schema_send_receive(aio):
+  check_AIO(
+    lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
+    lambda: aio.receive_schema("test").value,
+  )
+
+@ensure_signed_in
+def test_schema_stream(aio):
+  check_AIO(
+    lambda id: aio.send_stream(data=json.dumps({
+      "stream": [],
+      "test": f"Send from pytest (schema stream) test_schema_stream:{id}",
+    })),
+    lambda: aio.receive_stream().value,
+    lambda s: json.loads(s)["test"].split(":")[1]
+  )
+
+@ensure_signed_in
+def test_schema_stream_data(aio):
+  check_AIO(
+    lambda id: aio.send_stream_data(f"Send from pytest (schema stream data) test_schema_stream_data:{id}"),
+    lambda: aio.receive_stream_data(),
+  )
+
+if __name__ == "__main__":
+  print("Run this from pytest :)")
+  AIO = test_aio_instance_schema()
+  
