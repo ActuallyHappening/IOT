@@ -15,7 +15,7 @@ defaultSchema = {
 
 class Aio:
   client: AIO.Client = None
-  schema: dict[str, str] = None
+  schema: dict[str, str] = {}
   
   def __init__(self, username: str, key: str, scheme: dict[str, str] = defaultSchema):
     self.client = AIO.Client(username, key)
@@ -70,5 +70,6 @@ try:
 except KeyError as exc:
   print(f"Couldn't load password and username for Adafruit IO defaults: {exc}")
 else:
-  aio = Aio(username=defaultPassword, key=defaultKey)
-  print("AIO: Loaded credentials from environment variables")
+  if defaultPassword and defaultKey:
+    aio = Aio(username=defaultPassword, key=defaultKey)
+    print("AIO: Loaded credentials from environment variables")
