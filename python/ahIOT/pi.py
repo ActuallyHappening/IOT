@@ -2,9 +2,28 @@ import json
 from .lib.AIO import Aio
 from .lib.ThermalSensor.Extract_raw import iterate
 
-def step(fn = lambda data: Aio.send_stream_data(data)):
-  data = list(iterate())
-  fn(data)
+def _step(
+  method,
+  callback,
+):
+  data = method()
+  callback(data)
+
+def _method():
+  return list(iterate())
+
+def _send(data):
+  try:
+    Aio.send_stream_data(data)
+  except json.JSONDecodeError:
+    print('JSONDecodeError: Cannot jsonify data :(')
+    Aio.send_stream_data()
+
+def step():
+  _step(
+    method = _method,
+    callback = _send,
+  )
 
 def main():
   while True: 

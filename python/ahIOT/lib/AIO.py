@@ -45,6 +45,16 @@ class Aio:
   
   def send_status(self, data):
     self.send("status", data=data)
+  
+  def status_send_code(self, code: int | str):
+    self.send_status(str(code))
+      
+  def status_ping(self, streaming=True):
+    self.status_send_code(f"Online, {'streaming' if streaming else 'not streaming'}")
+  
+  def status_error(self, exiting=False):
+    self.status_send_code(f"{'Offline' if exiting else 'Online'}, error")
+  
 
   def receive_control(self):
       return self.receive_schema("control")
