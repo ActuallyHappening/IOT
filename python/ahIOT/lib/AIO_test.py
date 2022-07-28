@@ -6,7 +6,7 @@ import uuid
 
 @cache
 def test_aio_import():
-  import AIO
+  from . import AIO
   return AIO
 
 @cache

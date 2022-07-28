@@ -1,6 +1,6 @@
 import json
-from lib.AIO import aio
-from lib.ThermalSensor.Extract_raw import iterate, print_frame
+from .lib.AIO import aio
+from .lib.ThermalSensor.Extract_raw import iterate, print_frame
 
 def main():
   while True:

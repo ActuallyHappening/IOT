@@ -4,7 +4,7 @@ import uuid
 
 @cache
 def test_pi_import():
-  import pi
+  from . import pi
   assert pi
   return pi
 
@@ -16,7 +16,7 @@ def test_pi_main_exists():
 
 @cache
 def test_host_import():
-  import host
+  from . import host
   assert host
   return host
 
@@ -28,7 +28,7 @@ def test_host_main_exists():
 
 @cache
 def test_aio_lib_import():
-  from lib import AIO
+  from .lib import AIO
   if AIO.aio is None:
     raise NotImplementedError("Please instinate AIO.aio with credentials (.env file)")
   assert AIO.aio.send_stream_data
