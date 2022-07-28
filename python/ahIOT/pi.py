@@ -1,11 +1,10 @@
 import json
 from lib.AIO import Aio
-from lib.ThermalSensor.Extract_raw import get_frame, iterate
+from lib.ThermalSensor.Extract_raw import iterate
 
-def post_frame(data):
-  Aio.send_stream(data)
+def main():
+  while True: 
+    Aio.send_stream_data(list(iterate()))
 
-while True:
-  frame = get_frame()
-  if frame == None: continue
-  post_frame(json.dumps({"stream": list(frame)}))
+if __name__ == "__main__":
+  main()

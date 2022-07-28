@@ -1,23 +1,27 @@
 
 import json
 from typing import Callable, Tuple
+from functools import cache
 import uuid
 
-
+@cache
 def test_aio_import():
   import AIO
   return AIO
 
+@cache
 def test_aio_class_exists():
   aio = test_aio_import()
   assert aio.Aio
   return aio.Aio
 
+@cache
 def test_aio_has_instance():
   aio = test_aio_import()
   assert aio.aio is None or isinstance(aio.aio, aio.Aio)
   return aio.aio if aio.aio is not None else False
 
+@cache
 def test_env_credentials():
   from dotenv import dotenv_values
   secrets = dotenv_values(verbose=True)
@@ -30,6 +34,7 @@ def test_env_credentials():
   assert "ADAFRUIT_IO_KEY" in secrets
   return secrets
 
+@cache
 def test_proper_credentials():
   secrets = test_env_credentials()
   if secrets is None:
@@ -48,6 +53,7 @@ def ensure_signed_in(f: Callable) -> Callable:
     return lambda *x, **y: print("No signed-in AIO instance")
   return lambda *x, **y: f(aio, *x, **y)
 
+@cache
 def test_aio_instance_schema():
   AIO = test_aio_import()
   aio = test_aio_has_instance()
