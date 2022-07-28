@@ -1,6 +1,7 @@
 import json
+from typing import List
 from .lib.AIO import aio
-from .lib.ThermalSensor.Extract_raw import iterate, print_frame
+from .lib.ThermalSensor.Process_raw import print_frame
 
 def _load():
   data = False
@@ -13,8 +14,8 @@ def _load():
     aio.host_status_send("JSONDecodeError - host.py")
   return data
 
-def _print(stream):
-  iterate(print_frame, frame=stream)
+def _print(stream: List[int]):
+  print_frame(frame=stream)
 
 def _ping(*x, **y):
   aio.host_ping(*x, **y)
