@@ -88,25 +88,25 @@ def test_custom_send_receive(aio):
   check_AIO(
     lambda id:
     aio.send("default", "test", data=f"Send from pytest (default.test) test_custom_send_receive:{id}"),
-    lambda: aio.receive("default", "test").value
+    lambda: aio.receive("default", "test")
   )
   check_AIO(
     lambda id:
     aio.send("brad", "test", data=f"Send from pytest (brad.test) test_custom_send_receive:{id}"),
-    lambda: aio.receive("brad", "test").value
+    lambda: aio.receive("brad", "test")
   )
 
 @ensure_signed_in
 def test_schema_send_receive(aio):
   check_AIO(
     lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
-    lambda: aio.receive_schema("test").value,
+    lambda: aio.receive_schema("test"),
   )
   for schema in aio.schema:
     if schema == "group": continue
     check_AIO(
       lambda id: aio.send_schema(schema, data=f"Send from pytest ([Auto] {schema}) test_schema_send_receive:{id}"),
-      lambda: aio.receive_schema(schema).value,
+      lambda: aio.receive_schema(schema),
     )
   
 
@@ -117,7 +117,7 @@ def test_schema_stream(aio):
       "stream": [],
       "test": f"Send from pytest (schema stream) test_schema_stream:{id}",
     })),
-    lambda: aio.receive_stream().value,
+    lambda: aio.receive_stream(),
     lambda s: json.loads(s)["test"].split(":")[1]
   )
 

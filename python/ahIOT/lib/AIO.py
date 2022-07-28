@@ -35,7 +35,7 @@ class Aio:
   def receive(cls, group: str, feed: str):
       fullName = group + "." + feed
       print(f"Getting from {fullName=}")
-      return cls.client.receive(fullName)
+      return cls.client.receive(fullName).value
 
   # @classmethod
   def send_schema(cls, scheme_option, data):
