@@ -132,13 +132,13 @@ def test_schema_stream_data(aio):
 def test_pi_ping(aio):
   # Manually check ping data
   aio.pi_ping(inactive=True)
-  assert aio._get_pi_ping_status() == -1
+  assert int(aio._get_pi_ping_status()) == -1
 
 @ensure_signed_in
 def test_host_ping(aio):
   # Manually check ping data
   aio.host_ping(inactive=True)
-  assert aio._get_host_ping_status() == -1
+  assert int(aio._get_host_ping_status()) == -1
 
 @ensure_signed_in
 def test_pi_status_updates(aio):

@@ -11,7 +11,7 @@ defaultSchema = {
   "test": "test",
   
   "pi_status": "pi-status",
-  "host-status": "host-status",
+  "host_status": "host-status",
 
   "data": "test-data",
   "control": "test-control",
@@ -49,16 +49,16 @@ class Aio:
       self.send_schema("data", data=data)
   
   def pi_status_send(self, data):
-    self.send_schema("pi-status", data=data)
+    self.send_schema("pi_status", data=data)
   
   def _get_pi_status(self):
     return self.receive_schema("pi_status")
   
   def host_status_send(self, data):
-    self.send_schema("host-status", data=data)
+    self.send_schema("host_status", data=data)
   
   def _get_host_status(self):
-    return self.receive_schema("host-status")
+    return self.receive_schema("host_status")
       
   def pi_ping(self, *, streaming: bool = True, inactive: bool = False):
     code: int = 0
@@ -93,7 +93,7 @@ class Aio:
       }))
   
   def receive_stream_data(self):
-    return json.loads(self.receive_stream().value)["stream"]
+    return json.loads(self.receive_stream())["stream"]
 
 env_variables = dotenv_values()
 try:
