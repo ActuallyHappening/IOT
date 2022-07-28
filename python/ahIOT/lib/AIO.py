@@ -7,7 +7,7 @@ aio = None
 defaultSchema = {
   "group": "brad",
   "ping_pi": "ping",
-  "ping_host": "host_ping",
+  "ping_host": "host-ping",
   "test": "test",
   
   "data": "test-data",

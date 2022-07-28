@@ -11,3 +11,8 @@ def test_host_main_exists():
 def test_host_step_exists():
   assert host.step
   return host.step
+
+def test_host_ping_works():
+  assert host._ping
+  host._ping(inactive=True, receiving=False)
+

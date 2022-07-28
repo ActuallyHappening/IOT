@@ -13,8 +13,8 @@ def _load():
 def _print(stream):
   iterate(print_frame, stream)
 
-def _ping():
-  aio.host_ping()
+def _ping(*x, **y):
+  aio.host_ping(*x, **y)
 
 def step():
   _ping()
