@@ -2,16 +2,18 @@ import json
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
 
-aio = None
+aio = None # Attempted to be initialized with .env credentials
 
 defaultSchema = {
   "group": "brad",
-  "ping_pi": "ping",
+  "ping_pi": "ping", # Name is pi_ping, key is 'ping'
   "ping_host": "host-ping",
   "test": "test",
   
+  "pi_status": "pi-status",
+  "host-status": "host-status",
+
   "data": "test-data",
-  "status": "test-status",
   "control": "test-control",
   "stream": "ir-stream",
 }
@@ -46,17 +48,20 @@ class Aio:
   def send_data(self, data):
       self.send_schema("data", data=data)
   
-  def send_status(self, data):
-    self.send("status", data=data)
+  def pi_status_send(self, data):
+    self.send_schema("pi-status", data=data)
   
-  def status_send_code(self, code: int | str):
-    self.send_status(str(code))
+  def host_status_send(self, data):
+    self.send_schema("host-status", data=data)
       
   def pi_ping(self, *, streaming: bool = True, inactive: bool = False):
     code: int = 0
     if not inactive: 1 + int(streaming)
     else: code = -1
     self.send_schema("ping_pi", code)
+  
+  def _get_pi_ping_status(self):
+    return self.receive_schema("ping_pi")
     
   def host_ping(self, *, receiving: bool = True, inactive: bool = False):
     code: int = 0
@@ -64,9 +69,8 @@ class Aio:
     else: code = -1
     self.send_schema("ping_host", code)
   
-  def status_error(self, exiting=False):
-    self.status_send_code(f"{'Offline' if exiting else 'Online'}, error")
-  
+  def _get_host_ping_status(self):
+    return self.receive_schema("ping_host")  
 
   def receive_control(self):
       return self.receive_schema("control")

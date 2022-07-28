@@ -17,7 +17,7 @@ def _send(data):
     aio.send_stream_data(data)
   except json.JSONDecodeError:
     print('JSONDecodeError: Cannot jsonify data :(')
-    aio.status_send_code("JSONDecodeError - pi.py")
+    aio.pi_status_send_code("JSONDecodeError - pi.py")
 
 def step():
   aio.pi_ping()

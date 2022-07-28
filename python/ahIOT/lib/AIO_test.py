@@ -102,6 +102,13 @@ def test_schema_send_receive(aio):
     lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
     lambda: aio.receive_schema("test").value,
   )
+  for schema in aio.schema:
+    if schema == "group": continue
+    check_AIO(
+      lambda id: aio.send_schema(schema, data=f"Send from pytest ([Auto] {schema}) test_schema_send_receive:{id}"),
+      lambda: aio.receive_schema(schema).value,
+    )
+  
 
 @ensure_signed_in
 def test_schema_stream(aio):
@@ -121,7 +128,3 @@ def test_schema_stream_data(aio):
     lambda: aio.receive_stream_data(),
   )
 
-if __name__ == "__main__":
-  print("Run this from pytest :)")
-  AIO = test_aio_instance_schema()
-  
