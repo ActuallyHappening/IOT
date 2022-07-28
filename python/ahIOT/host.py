@@ -2,15 +2,28 @@ import json
 from .lib.AIO import aio
 from .lib.ThermalSensor.Extract_raw import iterate, print_frame
 
+def _load():
+  try:
+    loaded = aio.receive_stream()
+    data = json.loads(loaded)
+  except json.JSONDecodeError as exc:
+    print(f"(Error: Received stream bad: {exc}")
+    aio.status_send_code("JSONDecodeError - host.py")
+
+def _print(stream):
+  iterate(print_frame, stream)
+
+def _ping():
+  aio.status_ping()
+
+def step():
+  _ping()
+  data = _load()
+  _print(data)
+
 def main():
   while True:
-    try:
-      loaded = aio.receive_stream()
-      data = json.loads(loaded)
-    except json.JSONDecodeError as exc:
-      print(f"(Error: Received stream bad: {exc}")
-      continue
-    iterate(print_frame, data["stream"])
+    step()
 
 if __name__ == "__main__":
   main()
