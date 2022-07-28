@@ -51,8 +51,14 @@ class Aio:
   def pi_status_send(self, data):
     self.send_schema("pi-status", data=data)
   
+  def _get_pi_status(self):
+    return self.receive_schema("pi_status")
+  
   def host_status_send(self, data):
     self.send_schema("host-status", data=data)
+  
+  def _get_host_status(self):
+    return self.receive_schema("host-status")
       
   def pi_ping(self, *, streaming: bool = True, inactive: bool = False):
     code: int = 0
