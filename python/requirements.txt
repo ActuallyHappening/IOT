@@ -1,2 +1,3 @@
 adafruit-io >= 2.7
 pytest
+pytest-depends
