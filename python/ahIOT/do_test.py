@@ -15,6 +15,18 @@ def test_pi_main_exists():
   return pi.main
 
 @cache
+def test_host_import():
+  import host
+  assert host
+  return host
+
+@cache
+def test_host_main_exists():
+  host = test_host_import()
+  assert host.main
+  return host.main
+
+@cache
 def test_aio_lib_import():
   from lib import AIO
   if AIO.aio is None:
