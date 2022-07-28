@@ -6,11 +6,14 @@ aio = None
 
 defaultSchema = {
   "group": "brad",
+  "ping_pi": "ping",
+  "ping_host": "host_ping",
+  "test": "test",
+  
   "data": "test-data",
   "status": "test-status",
   "control": "test-control",
   "stream": "ir-stream",
-  "test": "test"
 }
 
 class Aio:
@@ -49,8 +52,17 @@ class Aio:
   def status_send_code(self, code: int | str):
     self.send_status(str(code))
       
-  def status_ping(self, streaming=True):
-    self.status_send_code(f"Online, {'streaming' if streaming else 'not streaming'}")
+  def pi_ping(self, *, streaming: bool = True, inactive: bool = False):
+    code: int = 0
+    if not inactive: 1 + int(streaming)
+    else: code = -1
+    self.send_schema("ping_pi", code)
+    
+  def host_ping(self, *, receiving: bool = True, inactive: bool = False):
+    code: int = 0
+    if not inactive: 1 + int(receiving)
+    else: code = -1
+    self.send_schema("ping_host", code)
   
   def status_error(self, exiting=False):
     self.status_send_code(f"{'Offline' if exiting else 'Online'}, error")

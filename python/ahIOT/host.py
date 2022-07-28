@@ -14,7 +14,7 @@ def _print(stream):
   iterate(print_frame, stream)
 
 def _ping():
-  aio.status_ping()
+  aio.host_ping()
 
 def step():
   _ping()
@@ -22,6 +22,7 @@ def step():
   _print(data)
 
 def main():
+  print("Beginning host ...")
   while True:
     step()
 
