@@ -95,7 +95,7 @@ class Aio:
         "stream": data,
       }))
   
-  def receive_stream_data(self) -> List[int] | str:
+  def receive_stream_data(self):# -> List[int] | str: # For some reason, doesn't compile on pi ??
     return json.loads(self.receive_stream())["stream"]
   
 def reset_aio_stream(stratagy: str = "lines"):
