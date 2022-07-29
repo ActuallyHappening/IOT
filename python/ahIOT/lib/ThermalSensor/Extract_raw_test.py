@@ -1,7 +1,5 @@
-
-
 from functools import cache
-
+from typing import Callable
 
 @cache
 def test_extract_import():

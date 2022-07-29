@@ -1,6 +1,6 @@
 import json
 from .lib.AIO import aio
-from .lib.ThermalSensor.Extract_raw import iterate
+from .lib.ThermalSensor.Process_raw import iterate
 
 def _step(
   method,
@@ -21,10 +21,12 @@ def _send(data):
 
 def step():
   aio.pi_ping()
+  # Step for uploading data
   _step(
     method = _method,
     callback = _send,
   )
+  # Other steps could be added below, such as 8x8 LED matrix
 
 def main():
   print("Beginning pi ...")

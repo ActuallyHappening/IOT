@@ -1,9 +1,12 @@
-# Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
+# Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
 
 import time
 
 try:
   import board
+except NotImplementedError as exc:
+  print(f"Note: This machine is not compatible with MLX90640")
+else:
   import busio
   import adafruit_mlx90640
 
@@ -15,8 +18,6 @@ try:
   # if using higher refresh rates yields a 'too many retries' exception,
   # try decreasing this value to work with certain pi/camera combinations
   mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
-except NotImplementedError as exc:
-  print(f"Note: This machine is not compatible with MLX90640")
 
 def main():
   try:
