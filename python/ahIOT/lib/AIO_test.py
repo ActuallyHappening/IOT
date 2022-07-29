@@ -1,8 +1,11 @@
 
 import json
-from typing import Callable, Tuple
+from typing import TYPE_CHECKING, Any, Callable, Tuple
 from functools import cache
 import uuid
+
+if TYPE_CHECKING:
+  from .AIO import Aio as T_Aio
 
 @cache
 def test_aio_import():
@@ -46,7 +49,7 @@ def test_proper_credentials():
   assert aio.client.key == secrets["ADAFRUIT_IO_KEY"]
   return True, aio
 
-def ensure_signed_in(f: Callable) -> Callable:
+def ensure_signed_in(f: Callable) -> Callable[[T_Aio], Any]:
   """Decorator, passes aio instance signed in (or doesn't call func)"""
   status, aio = test_proper_credentials()
   if status is False:
@@ -152,3 +155,9 @@ def test_host_status_updates(aio):
     lambda id: aio.host_status_send(data=f"Send from pytest (host status update) test_host_status_updates:{id}"),
     lambda: aio._get_host_status(),
   )
+
+@ensure_signed_in
+def test_reset_stream(aio):
+  aio.send_stream_data([69]*(24*32))
+  stream_data = aio.receive_stream_data()
+  assert len(stream_data) == 24*32

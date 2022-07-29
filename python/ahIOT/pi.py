@@ -10,8 +10,8 @@ def _step(
 ) -> bool:
   status, data = method()
   if status is False: return False
-  finished_successfuly = callback(data)
-  if not finished_successfuly: return False
+  finished_successfully = callback(data)
+  if not finished_successfully: return False
   return True
 
 def _method():

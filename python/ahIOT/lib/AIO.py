@@ -1,4 +1,5 @@
 import json
+from typing import List
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
 
@@ -92,7 +93,7 @@ class Aio:
         "stream": data,
       }))
   
-  def receive_stream_data(self):
+  def receive_stream_data(self) -> List[int] | str:
     return json.loads(self.receive_stream())["stream"]
 
 env_variables = dotenv_values()
