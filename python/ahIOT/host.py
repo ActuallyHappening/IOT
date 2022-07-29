@@ -15,14 +15,18 @@ def _load(strict=True):
       raise TypeError(f"(Error: JSONDecodeError - host.py :: Strict=True)")
   return data
 
-def _load_stream(stream, *, strict=False):
+def _load_stream(stream):
   """Takes _load() and returns the parsed stream"""
   if type(stream) is not list:
     try:
       stream = json.loads(stream)
     except json.JSONDecodeError as exc:
       print("(Error while loading stream {exc=})")
-      if strict: raise TypeError(f"Expected type list, got stream {stream=}")
+      raise TypeError(f"Expected type list, got stream {stream=}")
+  if len(stream) == 0:
+    raise TypeError(f"Expected length > 0, got {len(stream)} for {stream=}")
+  if max(stream) - min(stream) == 0:
+    raise TypeError(f"Expected range > 0, got {max(stream)} - {min(stream)} for {stream=}")
   return stream
 
 def _print(stream: List[int]):
@@ -35,7 +39,7 @@ def step() -> bool:
   _ping()
   try:
     raw = _load(strict=True)
-    data = _load_stream(raw, strict=True)
+    data = _load_stream(raw)
   except TypeError as exc:
     print(f"(Error while gathering stream (host.py): {exc})")
     return False

@@ -3,6 +3,7 @@ import json
 from typing import TYPE_CHECKING, Any, Callable, Tuple
 from functools import cache
 import uuid
+import pytest
 
 if TYPE_CHECKING:
   from .AIO import Aio as T_Aio
@@ -49,12 +50,13 @@ def test_proper_credentials():
   assert aio.client.key == secrets["ADAFRUIT_IO_KEY"]
   return True, aio
 
-def ensure_signed_in(f: Callable) -> Callable: # [[T_Aio], Any]
-  """Decorator, passes aio instance signed in (or doesn't call func)"""
-  status, aio = test_proper_credentials()
+@pytest.fixture
+def aio():
+  """Fixture for aio sign in"""
+  status, _aio = test_proper_credentials()
   if status is False:
-    return lambda *x, **y: print("No signed-in AIO instance")
-  return lambda *x, **y: f(aio, *x, **y)
+    raise NotImplementedError("No signed-in AIO instance")
+  return _aio
 
 @cache
 def test_aio_instance_schema():
@@ -75,7 +77,6 @@ def check_AIO(post, receive, extractID=lambda s: s.split(":")[1]):
   receivedID = extractID(received)
   assert receivedID == id
 
-@ensure_signed_in
 def test_schema_send_receive(aio):
   check_AIO(
     lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
@@ -88,7 +89,6 @@ def test_schema_send_receive(aio):
       lambda: aio.receive_schema(schema),
     )
 
-@ensure_signed_in
 def test_raw_send_receive(aio):
   check_AIO(
     lambda id: aio.client.send("default.test", f"Send from pytest (default.test) test_raw_send_receive:{id}"),
@@ -99,7 +99,6 @@ def test_raw_send_receive(aio):
     lambda: aio.client.receive("brad.test").value
   )
 
-@ensure_signed_in
 def test_custom_send_receive(aio):
   check_AIO(
     lambda id:
@@ -112,7 +111,6 @@ def test_custom_send_receive(aio):
     lambda: aio.receive("brad", "test")
   )
 
-@ensure_signed_in
 def test_schema_stream(aio):
   check_AIO(
     lambda id: aio.send_stream(data=json.dumps({
@@ -123,41 +121,33 @@ def test_schema_stream(aio):
     lambda s: json.loads(s)["test"].split(":")[1]
   )
 
-@ensure_signed_in
 def test_schema_stream_data(aio):
   check_AIO(
     lambda id: aio.send_stream_data(f"Send from pytest (schema stream data) test_schema_stream_data:{id}"),
     lambda: aio.receive_stream_data(),
   )
 
-@ensure_signed_in
 def test_pi_ping(aio):
   # Manually check ping data
   aio.pi_ping(inactive=True)
   assert int(aio._get_pi_ping_status()) == -1
 
-@ensure_signed_in
 def test_host_ping(aio):
   # Manually check ping data
   aio.host_ping(inactive=True)
   assert int(aio._get_host_ping_status()) == -1
 
-@ensure_signed_in
 def test_pi_status_updates(aio):
   check_AIO(
     lambda id: aio.pi_status_send(data=f"Send from pytest (pi status update) test_pi_status_updates:{id}"),
     lambda: aio._get_pi_status(),
   )
 
-@ensure_signed_in
 def test_host_status_updates(aio):
   check_AIO(
     lambda id: aio.host_status_send(data=f"Send from pytest (host status update) test_host_status_updates:{id}"),
     lambda: aio._get_host_status(),
   )
 
-@ensure_signed_in
 def test_reset_stream(aio):
-  aio.send_stream_data([69]*(24*32))
-  stream_data = aio.receive_stream_data()
-  assert len(stream_data) == 24*32
+  
