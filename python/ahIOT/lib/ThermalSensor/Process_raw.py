@@ -28,15 +28,20 @@ def get_ascii_char_from_num(num):
   # print(f"{charNum=}")
   return ascii_chars[charNum]
 
-def get_char(temp, info):
-  ctrlChar = "red" if temp > info["avg"] else "green"
-  return f"[{ctrlChar}]{get_ascii_char_from_num(int(temp))}[/{ctrlChar}]"
+def generate_colour(temp, *, avg):
+  return "red" if temp > avg else "green"
 
-def print_frame(value, x, y, *, list):
+def get_char(temp, *, avg, previous=None, final=False):
+  colour = generate_colour(temp, avg=avg)
+  beginningColours = f"[/{previous}][{colour}]" if previous is not colour else ""
+  endingColours = f"[/{colour}]" if final else ""
+  chosenChar = get_ascii_char_from_num(int(temp))
+  return f"{beginningColours}{chosenChar}{endingColours}"
+
+def print_frame_value(value, x, y, *, list, previous=None):
   avg = sum(list) / len(list)
-  rprint(get_char(value, {
-    "avg": avg
-  }), end="")
+  toPrint = get_char(value, avg=avg, prev=previous, final=bool(x == 31 and y == 23))
+  rprint(toPrint, end="")
   if x == 31:
     print()
     if y == 23:
@@ -53,3 +58,6 @@ def iterate(f, frame=None):
     if frame == None: return frame # retry, return None
   for value, x, y in iterate_frame(frame):
     f(value, x, y, frame)
+
+def print_frame(frame=None):
+  iterate(print_frame_value, frame=frame)
