@@ -23,7 +23,7 @@ def test_pi_internal_step():
   # Check if method and callback are successful
   def method_callback(return_success: bool = True, **kwargs):
     def _method_callback(data: str, check_called: List[bool | None]) -> Callable[[], Tuple[bool, str]]:
-      def __method_callback() -> bool:
+      def __method_callback() -> Tuple[bool, str]:
         check_called[0] = True
         return return_success, data
       return __method_callback
@@ -80,9 +80,7 @@ def test_pi_internal_step():
     method_callback(return_success=False),
     callback_callback(return_success=False, data_should_be_same=True),
     callback_states=(True, False),
-  )
-  
-  
+  )  
 
 # Test pings
 # test _hidden funcs :)
