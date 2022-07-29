@@ -49,7 +49,7 @@ def test_proper_credentials():
   assert aio.client.key == secrets["ADAFRUIT_IO_KEY"]
   return True, aio
 
-def ensure_signed_in(f: Callable) -> Callable[[T_Aio], Any]:
+def ensure_signed_in(f: Callable) -> Callable: # [[T_Aio], Any]
   """Decorator, passes aio instance signed in (or doesn't call func)"""
   status, aio = test_proper_credentials()
   if status is False:
