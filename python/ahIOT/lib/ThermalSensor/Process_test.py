@@ -1,6 +1,7 @@
 
 
 from functools import cache
+from typing import Callable
 
 
 @cache
