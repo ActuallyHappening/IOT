@@ -32,8 +32,8 @@ def get_char(temp, info):
   ctrlChar = "red" if temp > info["avg"] else "green"
   return f"[{ctrlChar}]{get_ascii_char_from_num(int(temp))}[/{ctrlChar}]"
 
-def print_frame(value, x, y, l):
-  avg = sum(l) / len(l)
+def print_frame(value, x, y, *, list):
+  avg = sum(list) / len(list)
   rprint(get_char(value, {
     "avg": avg
   }), end="")
