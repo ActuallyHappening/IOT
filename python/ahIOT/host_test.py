@@ -16,7 +16,6 @@ def test_host_internal_funcs_exist():
   assert host._load
   assert host._print
   assert host._ping
-  
 
 def test_host_ping_works():
   assert host._ping

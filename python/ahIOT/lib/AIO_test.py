@@ -73,6 +73,19 @@ def check_AIO(post, receive, extractID=lambda s: s.split(":")[1]):
   assert receivedID == id
 
 @ensure_signed_in
+def test_schema_send_receive(aio):
+  check_AIO(
+    lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
+    lambda: aio.receive_schema("test"),
+  )
+  for schema in aio.schema:
+    if schema == "group": continue
+    check_AIO(
+      lambda id: aio.send_schema(schema, data=f"Send from pytest ([Auto] {schema}) test_schema_send_receive:{id}"),
+      lambda: aio.receive_schema(schema),
+    )
+
+@ensure_signed_in
 def test_raw_send_receive(aio):
   check_AIO(
     lambda id: aio.client.send("default.test", f"Send from pytest (default.test) test_raw_send_receive:{id}"),
@@ -95,20 +108,6 @@ def test_custom_send_receive(aio):
     aio.send("brad", "test", data=f"Send from pytest (brad.test) test_custom_send_receive:{id}"),
     lambda: aio.receive("brad", "test")
   )
-
-@ensure_signed_in
-def test_schema_send_receive(aio):
-  check_AIO(
-    lambda id: aio.send_schema("test", data=f"Send from pytest (schema test) test_schema_send_receive:{id}"),
-    lambda: aio.receive_schema("test"),
-  )
-  for schema in aio.schema:
-    if schema == "group": continue
-    check_AIO(
-      lambda id: aio.send_schema(schema, data=f"Send from pytest ([Auto] {schema}) test_schema_send_receive:{id}"),
-      lambda: aio.receive_schema(schema),
-    )
-  
 
 @ensure_signed_in
 def test_schema_stream(aio):
