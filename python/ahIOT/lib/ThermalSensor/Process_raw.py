@@ -1,4 +1,5 @@
 ''' from .  '''
+from typing import List, Tuple
 from . import Extract_raw as raw
 from .Extract_raw import get_frame
 from rich import pretty as p
@@ -9,6 +10,8 @@ ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,
 
 lowest_temp = 15
 highest_temp = 45
+
+defaultDimensions = (32, 24)
 
 def map_num_ranges(value, leftMin, leftMax, rightMin=0, rightMax=int(len(ascii_chars) - 1)):
     # Figure out how 'wide' each range is
@@ -36,8 +39,9 @@ def generate_colour(temp, *, avg):
   return "red" if temp > avg else "green"
 
 def get_char(temp, *, list, previous=None, final=False):
-  assert len(list) > 0
-  assert min(list) - max(list) != 0
+  assert len(list) > 0 # Div by 0 when calculating average
+  assert min(list) - max(list) != 0 # Div by 0 when calculating / range
+  
   avg = sum(list) / len(list)
   colour = generate_colour(temp, avg=avg)
   beginningColours = f"[/{previous}][{colour}]" if previous is not colour else ""
@@ -46,26 +50,29 @@ def get_char(temp, *, list, previous=None, final=False):
   chosenChar = get_ascii_char_from_num(int(temp), min=min(list), max=max(list))
   return f"{beginningColours}{chosenChar}{endingColours}"
 
-def print_frame_value(value, x, y, *, list, previous=None, dimensions=(32, 24), final=False):
+def print_frame_value(value, x, y, list, *, previous=None, dimensions=defaultDimensions, final=False):
   assert value in list
-  toPrint = get_char(value, list=list, previous=previous, final=bool(x == dimensions[0]-1 and y == dimensions[1]-1))
+  final = final or bool(x == dimensions[0]-1 and y == dimensions[1]-1)
+  toPrint = get_char(value, list=list, previous=previous, final=final)
   rprint(toPrint, end="")
-  if x == 31:
-    print()
-    if y == 23:
-      print()
+  if x == dimensions[0]-1:
+    print() # newline every line of chars
+    if y == dimensions[1]-1:
+      print() # newline at end of frame
 
-def iterate_frame(frame):
-  for y in range(24):
-    for x in range(32):
-      yield frame[y*32 + x], x, y
+def iterate_frame(frame, *, dimensions=defaultDimensions):
+  for y in range(dimensions[1]):
+    for x in range(dimensions[0]):
+      yield frame[y*dimensions[0] + x], x, y
 
-def iterate(f, frame=None):
-  if frame == None:
+def iterate(f, frame:List[int]|None=None, *, dimensions:Tuple[int, int]|None=defaultDimensions):
+  if frame is None:
     frame = get_frame()
-    if frame == None: return frame # retry, return None
-  for value, x, y in iterate_frame(frame):
-    f(value, x, y, frame)
+    if frame is None: return frame # retry, return None
+  if dimensions is None and len(frame) == defaultDimensions[0] * defaultDimensions[1]:
+    dimensions = defaultDimensions
+  for value, x, y in iterate_frame(frame, dimensions=dimensions):
+    f(value, x, y, frame, dimensions=dimensions)
 
 def print_frame(frame=None):
   iterate(print_frame_value, frame=frame)
