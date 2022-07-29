@@ -3,6 +3,7 @@
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": false,
   "cSpell.words": [
+    "capsys",
     "rprint"
   ]
 }

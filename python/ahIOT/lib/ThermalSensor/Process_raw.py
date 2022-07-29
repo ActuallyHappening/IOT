@@ -10,7 +10,7 @@ ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,
 lowest_temp = 15
 highest_temp = 45
 
-def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0, rightMax=int(len(ascii_chars) - 1)):
+def map_num_ranges(value, leftMin, leftMax, rightMin=0, rightMax=int(len(ascii_chars) - 1)):
     # Figure out how 'wide' each range is
     leftSpan = leftMax - leftMin
     rightSpan = rightMax - rightMin
@@ -22,25 +22,33 @@ def map_num_ranges(value, leftMin=lowest_temp, leftMax=highest_temp, rightMin=0,
     v = int(rightMin + (valueScaled * rightSpan))
     return max(min(v, rightMax), rightMin)
 
-def get_ascii_char_from_num(num):
+def get_ascii_char_from_num(num, *, min=lowest_temp, max=highest_temp):
   """Put in number from 15-45 and get back ascii char from ascii_chars"""
-  charNum = map_num_ranges(num)
+  if num < min:
+    num = min
+  if num > max:
+    num = max
+  charNum = map_num_ranges(num, min, max)
   # print(f"{charNum=}")
   return ascii_chars[charNum]
 
 def generate_colour(temp, *, avg):
   return "red" if temp > avg else "green"
 
-def get_char(temp, *, avg, previous=None, final=False):
+def get_char(temp, *, list, previous=None, final=False):
+  assert len(list) > 0
+  assert min(list) - max(list) != 0
+  avg = sum(list) / len(list)
   colour = generate_colour(temp, avg=avg)
   beginningColours = f"[/{previous}][{colour}]" if previous is not colour else ""
+  beginningColours = f"[{colour}]" if previous is None else beginningColours
   endingColours = f"[/{colour}]" if final else ""
-  chosenChar = get_ascii_char_from_num(int(temp))
+  chosenChar = get_ascii_char_from_num(int(temp), min=min(list), max=max(list))
   return f"{beginningColours}{chosenChar}{endingColours}"
 
-def print_frame_value(value, x, y, *, list, previous=None):
-  avg = sum(list) / len(list)
-  toPrint = get_char(value, avg=avg, prev=previous, final=bool(x == 31 and y == 23))
+def print_frame_value(value, x, y, *, list, previous=None, dimensions=(32, 24), final=False):
+  assert value in list
+  toPrint = get_char(value, list=list, previous=previous, final=bool(x == dimensions[0]-1 and y == dimensions[1]-1))
   rprint(toPrint, end="")
   if x == 31:
     print()
