@@ -1,8 +1,5 @@
-
-
 from functools import cache
 from typing import Callable
-
 
 @cache
 def test_process_import():
@@ -10,12 +7,14 @@ def test_process_import():
   assert raw
   return raw
 
+raw = test_process_import()
+
 def require_import(f: Callable) -> Callable:
   """
   Decorator to ensure import of module before calling function.
   """
   def wrapper(*args, **kwargs):
-    raw = test_process_import()
+    # raw = test_process_import()
     return f(*args, raw=raw, **kwargs)
   return wrapper
 

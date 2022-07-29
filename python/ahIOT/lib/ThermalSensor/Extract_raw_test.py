@@ -7,6 +7,8 @@ def test_extract_import():
   assert extract
   return extract
 
+extract = test_extract_import()
+
 def require_extract(f: Callable) -> Callable:
   """
   Decorator to ensure import of module before calling function.

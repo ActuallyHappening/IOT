@@ -1,7 +1,5 @@
 # Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
 
-import time
-
 try:
   import board
 except NotImplementedError as exc:
@@ -21,7 +19,7 @@ else:
 
 def main():
   try:
-    from . import Process_raw as process
+    import Process_raw as process
   except ImportError as exc:
     print("Error: Could not import Process_raw, not started main loop")
   while True:
