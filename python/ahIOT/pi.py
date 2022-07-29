@@ -19,7 +19,7 @@ def _method():
   if frame is None:
     return False
   print(f"[Debug: pi.py] Frame: {frame=}")
-  return True, get_frame
+  return True, frame
 
 def _send(data):
   print(f"[Debug: pi.py] Sending data: {data=}")
@@ -28,7 +28,7 @@ def _send(data):
     return True
   except TypeError:
     print('JSONDecodeError: Cannot jsonify data :(')
-    aio.pi_status_send_code("JSONDecodeError - pi.py")
+    aio.pi_status_send("JSONDecodeError - pi.py")
     return False
 
 def step():
