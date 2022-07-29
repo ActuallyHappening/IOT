@@ -1,6 +1,6 @@
 import json
 import math
-from random import random
+from random import random, randrange
 from typing import List
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
@@ -98,7 +98,7 @@ class Aio:
   def receive_stream_data(self) -> List[int] | str:
     return json.loads(self.receive_stream())["stream"]
   
-def reset_aio_stream(stratagy: str = "lines", *, aio=aio):
+def reset_aio_stream(stratagy: str = "lines"):
   fakeStream = []
   for y in range(24):
     for x in range(32):
@@ -109,7 +109,7 @@ def reset_aio_stream(stratagy: str = "lines", *, aio=aio):
       elif stratagy == "columns":
         fakeStream.append(y)
       elif stratagy == "random" or True:
-        fakeStream.append(int(random()+1)*69)
+        fakeStream.append(randrange(69))
   aio.send_stream_data(fakeStream)
   stream_data = aio.receive_stream_data()
   assert len(stream_data) == 32*24
