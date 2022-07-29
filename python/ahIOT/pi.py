@@ -1,5 +1,5 @@
 import json
-from typing import Callable, Tuple, TypeVar
+from typing import Callable, Tuple, Type, TypeVar
 from .lib.AIO import aio
 from .lib.ThermalSensor.Extract_raw import get_frame
 
@@ -22,10 +22,11 @@ def _method():
   return True, get_frame
 
 def _send(data):
+  print(f"[Debug: pi.py] Sending data: {data=}")
   try:
     aio.send_stream_data(data)
     return True
-  except json.JSONDecodeError:
+  except TypeError:
     print('JSONDecodeError: Cannot jsonify data :(')
     aio.pi_status_send_code("JSONDecodeError - pi.py")
     return False
