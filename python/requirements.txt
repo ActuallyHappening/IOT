@@ -3,3 +3,4 @@ pytest
 pytest-depends
 python-dotenv
 rich
+pretty-traceback

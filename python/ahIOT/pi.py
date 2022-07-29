@@ -1,23 +1,33 @@
 import json
+from typing import Callable, Tuple, TypeVar
 from .lib.AIO import aio
-from .lib.ThermalSensor.Process_raw import iterate
+from .lib.ThermalSensor.Extract_raw import get_frame
 
+T_Data = TypeVar('T_Data')
 def _step(
-  method,
-  callback,
-):
-  data = method()
-  callback(data)
+  method: Callable[[], Tuple[bool, T_Data]],
+  callback: Callable[[T_Data], Tuple[bool]],
+) -> bool:
+  status, data = method()
+  if status is False: return False
+  finished_successfuly = callback(data)
+  if not finished_successfuly: return False
+  return True
 
 def _method():
-  return list(iterate())
+  frame = get_frame()
+  if frame is None:
+    return False
+  return True, get_frame
 
 def _send(data):
   try:
     aio.send_stream_data(data)
+    return True
   except json.JSONDecodeError:
     print('JSONDecodeError: Cannot jsonify data :(')
     aio.pi_status_send_code("JSONDecodeError - pi.py")
+    return False
 
 def step():
   aio.pi_ping()
