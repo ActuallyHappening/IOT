@@ -148,6 +148,3 @@ def test_host_status_updates(aio):
     lambda id: aio.host_status_send(data=f"Send from pytest (host status update) test_host_status_updates:{id}"),
     lambda: aio._get_host_status(),
   )
-
-def test_reset_stream(aio):
-  
