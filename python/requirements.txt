@@ -4,3 +4,4 @@ pytest-depends
 python-dotenv
 rich
 pretty-traceback
+adafruit-circuitpython-mlx90640
