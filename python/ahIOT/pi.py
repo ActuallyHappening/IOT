@@ -18,6 +18,7 @@ def _method():
   frame = get_frame()
   if frame is None:
     return False
+  print(f"[Debug: pi.py] Frame: {frame=}")
   return True, get_frame
 
 def _send(data):
