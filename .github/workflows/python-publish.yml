@@ -38,8 +38,8 @@ jobs:
     
     - name: Run pytest tests
       env:
-        ADAFRUIT_IO_USERNAME = ${{ secrets.ADAFRUIT_IO_USERNAME }}
-        ADAFRUIT_IO_KEY = ${{ secrets.ADAFRUIT_IO_KEY }}
+        ADAFRUIT_IO_USERNAME: ${{ secrets.ADAFRUIT_IO_USERNAME }}
+        ADAFRUIT_IO_KEY: ${{ secrets.ADAFRUIT_IO_KEY }}
       run: python -m pytest
 
     - name: Build package
