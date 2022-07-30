@@ -1,8 +1,11 @@
 import CredentialProvider from './CredentialProvider'
+import Renderer from './Renderer'
 
 const App = () => {
   return (
-    <CredentialProvider />
+    <CredentialProvider>
+      <Renderer />
+    </CredentialProvider>
   )
 }
 

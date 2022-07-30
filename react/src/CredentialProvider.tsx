@@ -1,6 +1,6 @@
 import { createContext, useRef, useState } from "react"
 import Aio, { fake_AIO, fake_AIO_gen, newAIO, T_aio } from "./lib/AIO"
-import App from "./Renderer"
+import Renderer from "./Renderer"
 
 const _env_vars = import.meta.env
 if (!_env_vars.VITE_ADAFRUIT_IO_USERNAME) {
@@ -15,9 +15,12 @@ if (!_env_vars.VITE_ADAFRUIT_IO_KEY) {
 const _key: string | undefined = _env_vars.VITE_ADAFRUIT_IO_KEY ?? undefined
 
 // export const Credentials = createContext<T_aio>("test NO WTF?")
-export const Credentials = createContext<T_aio>(fake_AIO_gen("BAD not updated context!:"))
+// export const Credentials = createContext<T_aio>(fake_AIO_gen("BAD not updated context!:"))
+export const Credentials = createContext<T_aio>(newAIO(_username, _key))
 
-const Wrapper = () => {
+const Wrapper = ({children}:{
+  children?: React.ReactNode
+}) => {
   // const [username, setUsername] = useState<string|undefined>(_username)
   // const [key, setKey] = useState<string|undefined>(_key)
   const username = useRef(_username)
@@ -25,7 +28,7 @@ const Wrapper = () => {
 
   let _show_dynamic_form = true
   if (username.current && key.current) {
-    // console.log("Username and key are set, hiding dynamic form",username, key)
+    console.log("Username and key are set, hiding dynamic form: ", username, key)
     _show_dynamic_form = false
   } else {
     // console.log("Username and key are NOT set, SHOWING dynamic form",username, key)
@@ -33,7 +36,8 @@ const Wrapper = () => {
   
   // const [credentials, setCredentials] = useState<T_aio>("test 69")
   // const [credentials, setCredentials] = useState<T_aio>(fake_AIO_gen("[%%] STATE!!"))
-  const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : newAIO(username, key))
+  // const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : newAIO(username.current, key.current))
+  const [credentials, setCredentials] = useState<T_aio>(newAIO(username.current, key.current))
 
   return (
     // <Credentials.Provider value={fake_AIO_gen("Provided context GOOD!")}>
@@ -49,7 +53,7 @@ const Wrapper = () => {
           e.preventDefault()
           console.log("Submitting form", username, key)
           if (username.current && key.current) {
-            const _newAIOThingy = Aio({username: username.current, key: key.current})
+            const _newAIOThingy = newAIO(username.current, key.current)
             console.warn("Setting new AIO thingy", _newAIOThingy)
             setCredentials(() => _newAIOThingy)
           } else {
@@ -72,16 +76,16 @@ const Wrapper = () => {
             key.current = e.target.value
           }}/>
         </label>
-        <br/>
+        {/* <br/>
         <label>AIO Username: {username.current}</label>
         <br/>
         <label>AIO Key: {key.current}</label>
         <br/>
         <label>Signed in: {String(!_show_dynamic_form)}</label>
-        <br/>
+        <br/> */}
         <input type="submit" value="Submit" />
       </form>
-      {_show_dynamic_form ? null : <App />}
+      {_show_dynamic_form ? null : children}
     </Credentials.Provider>
   )
 }
