@@ -18,6 +18,7 @@ function App({
   const aio = useContext(Credentials)
 
   const _retrieve_stream = async (): Promise<number[][]> => {
+    console.warn("_retrieve_stream", group, feed, aio)
     const value = await aio(group, feed)
     // console.log("value", value)
     let frame = []

@@ -28,8 +28,8 @@ const Wrapper = () => {
     // console.log("Username and key are NOT set, SHOWING dynamic form",username, key)
   }
   
-  // const [credentials, setCredentials] = useState<T_aio>(fake_AIO_gen("BAD not updated STATE!:"))
-  const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : newAIO(username, key))
+  const [credentials, setCredentials] = useState<T_aio>(fake_AIO_gen("BAD no STATE!:"))
+  // const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : newAIO(username, key))
 
   return (
     // <Credentials.Provider value={fake_AIO_gen("Provided context GOOD!")}>

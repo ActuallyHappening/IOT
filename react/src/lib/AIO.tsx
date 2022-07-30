@@ -31,6 +31,7 @@ const Aio = ({
   }
   return async (group: string, feed: string) => {
     const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
+    console.warn("url is", url, group, feed)
     const res = await fetch(url, {
       headers: {
         'X-AIO-Key': key,
