@@ -16,6 +16,34 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
+      runs-on: ubuntu-latest
+      timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies for testing
+      run: |
+        cd python
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+        pip install pytest
+        pip install -e .
+    
+    - name: Run pytest tests
+      env:
+        ADAFRUIT_IO_USERNAME: ${{ secrets.ADAFRUIT_IO_USERNAME }}
+        ADAFRUIT_IO_KEY: ${{ secrets.ADAFRUIT_IO_KEY }}
+      run: python -m pytest
+
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -35,12 +63,6 @@ jobs:
         python -m pip install -r requirements.txt
         pip install build twine
         pip install -e .
-    
-    - name: Run pytest tests
-      env:
-        ADAFRUIT_IO_USERNAME: ${{ secrets.ADAFRUIT_IO_USERNAME }}
-        ADAFRUIT_IO_KEY: ${{ secrets.ADAFRUIT_IO_KEY }}
-      run: python -m pytest
 
     - name: Build package
       run: |
