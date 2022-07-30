@@ -1,3 +1,4 @@
+import { json } from "stream/consumers"
 import { defaultFrame } from "./ThermalCam"
 
 export type T_Aio_definitiveConstructor = {
@@ -17,35 +18,41 @@ export type T_aio = (group: string, feed: string) => Promise<string>
 const Aio = ({
   username,
   key,
-  data,
-  isFake,
 }: T_Aio_constructor): T_aio => {
-  if (isFake) {
-    const _data = data ?? `{"stream": ${JSON.stringify(defaultFrame)}}`
-    return async (group: string, feed: string) => {
-      console.log("[*] AIO api call fake (not signed in) for group:feed", group, feed)
-      return _data
-    }
-  } else {
-    console.log("[**] AIO api call real (signed in) for group:feed", username, key)
-  }
-  return async (group: string, feed: string) => {
+  console.log("constructing Aio", username, key)
+  const r = async (group: string, feed: string) => {
     const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-    console.warn("url is", url, group, feed)
+    console.warn("url is", group, feed, 'url', url)
     const res = await fetch(url, {
       headers: {
         'X-AIO-Key': key,
       },
     })
     const data = await res.json()
-    // console.log("_data", data)
+    console.log("_data", data)
     return data[0].value
   }
+  // const r = async (group: string, feed: string) => {
+  //   const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
+  //   console.warn("url is", group, feed, 'url', url)
+  //   const res = await fetch(url, {
+  //     headers: {
+  //       'X-AIO-Key': key,
+  //     },
+  //   })
+  //   const data = await res.json()
+  //   console.log("_data", data)
+  //   return data[0].value
+  // }
+  return r
 }
 
-export const newAIO = (username: string, key: string): T_aio => Aio({username, key, isFake: false})
+export const newAIO = (username: string, key: string): T_aio => Aio({username, key})
 
-export const fake_AIO: T_aio = Aio({isFake: true})
+export const fake_AIO: T_aio = async (f: string, g: string) => {
+  console.log("fake_AIO", f, g)
+  return JSON.stringify({"stream": defaultFrame})
+} 
 export const fake_AIO_gen = (message: string): T_aio => {
   return (g, f) => {
     console.log("fake_AIO_gen", message)

@@ -16,9 +16,13 @@ function App({
   const frameAverage = getFrameAverage(frame, frameTotal)
 
   const aio = useContext(Credentials)
+  // console.log("aio CONTEXT:: ", aio)
 
   const _retrieve_stream = async (): Promise<number[][]> => {
-    console.warn("_retrieve_stream", group, feed, aio)
+    // console.warn("_retrieve_stream", group, feed, aio)
+
+    // throw "Not implemented -:)"
+
     const value = await aio(group, feed)
     // console.log("value", value)
     let frame = []
@@ -49,6 +53,7 @@ function App({
   }
 
   useEffect(() => {
+    // _retrieve_stream().then(setFrame)
     const cleanup = setInterval(() => _retrieve_stream().then(setFrame), 1000)
     return () => clearInterval(cleanup)
   })
@@ -78,8 +83,3 @@ function App({
 }
 
 export default App
-function _defaultFrame(_defaultFrame: any): [any, any]
-{
-  throw new Error('Function not implemented.')
-}
-
