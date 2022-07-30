@@ -1,31 +1,10 @@
 import { createContext, CSSProperties, useContext, useEffect, useState } from 'react'
 import Cell from './components/Cell'
+import { Credentials } from './CredentialProvider'
+import { defaultDimensions, defaultFrame, getFrameAverage, getFrameTotal } from './lib/ThermalCam'
 // require('dotenv').config() // Load .env files
 
-const defaultDimensions = [32, 24] // X, Y
-
 type Colours = CSSProperties['color']
-const _defaultFrame: number[][] = []
-for (let y = 0; y < defaultDimensions[1]; y++) {
-  _defaultFrame[y] = []
-  for (let x = 0; x < defaultDimensions[0]; x++) {
-    _defaultFrame[y][x] = Math.random() > 0.5 ? 1 : 0
-  }
-}
-
-const Aio = (username: string, key: string) => {
-  return async (group: string, feed: string) => {
-    const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-    const res = await fetch(url, {
-      headers: {
-        'X-AIO-Key': key,
-      },
-    })
-    const data = await res.json()
-    // console.log("_data", data)
-    return data[0].value
-  }
-}
 
 function App({
   group = "brad",
@@ -34,15 +13,12 @@ function App({
   group?: string,
   feed?: string,
 }) {
-  const [frame, setFrame] = useState(_defaultFrame)
+  const [frame, setFrame] = useState(defaultFrame)
 
-  const frameTotal = frame.reduce((acc, row) => {
-    return acc += row.reduce((acc, cell) => acc += cell, 0)
-  }, 0)
-  const frameAverage = frameTotal / (defaultDimensions[0] * defaultDimensions[1])
+  const frameTotal = getFrameTotal(frame)
+  const frameAverage = getFrameAverage(frame, frameTotal)
 
-  const { username, key } = useContext(Credentials)
-  
+  const aio = useContext(Credentials)
 
   const _retrieve_stream = async (): Promise<number[][]> => {
     const value = await aio(group, feed)
@@ -52,7 +28,7 @@ function App({
       frame = JSON.parse(value).stream
     } catch (e) {
       // console.log("JSON parse error", e)
-      return _defaultFrame
+      return defaultFrame
     }
     // console.log("Successful jsonify", frame)
     const parsed_frame: number[][] = []
@@ -103,3 +79,8 @@ function App({
 }
 
 export default App
+function _defaultFrame(_defaultFrame: any): [any, any]
+{
+  throw new Error('Function not implemented.')
+}
+
