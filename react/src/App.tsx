@@ -8,7 +8,7 @@ const _defaultFrame: number[][] = []
 for (let y = 0; y < defaultDimensions[1]; y++) {
   _defaultFrame[y] = []
   for (let x = 0; x < defaultDimensions[0]; x++) {
-    _defaultFrame[y][x] = 0
+    _defaultFrame[y][x] = Math.random() > 0.5 ? 1 : 0
   }
 }
 
@@ -25,17 +25,19 @@ function App() {
       return "red"
     } else if (value > frameAverage) {
       return "green"
+    } else {
+      return "yellow"
     }
   }
 
   return (
     <>
     {/* <h2>oops</h2> */}
-    <Cell pos={[0, 0]} colour={getColour(frame[0][0])} />
+    {/* <Cell pos={[0, 0]} colour={getColour(frame[0][0])} /> */}
     {frame.map((row, y) => {
-      row.map((cell, x) => {
-        // return <Cell pos={[x, y]} colour={getColour(cell)} />
-        return <h1>y</h1>
+      return row.map((cell, x) => {
+        return <Cell pos={[x, y]} colour={getColour(cell)} />
+        // return <h1>y</h1>
       })
     })}
     </>
