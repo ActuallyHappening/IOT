@@ -27,10 +27,13 @@ def env_credentials() -> dict[str, str]:
   secrets = dotenv_values(verbose=True) | dict(os.environ)
   _username = "ADAFRUIT_IO_USERNAME"
   _key = "ADAFRUIT_IO_KEY"
+  
   assert _username in secrets
-  assert _key in secrets
   assert secrets[_username]
+  
+  assert _key in secrets
   assert secrets[_key]
+  
   return {_username: secrets[_username], _key: secrets[_key]}
 
 @pytest.fixture
