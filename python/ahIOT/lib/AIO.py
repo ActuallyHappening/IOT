@@ -1,11 +1,12 @@
 import json
 import math
+import os
 from random import random, randrange
 from typing import List
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
 
-aio = None # Attempted to be initialized with .env credentials
+aio: "Aio" | None = None # Attempted to be initialized with .env credentials
 
 defaultSchema = {
   "group": "brad",
@@ -99,6 +100,7 @@ class Aio:
     return json.loads(self.receive_stream())["stream"]
   
 def reset_aio_stream(stratagy: str = "lines"):
+  if aio is None: print("AIO not initialized")
   fakeStream = []
   for y in range(24):
     for x in range(32):
@@ -114,7 +116,7 @@ def reset_aio_stream(stratagy: str = "lines"):
   stream_data = aio.receive_stream_data()
   assert len(stream_data) == 32*24
 
-env_variables = dotenv_values()
+env_variables = dotenv_values() | os.environ
 try:
   defaultPassword = env_variables["ADAFRUIT_IO_USERNAME"]
   defaultKey = env_variables["ADAFRUIT_IO_KEY"]
