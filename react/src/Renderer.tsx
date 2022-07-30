@@ -2,9 +2,6 @@ import { createContext, CSSProperties, useContext, useEffect, useState } from 'r
 import Cell from './components/Cell'
 import { Credentials } from './CredentialProvider'
 import { defaultDimensions, defaultFrame, getFrameAverage, getFrameTotal } from './lib/ThermalCam'
-// require('dotenv').config() // Load .env files
-
-type Colours = CSSProperties['color']
 
 function App({
   group = "brad",

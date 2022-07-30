@@ -8,6 +8,7 @@ export type T_Aio_fakeConstructor = T_Aio_definitiveConstructor & {
   // [P in keyof T_Aio_constructor]: T_Aio_constructor[P],
   isFake: boolean,
   data?: string,
+  msg?: string,
 }
 
 export type T_Aio_constructor = T_Aio_definitiveConstructor | T_Aio_fakeConstructor
@@ -22,9 +23,11 @@ const Aio = ({
   if (isFake) {
     const _data = data ?? `{"stream": ${JSON.stringify(defaultFrame)}}`
     return async (group: string, feed: string) => {
-      console.log("AIO api call fake (not signed in) for group:feed", group, feed)
+      console.log("[*] AIO api call fake (not signed in) for group:feed", group, feed)
       return _data
     }
+  } else {
+    console.log("[**] AIO api call real (signed in) for group:feed", username, key)
   }
   return async (group: string, feed: string) => {
     const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
@@ -40,5 +43,11 @@ const Aio = ({
 }
 
 export const fake_AIO: T_aio = Aio({isFake: true})
+export const fake_AIO_gen = (message: string): T_aio => {
+  return (g, f) => {
+    console.log("fake_AIO_gen", message)
+    return fake_AIO(g, f)
+  }
+}
 
 export default Aio
