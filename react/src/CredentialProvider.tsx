@@ -7,24 +7,27 @@ if (!_env_vars.VITE_ADAFRUIT_IO_USERNAME) {
   // throw new Error('AIO_USERNAME is not set')
   console.log("AIO_USERNAME is not set, requiring dynamic key")
 }
-const _username: boolean | string = _env_vars.VITE_ADAFRUIT_IO_USERNAME ?? undefined
+const _username: undefined | string = _env_vars.VITE_ADAFRUIT_IO_USERNAME ?? undefined
 if (!_env_vars.VITE_ADAFRUIT_IO_KEY) {
   // throw new Error('AIO_KEY is not set')
   console.log("AIO_KEY is not set, requiring dynamic key")
 }
-const _key = _env_vars.VITE_ADAFRUIT_IO_KEY ?? undefined
+const _key: string | undefined = _env_vars.VITE_ADAFRUIT_IO_KEY ?? undefined
 
 export const Credentials = createContext<T_aio>(fake_AIO)
 
 const Wrapper = () => {
   const [credentials, setCredentials] = useState<T_aio>(fake_AIO)
 
-  const [username, setUsername] = useState<string>(_username ?? "Not set")
-  const [key, setKey] = useState<string>(_key ?? "Not set")
+  const [username, setUsername] = useState<string|undefined>(_username)
+  const [key, setKey] = useState<string|undefined>(_key)
 
   let _show_dynamic_form = true
   if (username && key) {
+    console.log("Username and key are set, hiding dynamic form",username, key)
     _show_dynamic_form = false
+  } else {
+    console.log("Username and key are NOT set, SHOWING dynamic form",username, key)
   }
 
   return (
