@@ -2,6 +2,9 @@ import json
 from typing import List
 from .lib.AIO import aio
 from .lib.ThermalSensor.Process_raw import print_frame
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 def _load(strict=True):
   data = None
@@ -29,8 +32,15 @@ def _load_stream(stream):
     raise TypeError(f"Expected range > 0, got {max(stream)} - {min(stream)} for {stream=}")
   return stream
 
+
 def _print(stream: List[int]):
-  print_frame(stream)
+  # print_frame(stream)
+  print(stream)
+  # Going to use scipy and numpy to 
+  # Print 2D array of data
+  # With colours based on average
+  # Outliers are purple
+  
 
 def _ping(*x, **y):
   aio.host_ping(*x, **y)
