@@ -54,12 +54,11 @@ def aio(credentials):
     raise NotImplementedError("No signed-in AIO instance")
   return _aio
 
-@cache
+
 def test_aio_instance_schema(AIO, aio):
   if aio is False: return False
   assert aio.schema == AIO.defaultSchema
   assert aio.schema["group"]
-  return True
 
 def check_AIO(post, receive, extractID=lambda s: s.split(":")[1]):
   id = str(uuid.uuid4())
