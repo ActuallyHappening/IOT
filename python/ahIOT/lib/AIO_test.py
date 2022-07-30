@@ -1,5 +1,6 @@
 
 import json
+import os
 from typing import TYPE_CHECKING, Any, Callable, Tuple
 from functools import cache
 import uuid
@@ -13,41 +14,40 @@ def test_aio_import():
   from . import AIO
   return AIO
 
-@cache
-def test_aio_class_exists():
+@pytest.fixture
+def Aio():
   aio = test_aio_import()
   assert aio.Aio
   return aio.Aio
 
-@cache
-def test_aio_has_instance():
+@pytest.fixuture
+def aio():
   aio = test_aio_import()
   assert aio.aio is None or isinstance(aio.aio, aio.Aio)
-  return aio.aio if aio.aio is not None else False
+  return aio.aio if aio.aio is not None else None
 
-@cache
-def test_env_credentials():
+@pytest.fixture
+def env_credentials() -> Tuple[str, str, dict[str, str]]:
   from dotenv import dotenv_values
-  secrets = dotenv_values(verbose=True)
+  secrets = dotenv_values(verbose=True) | dict(os.environ)
   # print(f"Secrets: {secrets}")
-  if secrets == None:
+  if secrets is None:
     return False
   # print("Checking for ADAFRUIT_IO_USERNAME in dotenv values ...")
   assert "ADAFRUIT_IO_USERNAME" in secrets
   # print("Checking for ADAFRUIT_IO_KEY in dotenv values ...")
   assert "ADAFRUIT_IO_KEY" in secrets
-  return secrets
+  return (secrets["ADAFRUIT_IO_USERNAME"], secrets["ADAFRUIT_IO_KEY"], secrets)
+
+# TODO REFACTOR to fixtures
 
 @cache
-def test_proper_credentials():
-  secrets = test_env_credentials()
-  if secrets is None:
-    return False
-  aio = test_aio_has_instance()
+def test_proper_credentials(env_credentials, aio):
+  assert aio is not None
   assert aio is not False
   assert aio.client
-  assert aio.client.username == secrets["ADAFRUIT_IO_USERNAME"]
-  assert aio.client.key == secrets["ADAFRUIT_IO_KEY"]
+  assert aio.client.username == env_credentials["ADAFRUIT_IO_USERNAME"]
+  assert aio.client.key == env_credentials["ADAFRUIT_IO_KEY"]
   return True, aio
 
 @pytest.fixture
