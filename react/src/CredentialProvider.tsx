@@ -81,8 +81,8 @@ const Wrapper = ({children}:{
         <br/>
         <label>AIO Key: {key.current}</label>
         <br/>
-        <label>Signed in: {String(!_show_dynamic_form)}</label>
-        <br/> */}
+        <label>Signed in: {String(!_show_dynamic_form)}</label> */}
+        <br/>
         <input type="submit" value="Submit" />
       </form>
       {_show_dynamic_form ? null : children}
