@@ -17,6 +17,11 @@ def Aio(AIO):
   return AIO.Aio
 
 @pytest.fixture
+def _aio(AIO):
+  assert AIO.aio
+  return AIO.aio
+
+@pytest.fixture
 def env_credentials() -> dict[str, str]:
   from dotenv import dotenv_values
   secrets = dotenv_values(verbose=True) | dict(os.environ)
@@ -28,7 +33,9 @@ def env_credentials() -> dict[str, str]:
   assert secrets[_key]
   return {_username: secrets[_username], _key: secrets[_key]}
 
-def test_proper_credentials(env_credentials, aio):
+@pytest.fixture
+def credentials(env_credentials, _aio):
+  aio = _aio
   assert aio is not None
   assert aio is not False
   assert aio.client
@@ -37,9 +44,9 @@ def test_proper_credentials(env_credentials, aio):
   return True, aio
 
 @pytest.fixture
-def aio():
+def aio(credentials):
   """Fixture for aio sign in"""
-  status, _aio = test_proper_credentials()
+  status, _aio = credentials
   if status is False:
     raise NotImplementedError("No signed-in AIO instance")
   return _aio
