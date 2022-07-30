@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-import Aio, { fake_AIO, fake_AIO_gen, T_aio } from "./lib/AIO"
+import Aio, { fake_AIO, fake_AIO_gen, newAIO, T_aio } from "./lib/AIO"
 import App from "./Renderer"
 
 const _env_vars = import.meta.env
@@ -19,6 +19,7 @@ export const Credentials = createContext<T_aio>(fake_AIO_gen("BAD not updated co
 const Wrapper = () => {
   const [username, setUsername] = useState<string|undefined>(_username)
   const [key, setKey] = useState<string|undefined>(_key)
+
   let _show_dynamic_form = true
   if (username && key) {
     // console.log("Username and key are set, hiding dynamic form",username, key)
@@ -28,9 +29,7 @@ const Wrapper = () => {
   }
   
   // const [credentials, setCredentials] = useState<T_aio>(fake_AIO_gen("BAD not updated STATE!:"))
-  const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : Aio({username, key}))
-
-
+  const [credentials, setCredentials] = useState<T_aio>(_show_dynamic_form ? fake_AIO_gen("BBB n state") : newAIO(username, key))
 
   return (
     // <Credentials.Provider value={fake_AIO_gen("Provided context GOOD!")}>
@@ -45,7 +44,11 @@ const Wrapper = () => {
         onSubmit={(e) => {
           e.preventDefault()
           console.log("Submitting form", username, key)
-          setCredentials(Aio({username: username ?? "", key: key ?? ""}))
+          if (username && key) {
+            setCredentials(newAIO(username, key))
+          } else {
+            console.log("Username and key are not set, not updating credentials")
+          }
         }}
       >
         <label>
@@ -66,7 +69,7 @@ const Wrapper = () => {
         <br/>
         <label>AIO Key: {key}</label>
         <br/>
-        <label>Signed in: {String(_show_dynamic_form)}</label>
+        <label>Signed in: {String(!_show_dynamic_form)}</label>
         <br/>
         <input type="submit" value="Submit" />
       </form>

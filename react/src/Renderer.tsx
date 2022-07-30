@@ -42,7 +42,8 @@ function App({
     if (parsed_frame.length !== defaultDimensions[1]) {
       throw new Error("Frame given is not the correct height!")
     }
-    console.log("Parsed Successfully!")
+    // console.log("Parsed Successfully!")
+    console.log("Parsed Successfully!", parsed_frame)
     return parsed_frame
   }
 

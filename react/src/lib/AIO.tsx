@@ -42,6 +42,8 @@ const Aio = ({
   }
 }
 
+export const newAIO = (username: string, key: string): T_aio => Aio({username, key, isFake: false})
+
 export const fake_AIO: T_aio = Aio({isFake: true})
 export const fake_AIO_gen = (message: string): T_aio => {
   return (g, f) => {
