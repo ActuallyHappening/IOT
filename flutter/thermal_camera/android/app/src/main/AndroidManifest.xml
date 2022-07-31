@@ -4,6 +4,12 @@
         android:label="thermal_camera"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Required to fetch data from the internet. -->
+        <uses-permission android:name="android.permission.INTERNET" />
+        <!-- May be in wrong position? -->
+        <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"
