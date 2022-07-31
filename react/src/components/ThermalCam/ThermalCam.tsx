@@ -73,12 +73,16 @@ export const mapRange = (value: number, low1: number, high1: number, low2: numbe
 
 export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const frame: T_streamProcessed = []
+
   // Convert to 2D array
   const total = getFrameTotal(frame)
   const average = getFrameAverage(frame, total)
+  const min = Math.max(getFrameMin(frame), _lowestTemp)
+  const max = Math.max(getFrameMax(frame), _highestTemp)
+
   rawForEach(_frame, (cell, x, y) => {
     frame[y] = frame[y] ?? []
-    frame[y][x] = [cell, mapRange(cell, _lowestTemp, _highestTemp, 0, 255)]
+    frame[y][x] = [cell, mapRange(cell, min, max, 0, 255)]
   })
   return frame
 }
