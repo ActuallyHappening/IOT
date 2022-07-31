@@ -1,7 +1,7 @@
 export const defaultDimensions = [32, 24] // X, Y
 
 export type T_streamProcessed = [number, number][][]
-export type T_streamPreprocessed = [number, 0][][]
+export type T_streamPreprocessed = T_streamProcessed
 export type T_streamRaw = number[][]
 export type T_streamAny = T_streamRaw | T_streamPreprocessed | T_streamProcessed
 
@@ -36,7 +36,7 @@ rawForEach(_defaultRawFrame, (cell, x, y) => {
 })
 export const defaultRawFrame: T_streamRaw = _defaultRawFrame
 
-export const getFrameTotal = (frame: T_streamAny) => {
+export const getFrameTotal = (frame: T_streamPreprocessed) => {
   return frame.reduce((acc, row) => {
     return acc += row.reduce((acc, cell) => {
       return typeof cell === "number" ? acc + cell : acc += cell[0]
@@ -44,7 +44,7 @@ export const getFrameTotal = (frame: T_streamAny) => {
   }, 0)
 }
 
-export const getFrameAverage = (frame: T_streamAny, total?: number): number => {
+export const getFrameAverage = (frame: T_streamPreprocessed, total?: number): number => {
   return (total ?? getFrameTotal(frame)) / (defaultDimensions[0] * defaultDimensions[1])
 }
 
