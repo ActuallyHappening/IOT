@@ -45,6 +45,7 @@ function App({
 
   useEffect(() => {
     const cleanup = setInterval(() => retrieve_stream().then((newFrame) => {
+      console.log("Updating cells ...")
       setFrame(ProcessFrame(newFrame))
     }), 1000)
     return () => clearInterval(cleanup)
