@@ -78,7 +78,7 @@ export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const total = getFrameTotal(frame)
   const average = getFrameAverage(frame, total)
   const min = Math.max(getFrameMin(frame), _lowestTemp)
-  const max = Math.max(getFrameMax(frame), _highestTemp)
+  const max = Math.min(getFrameMax(frame), _highestTemp)
 
   rawForEach(_frame, (cell, x, y) => {
     frame[y] = frame[y] ?? []
