@@ -29,7 +29,7 @@ const Cell = ({
       width: scale,
       height: scale,
       backgroundColor: getColour(colour),
-      border: '1px solid black',
+      // border: '1px solid black',
       overflow: 'hidden',
     }}>{String(value).substring(0, 2)}</div>
   )
