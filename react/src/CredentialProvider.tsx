@@ -83,7 +83,7 @@ const Wrapper = ({children}:{
         <br/>
         <label>Signed in: {String(!_show_dynamic_form)}</label> */}
         <br/>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Sign In" />
       </form>
       {_show_dynamic_form ? null : children}
     </Credentials.Provider>
