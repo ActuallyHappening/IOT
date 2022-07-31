@@ -7,6 +7,7 @@ export type T_streamAny = T_streamRaw | T_streamPreprocessed | T_streamProcessed
 
 export const processedForEach = (frame: T_streamProcessed, callback: (cell: [number, number], x: number, y: number) => void) => {
   for (let y = 0; y < defaultDimensions[1]; y++) {
+    frame[y] = frame[y] || []
     for (let x = 0; x < defaultDimensions[0]; x++) {
       callback(frame[y][x], x, y)
     }
@@ -14,6 +15,7 @@ export const processedForEach = (frame: T_streamProcessed, callback: (cell: [num
 }
 export const rawForEach = (frame: T_streamRaw, callback: (cell: number, x: number, y: number) => void) => {
   for (let y = 0; y < defaultDimensions[1]; y++) {
+    frame[y] = frame[y] || []
     for (let x = 0; x < defaultDimensions[0]; x++) {
       callback(frame[y][x], x, y)
     }

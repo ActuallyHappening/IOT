@@ -22,28 +22,16 @@ const Aio = ({
   console.log("constructing Aio", username, key)
   const r = async (group: string, feed: string) => {
     const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-    console.warn("url is", group, feed, 'url', url)
+    // console.warn("url is", url)
     const res = await fetch(url, {
       headers: {
         'X-AIO-Key': key,
       },
     })
     const data = await res.json()
-    console.log("_data", data)
+    // console.log("_data", data)
     return data[0].value
   }
-  // const r = async (group: string, feed: string) => {
-  //   const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-  //   console.warn("url is", group, feed, 'url', url)
-  //   const res = await fetch(url, {
-  //     headers: {
-  //       'X-AIO-Key': key,
-  //     },
-  //   })
-  //   const data = await res.json()
-  //   console.log("_data", data)
-  //   return data[0].value
-  // }
   return r
 }
 
