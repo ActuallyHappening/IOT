@@ -51,6 +51,22 @@ export const getFrameAverage = (frame: T_streamPreprocessed, total?: number): nu
   return (total ?? getFrameTotal(frame)) / (defaultDimensions[0] * defaultDimensions[1])
 }
 
+export const getFrameMin = (frame: T_streamPreprocessed): number => {
+  return frame.reduce((acc, row) => {
+    return row.reduce((acc, cell) => {
+      return typeof cell === "number" ? Math.min(acc, cell) : Math.min(acc, cell[0])
+    }, acc)
+  }, Infinity)
+}
+
+export const getFrameMax = (frame: T_streamPreprocessed): number => {
+  return frame.reduce((acc, row) => {
+    return row.reduce((acc, cell) => {
+      return typeof cell === "number" ? Math.max(acc, cell) : Math.max(acc, cell[0])
+    }, acc)
+  }, -Infinity)
+}
+
 export const mapRange = (value: number, low1: number, high1: number, low2: number, high2: number) => {
   return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
