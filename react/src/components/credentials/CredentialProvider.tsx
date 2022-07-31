@@ -19,13 +19,10 @@ const Wrapper = ({children}:{
   }
 
   return (
-    // <Credentials.Provider value={fake_AIO_gen("Provided context GOOD!")}>
     <aio.Provider value={newAIO(username, key)}>
-      {/* {require_form ? null : children} */}
       {children}
       <form
         style={{
-          // display: _show_dynamic_form ? "block" : "none",
           left: "70%",
           top: "10%",
           position: "absolute",
@@ -40,14 +37,14 @@ const Wrapper = ({children}:{
           Enter AIO Key:
           <input type="text" name="key" onChange={(e) => setKey(e.target.value)}/>
         </label>
-        {/* <br/>
-        <label>AIO Username: {username.current}</label>
         <br/>
-        <label>AIO Key: {key.current}</label>
+        <label>AIO Username: {username}</label>
         <br/>
-        <label>Signed in: {String(!_show_dynamic_form)}</label> */}
+        <label>AIO Key: {key}</label>
         <br/>
-        <input type="submit" value="Sign In" />
+        <label>Signed in: {String(!require_form)}</label>
+        <br/>
+        {/* <input type="submit" value="Sign In" /> */}
       </form>
     </aio.Provider>
   )

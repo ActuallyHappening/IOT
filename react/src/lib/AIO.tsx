@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { defaultFrame } from "../components/ThermalCam/ThermalCam"
+import { defaultFrame, defaultRawFrame } from "../components/ThermalCam/ThermalCam"
 
 export type T_Aio_definitiveConstructor = {
   username: string,
@@ -38,8 +38,8 @@ const Aio = ({
 export const newAIO = (username: string, key: string): T_aio => Aio({username, key})
 
 export const fake_AIO: T_aio = async (f: string, g: string) => {
-  console.log("fake_AIO", f, g)
-  return JSON.stringify({"stream": defaultFrame})
+  console.log("fake_AIO call", f, g)
+  return JSON.stringify({"stream": defaultRawFrame})
 } 
 export const fake_AIO_gen = (message: string): T_aio => {
   return (g, f) => {
