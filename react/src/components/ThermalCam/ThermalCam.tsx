@@ -78,9 +78,13 @@ export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const frame: T_streamProcessed = []
 
   // Convert to 2D array
+  // @ts-ignore
   const total = getFrameTotal(_frame)
+  // @ts-ignore
   const average = getFrameAverage(_frame, total)
+  // @ts-ignore
   const min = Math.max(getFrameMin(_frame), _lowestTemp)
+  // @ts-ignore
   const max = Math.min(getFrameMax(_frame), _highestTemp)
 
   console.log("ProcessFrame", { total, average, min, max })
