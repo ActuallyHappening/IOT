@@ -53,8 +53,11 @@ export const getFrameAverage = (frame: T_streamPreprocessed, total?: number): nu
 
 export const getFrameMin = (frame: T_streamPreprocessed): number => {
   return frame.reduce((acc, row) => {
-    return row.reduce((acc, cell) => {
-      return typeof cell === "number" ? Math.min(acc, cell) : Math.min(acc, cell[0])
+    return row.reduce((acc, _cell) => {
+      const cell = typeof _cell === "number" ? _cell : _cell[0]
+      if (cell < _lowestTemp) return acc
+      if (cell > _highestTemp) return acc
+      return Math.min(acc, cell)
     }, acc)
   }, Infinity)
 }
@@ -75,14 +78,18 @@ export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const frame: T_streamProcessed = []
 
   // Convert to 2D array
-  const total = getFrameTotal(frame)
-  const average = getFrameAverage(frame, total)
-  const min = Math.max(getFrameMin(frame), _lowestTemp)
-  const max = Math.min(getFrameMax(frame), _highestTemp)
+  const total = getFrameTotal(_frame)
+  const average = getFrameAverage(_frame, total)
+  const min = Math.max(getFrameMin(_frame), _lowestTemp)
+  const max = Math.min(getFrameMax(_frame), _highestTemp)
+
+  console.log("ProcessFrame", { total, average, min, max })
 
   rawForEach(_frame, (cell, x, y) => {
     frame[y] = frame[y] ?? []
-    frame[y][x] = [cell, mapRange(cell, min, max, 0, 255)]
+    const colourValue = mapRange(cell, min, max, 0, 255)
+    // console.log("ProcessFrame", { cell, x, y, colourValue })
+    frame[y][x] = [cell, colourValue]
   })
   return frame
 }
