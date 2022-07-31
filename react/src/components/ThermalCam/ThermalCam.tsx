@@ -5,13 +5,34 @@ export type T_streamPreprocessed = [number, 0][][]
 export type T_streamRaw = number[][]
 export type T_streamAny = T_streamRaw | T_streamPreprocessed | T_streamProcessed
 
-const _defaultFrame: T_streamProcessed = []
-for (let y = 0; y < defaultDimensions[1]; y++) {
-  _defaultFrame[y] = []
-  for (let x = 0; x < defaultDimensions[0]; x++) {
-    _defaultFrame[y][x] = [69, Math.random() > 0.5 ? 1 : 0]
+export const processedForEach = (frame: T_streamProcessed, callback: (cell: [number, number], x: number, y: number) => void) => {
+  for (let y = 0; y < defaultDimensions[1]; y++) {
+    for (let x = 0; x < defaultDimensions[0]; x++) {
+      callback(frame[y][x], x, y)
+    }
   }
 }
+export const rawForEach = (frame: T_streamRaw, callback: (cell: number, x: number, y: number) => void) => {
+  for (let y = 0; y < defaultDimensions[1]; y++) {
+    for (let x = 0; x < defaultDimensions[0]; x++) {
+      callback(frame[y][x], x, y)
+    }
+  }
+}
+
+const _defaultFrame: T_streamProcessed = []
+processedForEach(_defaultFrame, (cell, x, y) => {
+  _defaultFrame[y] = _defaultFrame[y] || []
+  _defaultFrame[y][x] = [69, Math.random() > 0.5 ? 1 : 0]
+})
+export const defaultFrame: T_streamProcessed = _defaultFrame
+
+const _defaultRawFrame: T_streamRaw = []
+rawForEach(_defaultRawFrame, (cell, x, y) => {
+  _defaultRawFrame[y] = _defaultRawFrame[y] || []
+  _defaultRawFrame[y][x] = (Math.random() + 1) * 25
+})
+export const defaultRawFrame: T_streamRaw = _defaultRawFrame
 
 export const getFrameTotal = (frame: T_streamAny) => {
   return frame.reduce((acc, row) => {
@@ -29,31 +50,15 @@ export const mapRange = (value: number, low1: number, high1: number, low2: numbe
   return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
-export const processedForEach = (frame: T_streamProcessed, callback: (cell: [number, number], x: number, y: number) => void) => {
-  for (let y = 0; y < defaultDimensions[1]; y++) {
-    for (let x = 0; x < defaultDimensions[0]; x++) {
-      callback(frame[y][x], x, y)
-    }
-  }
-}
-export const rawForEvery = (frame: T_streamRaw, callback: (cell: number, x: number, y: number) => void) => {
-  for (let y = 0; y < defaultDimensions[1]; y++) {
-    for (let x = 0; x < defaultDimensions[0]; x++) {
-      callback(frame[y][x], x, y)
-    }
-  }
-}
 
 export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const frame: T_streamProcessed = []
   // Convert to 2D array
   const total = getFrameTotal(frame)
   const average = getFrameAverage(frame, total)
-  rawForEvery(_frame, (cell, x, y) => {
+  rawForEach(_frame, (cell, x, y) => {
     frame[y] = frame[y] ?? []
     frame[y][x] = [cell, mapRange(cell, 0, 70, 0, 255)]
   })
   return frame
 }
-
-export const defaultFrame = _defaultFrame
