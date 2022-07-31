@@ -1,9 +1,12 @@
-export const defaultDimensions = [32, 24] // X, Y
 
 export type T_streamProcessed = [number, number][][]
 export type T_streamPreprocessed = T_streamProcessed
 export type T_streamRaw = number[][]
 export type T_streamAny = T_streamRaw | T_streamPreprocessed | T_streamProcessed
+
+export const defaultDimensions = [32, 24] // X, Y
+export const _lowestTemp = 0
+export const _highestTemp = 70
 
 export const processedForEach = (frame: T_streamProcessed, callback: (cell: [number, number], x: number, y: number) => void) => {
   for (let y = 0; y < defaultDimensions[1]; y++) {
@@ -52,7 +55,6 @@ export const mapRange = (value: number, low1: number, high1: number, low2: numbe
   return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
-
 export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const frame: T_streamProcessed = []
   // Convert to 2D array
@@ -60,7 +62,7 @@ export const ProcessFrame = (_frame: T_streamRaw): T_streamProcessed => {
   const average = getFrameAverage(frame, total)
   rawForEach(_frame, (cell, x, y) => {
     frame[y] = frame[y] ?? []
-    frame[y][x] = [cell, mapRange(cell, 0, 70, 0, 255)]
+    frame[y][x] = [cell, mapRange(cell, _lowestTemp, _highestTemp, 0, 255)]
   })
   return frame
 }
