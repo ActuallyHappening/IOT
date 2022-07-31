@@ -2,16 +2,25 @@ import React, { CSSProperties } from 'react'
 
 const Cell = ({
   pos,
-  colour = "black",
+  colour = undefined,
   scale = 25,
   value = "",
 }: {
   pos: [number, number],
-  colour: string | number,
+  colour: string | number | undefined,
   // colour: CSSProperties['color'],
   scale?: number,
   value?: string | number,
 }) => {
+  const getColour = (value: string | number | undefined) => {
+    if (typeof value === "string") {
+      return value
+    } else if (typeof value === "number") {
+      return `rgb(${value}, 0, 0)`
+    } else {
+      return `rgba(0, 0, 0, 0)`
+    }
+  }
   return (
     <div style={{
       position: 'absolute',
@@ -19,7 +28,7 @@ const Cell = ({
       left: pos[1] * scale,
       width: scale,
       height: scale,
-      backgroundColor: `rgba(${colour}, 0, 0, ${value > 70 || value < 0 ? 0 : 1})`,
+      backgroundColor: getColour(colour),
       // backgroundColor: colour,
       border: '1px solid black'
     }}>{String(value)}</div>

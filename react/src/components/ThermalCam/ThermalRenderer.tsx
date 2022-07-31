@@ -54,7 +54,7 @@ function App({
     <>
     {frame.map((row, y) => {
       return row.map((cell, x) => {
-        return <Cell key={String(x) + ":" + String(y)} pos={[x, y]} colour={cell[0]} value={cell[1]} />
+        return <Cell key={String(x) + ":" + String(y)} pos={[x, y]} colour={cell[1]} value={cell[0]} />
       })
     })}
     </>
