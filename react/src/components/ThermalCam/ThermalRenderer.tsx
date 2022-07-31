@@ -1,7 +1,7 @@
 import { createContext, CSSProperties, useContext, useEffect, useState } from 'react'
-import Cell from './components/Cell'
-import { Credentials } from './components/credentials/CredentialProvider'
-import { defaultDimensions, defaultFrame, getFrameAverage, getFrameTotal, Process } from './lib/ThermalCam'
+import Cell from '../Cell'
+import { defaultDimensions, defaultFrame, getFrameAverage, getFrameTotal, ProcessFrame } from './ThermalCam'
+import { aio as _aio } from '../../lib/AIO'
 
 function App({
   group = "brad",
@@ -12,24 +12,21 @@ function App({
 }) {
   const [frame, setFrame] = useState(defaultFrame)
 
-  const aio = useContext(Credentials)
-  // console.log("aio CONTEXT:: ", aio)
+  const aio = useContext(_aio)
 
   const _retrieve_stream = async (): Promise<[number, number][][]> => {
     // console.warn("_retrieve_stream", group, feed, aio)
 
-    // throw "Not implemented -:)"
-
     const value = await aio(group, feed)
-    // console.log("value", value)
+
     let frame = []
     try {
       frame = JSON.parse(value).stream
     } catch (e) {
-      // console.log("JSON parse error", e)
+      console.error("While _retrieve_stream json parsing, encountered e=", e, "with value=", value)
       return defaultFrame
     }
-    // console.log("Successful jsonify", frame)
+
     const parsed_frame: [number, number][][] = []
 
     // Concert to 2D array
@@ -40,19 +37,17 @@ function App({
       }
     }
 
-    // console.log("parse?:", parsed_frame)
     if (parsed_frame.length !== defaultDimensions[1]) {
       throw new Error("Frame given is not the correct height!")
     }
-    // console.log("Parsed Successfully!")
-    // console.log("Parsed Successfully!", parsed_frame)
+
     return parsed_frame
   }
 
   useEffect(() => {
     // _retrieve_stream().then(setFrame)
     const cleanup = setInterval(() => _retrieve_stream().then((newFrame) => {
-      setFrame(Process(newFrame))
+      setFrame(ProcessFrame(newFrame))
     }), 1000)
     return () => clearInterval(cleanup)
   })

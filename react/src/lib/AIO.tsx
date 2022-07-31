@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { defaultFrame } from "./ThermalCam"
+import { defaultFrame } from "../components/ThermalCam/ThermalCam"
 
 export type T_Aio_definitiveConstructor = {
   username: string,
