@@ -1,4 +1,4 @@
-import { json } from "stream/consumers"
+import { createContext } from "react"
 import { defaultFrame } from "./ThermalCam"
 
 export type T_Aio_definitiveConstructor = {
@@ -59,5 +59,7 @@ export const fake_AIO_gen = (message: string): T_aio => {
     return fake_AIO(g, f)
   }
 }
+
+export const aio = createContext(fake_AIO_gen("aio not signed in :)"))
 
 export default Aio

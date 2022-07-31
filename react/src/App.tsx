@@ -1,4 +1,4 @@
-import CredentialProvider from './CredentialProvider'
+import CredentialProvider from './components/credentials/CredentialProvider'
 import Renderer from './Renderer'
 
 const App = () => {

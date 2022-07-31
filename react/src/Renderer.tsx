@@ -1,6 +1,6 @@
 import { createContext, CSSProperties, useContext, useEffect, useState } from 'react'
 import Cell from './components/Cell'
-import { Credentials } from './CredentialProvider'
+import { Credentials } from './components/credentials/CredentialProvider'
 import { defaultDimensions, defaultFrame, getFrameAverage, getFrameTotal, Process } from './lib/ThermalCam'
 
 function App({
