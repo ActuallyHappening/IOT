@@ -1,0 +1,26 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "thermal_camera",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define=FLUTTER_ADAFRUIT_IO_USERNAME=${env:ADAFRUIT_IO_USERNAME}","--dart-define=FLUTTER_ADAFRUIT_IO_KEY=${env:ADAFRUIT_IO_KEY}"]
+    },
+    {
+      "name": "thermal_camera (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "thermal_camera (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
+}
