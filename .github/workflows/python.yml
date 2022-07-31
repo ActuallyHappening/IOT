@@ -4,7 +4,7 @@ name: Test, Build and Upload :)
 
 on:
   push:
-    branches : [master]
+    branches : [python]
 
 permissions:
   contents: read
