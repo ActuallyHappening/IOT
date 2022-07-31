@@ -4,13 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 Future<ThermalStream> fetchAlbum() async {
-  const username = String.fromEnvironment(
-    "FLUTTER_ADAFRUIT_IO_USERNAME",
-  );
-  const key = String.fromEnvironment(
-    "FLUTTER_ADAFRUIT_IO_KEY",
-  );
+  final String username = dotenv.env["ADAFRUIT_IO_USERNAME"] as String;
+  final String key = dotenv.env["ADAFRUIT_IO_KEY"] as String;
   final response = await http.get(
       Uri.parse(
           'https://io.adafruit.com/api/v2/$username/feeds/brad.ir-stream/data?limit=1'),
@@ -41,7 +39,10 @@ class ThermalStream {
   }
 }
 
-void main() => runApp(const MyApp());
+Future main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
