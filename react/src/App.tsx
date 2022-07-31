@@ -1,5 +1,5 @@
-import CredentialProvider from './CredentialProvider'
-import Renderer from './Renderer'
+import CredentialProvider from './components/credentials/CredentialProvider'
+import Renderer from './components/ThermalCam/ThermalRenderer'
 
 const App = () => {
   return (

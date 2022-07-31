@@ -1,5 +1,5 @@
-import { json } from "stream/consumers"
-import { defaultFrame } from "./ThermalCam"
+import { createContext } from "react"
+import { defaultFrame, defaultRawFrame } from "../components/ThermalCam/ThermalCam"
 
 export type T_Aio_definitiveConstructor = {
   username: string,
@@ -22,36 +22,25 @@ const Aio = ({
   console.log("constructing Aio", username, key)
   const r = async (group: string, feed: string) => {
     const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-    console.warn("url is", group, feed, 'url', url)
+    console.log("Fetching from", url, "...")
+
     const res = await fetch(url, {
       headers: {
         'X-AIO-Key': key,
       },
     })
     const data = await res.json()
-    console.log("_data", data)
+
     return data[0].value
   }
-  // const r = async (group: string, feed: string) => {
-  //   const url = `https://io.adafruit.com/api/v2/${username}/feeds/${group}.${feed}/data?limit=1`
-  //   console.warn("url is", group, feed, 'url', url)
-  //   const res = await fetch(url, {
-  //     headers: {
-  //       'X-AIO-Key': key,
-  //     },
-  //   })
-  //   const data = await res.json()
-  //   console.log("_data", data)
-  //   return data[0].value
-  // }
   return r
 }
 
 export const newAIO = (username: string, key: string): T_aio => Aio({username, key})
 
 export const fake_AIO: T_aio = async (f: string, g: string) => {
-  console.log("fake_AIO", f, g)
-  return JSON.stringify({"stream": defaultFrame})
+  console.log("fake_AIO call", f, g)
+  return JSON.stringify({"stream": defaultRawFrame})
 } 
 export const fake_AIO_gen = (message: string): T_aio => {
   return (g, f) => {
@@ -59,5 +48,7 @@ export const fake_AIO_gen = (message: string): T_aio => {
     return fake_AIO(g, f)
   }
 }
+
+export const aio = createContext(fake_AIO_gen("aio not signed in :)"))
 
 export default Aio
