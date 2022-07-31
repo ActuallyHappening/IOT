@@ -1,0 +1,10 @@
+adafruit-io >= 2.7
+pytest
+pytest-depends
+python-dotenv
+rich
+pretty-traceback
+adafruit-circuitpython-mlx90640
+scipy
+matplotlib
+numpy
