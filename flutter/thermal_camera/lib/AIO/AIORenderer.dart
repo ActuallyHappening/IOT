@@ -20,7 +20,6 @@ Widget createFromParsedStream({required List<List<int>> stream}) {
                 max: _highestTemp,
                 newMin: 0,
                 newMax: 255)),
-            // color: Color(pixel),
             width: scale,
             height: scale,
           );
