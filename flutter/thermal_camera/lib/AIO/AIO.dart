@@ -27,8 +27,8 @@ class ThermalStream {
   final List<int> stream;
 
   static const defaultDimensions = [
-    24,
     32,
+    24,
   ];
 
   const ThermalStream({required this.stream});
