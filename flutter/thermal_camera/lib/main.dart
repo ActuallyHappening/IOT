@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:thermal_camera/AIO/AIORenderer.dart';
 
-import 'AIO.dart' as AIO;
+import 'AIO/AIO.dart' as AIO;
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
             future: currentStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!.stream.toString());
+                return createFromParsedStream(stream: snapshot.data!.parse());
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }

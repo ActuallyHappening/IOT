@@ -37,7 +37,7 @@ class ThermalStream {
     return await fetchStream();
   }
 
-  static List<List<int>> parse({required List<int> stream}) {
+  static List<List<int>> _parse({required List<int> stream}) {
     const dimensions = defaultDimensions;
     final width = dimensions[0];
     final height = dimensions[1];
@@ -48,6 +48,11 @@ class ThermalStream {
       });
     });
     return pixels;
+  }
+
+  List<List<int>> parse() {
+    /* Construct ThermalStream from Json and call ThermalStream.parse() on it */
+    return _parse(stream: stream);
   }
 
   factory ThermalStream.fromJson(Map<String, dynamic> json) {
