@@ -29,17 +29,51 @@ Future<ThermalStream> fetchStream() async {
 class ThermalStream {
   final List<int> stream;
 
+  static const defaultDimensions = [
+    24,
+    32,
+  ];
+
   const ThermalStream({required this.stream});
 
   static Future<ThermalStream> fetch() async {
     return await fetchStream();
   }
 
+  static List<List<int>> parse({required List<int> stream}) {
+    const dimensions = defaultDimensions;
+    final width = dimensions[0];
+    final height = dimensions[1];
+    final pixels = List<List<int>>.generate(height, (y) {
+      return List<int>.generate(width, (x) {
+        final index = y * width + x;
+        return stream[index];
+      });
+    });
+    return pixels;
+  }
+
   factory ThermalStream.fromJson(Map<String, dynamic> json) {
     final value = jsonDecode(json['value']);
-    return ThermalStream(
-      stream: value['stream'],
-    );
+    final rawStream = value['stream'];
+    final List<dynamic> parsedStream;
+    try {
+      parsedStream = rawStream as List<dynamic>;
+    } on FormatException {
+      throw Exception(
+          'Invalid stream data (probably cam not plugged in), got $rawStream');
+    } catch (e) {
+      throw Exception('Invalid stream data (probably corrupted data), e=$e');
+    }
+    // parsedStream = "[$rawStream]";
+    final List<int> finishedStream;
+    try {
+      finishedStream = parsedStream.map((e) => e as int).toList();
+    } catch (e) {
+      throw Exception(
+          'Invalid stream data (probably corrupted or NaN data)\n Raw error = $e');
+    }
+    return ThermalStream(stream: finishedStream);
   }
 }
 
