@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<ThermalStream> fetchAlbum() async {
+Future<ThermalStream> fetchStream() async {
   final String username = dotenv.env["ADAFRUIT_IO_USERNAME"] as String;
   final String key = dotenv.env["ADAFRUIT_IO_KEY"] as String;
   final response = await http.get(
@@ -27,9 +27,13 @@ Future<ThermalStream> fetchAlbum() async {
 }
 
 class ThermalStream {
-  final List<dynamic> stream;
+  final List<int> stream;
 
   const ThermalStream({required this.stream});
+
+  static Future<ThermalStream> fetch() async {
+    return await fetchStream();
+  }
 
   factory ThermalStream.fromJson(Map<String, dynamic> json) {
     final value = jsonDecode(json['value']);
@@ -52,12 +56,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<ThermalStream> futureAlbum;
+  late Future<ThermalStream> currentStream;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    currentStream = fetchStream();
   }
 
   @override
@@ -73,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: FutureBuilder<ThermalStream>(
-            future: futureAlbum,
+            future: currentStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(snapshot.data!.stream.toString());
