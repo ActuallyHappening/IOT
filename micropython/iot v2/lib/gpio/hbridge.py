@@ -8,15 +8,20 @@ motor1 = (15, 2)
 motor2 = (5, 18)
 motors = (motor1, motor2)
 
-# execute_params = [
-#   ()
-# ]
-
 async def _do(tlc: str, param1: int = None, param2: int = None) -> None:
   
     # If param2 not exits, then motor uses param1 as motor num
     # If param2 exists, then motor is (param1, param2)
-    _motor = (param1, param2) if not param2 else motors[param1]
+    _motor: Tuple[int, int]
+    if param1:
+      if param2: _motor = (param1, param2)
+      else:
+        if param1 >= len(motors):
+          raise ValueError(f"Invalid motor num {param1}: Len of motors is {len(motors)}")
+        else:
+          _motor = motors[param1]
+    else:
+      _motor = motors[0] # implicit motor1 if not given
     if tlc == "forward":
         await forward(_motor)
     elif tlc == "backward":
