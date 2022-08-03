@@ -5,39 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:thermal_camera/AIO/AIORenderer.dart';
 
-Future<ThermalStream> fetchAlbum() async {
-  final String username = dotenv.env["ADAFRUIT_IO_USERNAME"] as String;
-  final String key = dotenv.env["ADAFRUIT_IO_KEY"] as String;
-  final response = await http.get(
-      Uri.parse(
-          'https://io.adafruit.com/api/v2/$username/feeds/brad.ir-stream/data?limit=1'),
-      headers: {'X-AIO-KEY': key});
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    final streamData = json.decode(response.body)[0];
-    return ThermalStream.fromJson(streamData);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
-
-class ThermalStream {
-  final List<dynamic> stream;
-
-  const ThermalStream({required this.stream});
-
-  factory ThermalStream.fromJson(Map<String, dynamic> json) {
-    final value = jsonDecode(json['value']);
-    return ThermalStream(
-      stream: value['stream'],
-    );
-  }
-}
+import 'AIO/AIO.dart' as AIO;
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -52,12 +22,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<ThermalStream> futureAlbum;
+  late Future<AIO.ThermalStream> currentStream;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    currentStream = AIO.fetchStream();
   }
 
   @override
@@ -72,11 +42,11 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Fetch Data Example'),
         ),
         body: Center(
-          child: FutureBuilder<ThermalStream>(
-            future: futureAlbum,
+          child: FutureBuilder<AIO.ThermalStream>(
+            future: currentStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!.stream.toString());
+                return createFromParsedStream(stream: snapshot.data!.parse());
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }

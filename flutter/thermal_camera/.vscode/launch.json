@@ -8,7 +8,7 @@
       "name": "thermal_camera",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLUTTER_ADAFRUIT_IO_USERNAME=${env:ADAFRUIT_IO_USERNAME}","--dart-define=FLUTTER_ADAFRUIT_IO_KEY=${env:ADAFRUIT_IO_KEY}"]
+      "deviceId": "all",
     },
     {
       "name": "thermal_camera (profile mode)",
