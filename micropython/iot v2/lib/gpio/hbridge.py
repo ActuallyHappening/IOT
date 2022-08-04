@@ -7,7 +7,7 @@ from gpio import __execute__ as gpio_do
 motor1 = (15, 2)
 motor2 = (5, 18)
 motor3 = (13, 12)
-motors = (motor1, motor2, motor3)
+motors = (motor1, motor1, motor2, motor3)
 
 async def _do(tlc: str, param1: int = None, param2: int = None) -> None:
     # If param2 not exits, then motor uses param1 as motor num
