@@ -11,7 +11,7 @@ async def on(pin: int):
     led.on()
 
 async def blink(cmd: str):
-    '''Blink like "2" or "2 4", first num is pin and optional second is time in seconds'''
+    '''Blink like "2" or "2 0.5", first num is pin and optional second is time in seconds'''
     parsed = cmd.lower().split(" ")
     num = len(parsed)
     try:
@@ -24,7 +24,7 @@ async def blink(cmd: str):
         await off(pinNum)
         await asio.sleep(0.3)
     elif num == 2:
-        blinkLen = int(parsed[1])
+        blinkLen = float(parsed[1])
         await on(pinNum)
         await asio.sleep(blinkLen)
         await off(pinNum)
@@ -32,14 +32,15 @@ async def blink(cmd: str):
     else: raise ValueError(f"Invalid command: {cmd}: Too many args")
     
 async def __execute__(cmd: str):
-    parsed = cmd.lower().split(" ")
-    tlc = parsed[0]
+    parsed = cmd.split(" ") # type List[str]
+    _cmd: str = " ".join(parsed[1:])
+    tlc: str = parsed[0]
     num = len(parsed)
     if tlc == "blink":
       if num == 1:
         await blink("2 4")
       else:
-        await blink(" ".join(cmd[1:]))
+        await blink(_cmd)
     else:
       try:  
         pinNum = int(parsed[1])
