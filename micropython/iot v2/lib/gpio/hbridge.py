@@ -22,6 +22,7 @@ async def _do(tlc: str, param1: int = None, param2: int = None) -> None:
           _motor = motors[param1]
     else:
       _motor = motors[0] # implicit motor1 if not given
+    print(f"Command received: {tlc} {_motor}")
     if tlc == "forward":
         await forward(_motor)
     elif tlc == "backward":
