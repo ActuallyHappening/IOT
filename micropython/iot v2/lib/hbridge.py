@@ -6,7 +6,6 @@ try:
   import uasyncio as asio
 except:
   import asyncio as asio # type: ignore
-import gpio
 from gpio import __execute__ as gpio_do
 
 motor1 = (15, 2)
