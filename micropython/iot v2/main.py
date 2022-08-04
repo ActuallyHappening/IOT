@@ -4,4 +4,4 @@ try:
 except ImportError:
   import asyncio as asio
 
-asio.gather(do("motor step 1"))
+asio.run(do("motor step 1"))
