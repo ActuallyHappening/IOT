@@ -5,7 +5,6 @@ import wifi as networking
 import secrets
 print("AIO.py executing ...")
 
-networking.getGoodWIFI()
 
 AIO_username = secrets.get_AIO_username()
 AIO_key = secrets.get_AIO_key()
@@ -13,10 +12,10 @@ AIO_url = b'io.adafruit.com'
 
 async def __execute__(cmd: str):
   print(f"aio.py executing ... {cmd}")
+  networking.getGoodWIFI()
 
 def makeFeedName(feedName):
     return bytes(f'{str(AIO_username)}/feeds/embedded.embedded-{feedName}', 'utf-8')
-
 
 AIO_feeds = {
     "CONTROL": makeFeedName('ws-control-1'),
