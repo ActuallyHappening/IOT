@@ -1,7 +1,7 @@
 async def do(cmd: str):
     parsed = cmd.lower().split(" ")
     tlc = parsed[0]
-    _cmd = cmd[1:]
+    _cmd = " ".join(parsed[1:])
     if tlc == "ble":
         from lib.ble import __execute__ as ble
         await ble(_cmd)
