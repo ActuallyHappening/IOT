@@ -46,7 +46,7 @@ async def __execute__(cmd: str):
         try:
             motorNum = int(parsed[1])
         except ValueError as exc:
-            raise ValueError(f"Invalid motor number for cmd: {cmd}") from exc
+            raise ValueError(f"Invalid motor number for cmd: {cmd}")
         await _do(tlc, motorNum)
     elif num == 3:
         # 'forward pin1 pin2' with given pins
@@ -54,7 +54,7 @@ async def __execute__(cmd: str):
             pin1Num = int(parsed[1])
             pin2Num = int(parsed[2])
         except ValueError as exc:
-            raise ValueError(f"Invalid pin numbers for cmd: {cmd}") from exc
+            raise ValueError(f"Invalid pin numbers for cmd: {cmd}")
         await _do(tlc, pin1Num, pin2Num)
 
 async def forward(motor: "Tuple[int, int]") -> None:
