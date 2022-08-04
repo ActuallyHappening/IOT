@@ -63,6 +63,8 @@ async def execute(cmd: str):
               raise ValueError(f"Invalid forall command for second arg motor: {cmd}: Wrong arg number to motor\nUsage: forall motors forward | forall motors step 0.25")
         else:
           raise ValueError(f"Invalid tlc forall for second arg {parsed[1]}: {cmd}")
+    else:
+      await parse_processed_cmd(cmd)
 
     
 def do(*x):
