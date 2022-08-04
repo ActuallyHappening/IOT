@@ -1,4 +1,4 @@
-from .. import lib
+import lib
 
 async def do(cmd: str):
     parsed = cmd.lower().split(" ")
