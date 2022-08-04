@@ -9,10 +9,20 @@ wifi_known_passs = list(wifi_keys.values())
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 
+def __execute__(cmd: str):
+    cmd = cmd.lower()
+    if cmd == "scan":
+        print(f"Scanning for networks: {scan()}")
+    elif cmd == "connect":
+        getGoodWIFI()
+        plsConnect()
+    elif cmd == "status":
+        printStatus()
+    else:
+        print(f"Unknown command: {cmd}")
 
 def scan():
     return wlan.scan()
-
 
 def networkInScan(__scan):
     print("networkInScan: ", wifi_known_names)
