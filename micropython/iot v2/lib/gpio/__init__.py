@@ -1,9 +1,7 @@
-import machine
-import uasyncio as asio
-
-import hbridge
-
-motor = hbridge
+try: import machine
+except: print("No machine module")
+try: import uasyncio as asio
+except: import asyncio as asio # type: ignore
 
 async def off(pin: int):
     print(f"Pin {pin} off")

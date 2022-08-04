@@ -1,12 +1,9 @@
 # from typing import Tuple # micropython doesn't support typing
 try:
-    from __future__ import annotations
-except: ...
-try:
   import uasyncio as asio
 except:
   import asyncio as asio # type: ignore
-from gpio import __execute__ as gpio_do
+from .gpio import __execute__ as gpio_do
 
 motor1 = (15, 2)
 motor2 = (5, 18)
