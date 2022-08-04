@@ -4,7 +4,7 @@ except ImportError:
   import asyncio as asio # type: ignore
 
 async def execute(cmd: str):
-    parsed = cmd.lower().split(" ")
+    parsed = cmd.lower().strip().split(" ")
     tlc = parsed[0]
     _cmd = " ".join(parsed[1:])
     if tlc == "ble":
