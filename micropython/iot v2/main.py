@@ -2,7 +2,7 @@ from cmd import do
 try:
   import uasyncio as asio
 except ImportError:
-  import asyncio as asio
+  import asyncio as asio # type: ignore
 
 def main():
   do("forall motor forward")

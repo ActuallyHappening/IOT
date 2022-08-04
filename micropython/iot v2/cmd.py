@@ -51,13 +51,13 @@ async def execute(cmd: str):
                 # forall motor 1:forward
                 if motorCmd[0].startswith("step"):
                     raise ValueError(f"Invalid forall motor step command: {cmd}\nCannot step like `motor step <motorN>`")
-                for motorN in range(1, len(motors)):
+                for motorN in range(1, len(motors)-1):
                     await parse_processed_cmd(f"motor {motorCmd[0]} {motorN}")
-            if len(motorCmd) == 2:
+            elif len(motorCmd) == 2:
                 # e.g. execute('forall motors 1:step 2:<v>?'), 'step 1.5'
                 if not motorCmd[0].startswith("step"):
                     raise ValueError(f"Invalid forall motor !step command: {cmd}\nCannot forward|back|step like `motor stop <motorN> <?? argv[0] ??>`")
-                for motorN in range(1, len(motors)):
+                for motorN in range(1, len(motors)-1):
                   # step case: execute('forall motor step 10sec') => execute('motor step {motorN} 10seconds')
                     await parse_processed_cmd(f"motor step {motorN} {motorCmd[1]}")
             else:
