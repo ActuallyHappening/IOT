@@ -3,10 +3,12 @@ import uasyncio as asio
 
 
 async def off(pin: int):
+    print(f"Pin {pin} off")
     led = machine.Pin(pin, machine.Pin.OUT)
     led.off()
 
 async def on(pin: int):
+    print(f"Pin {pin} on")
     led = machine.Pin(pin, machine.Pin.OUT)
     led.on()
 
