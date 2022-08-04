@@ -8,6 +8,6 @@ constants["machine"] = {
     "TEST_BLUE": 27
 }
 
-__all__ = [
-  'aio', 'ble', 'gpio', 'wifi'
-]
+# __all__ = [
+#   'aio', 'ble', 'gpio', 'wifi', 'hbridge'
+# ]

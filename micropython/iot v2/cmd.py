@@ -7,6 +7,7 @@ async def parse_processed_cmd(cmd: str):
     parsed = cmd.lower().strip().split(" ")
     tlc = parsed[0]
     _cmd = " ".join(parsed[1:])
+    print(f"Parsing cmd: {cmd}")
     if tlc == "ble":
         from lib.ble import __execute__ as ble
         await ble(_cmd)
