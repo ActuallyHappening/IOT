@@ -4,4 +4,8 @@ try:
 except ImportError:
   import asyncio as asio
 
-do("motor step 1")
+do("forall motor forward")
+
+# do("motor forward 1")
+# do("motor forward 2")
+# do("motor forward 3")
