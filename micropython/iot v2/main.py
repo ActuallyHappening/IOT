@@ -4,8 +4,8 @@ try:
 except ImportError:
   import asyncio as asio
 
-do("forall motor forward")
-
-# do("motor forward 1")
-# do("motor forward 2")
-# do("motor forward 3")
+def main():
+  do("forall motor forward")
+  
+if __name__ == "__main__":
+  main()
