@@ -6,10 +6,13 @@ except ImportError:
 
 from lib.ble import begin
 
+def ble_received(msg):
+  do(msg)
+
 def main():
   do("forall motor stop")
-  do("ble begin")
-  begin(handler=do)
+  # do("ble begin")
+  asio.run(begin(handler=ble_received))
   
 if __name__ == "__main__":
   main()
