@@ -1,4 +1,9 @@
-async def do(cmd: str):
+try:
+  import uasyncio as asio
+except ImportError:
+  import asyncio as asio # type: ignore
+
+async def execute(cmd: str):
     parsed = cmd.lower().split(" ")
     tlc = parsed[0]
     _cmd = " ".join(parsed[1:])
@@ -19,3 +24,6 @@ async def do(cmd: str):
         await motor(_cmd)
     else:
         raise ValueError(f"Invalid tlc for cmd: {cmd}")
+
+def do(*x):
+  asio.run(execute(*x))
