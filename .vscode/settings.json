@@ -4,6 +4,8 @@
   "python.linting.flake8Enabled": false,
   "cSpell.words": [
     "capsys",
+    "forall",
+    "hbridge",
     "rprint"
   ]
 }
