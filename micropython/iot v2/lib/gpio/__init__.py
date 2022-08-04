@@ -20,13 +20,15 @@ async def blink(cmd: str):
         raise ValueError(f"Invalid pin number for cmd: {cmd}") from exc
     if num == 1:
         await on(pinNum)
-        await asio.sleep(2)
+        await asio.sleep(0.3)
         await off(pinNum)
+        await asio.sleep(0.3)
     elif num == 2:
         blinkLen = int(parsed[1])
         await on(pinNum)
         await asio.sleep(blinkLen)
         await off(pinNum)
+        await asio.sleep(blinkLen)
     else: raise ValueError(f"Invalid command: {cmd}: Too many args")
     
 async def __execute__(cmd: str):
