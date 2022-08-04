@@ -9,7 +9,6 @@ motor2 = (5, 18)
 motors = (motor1, motor2)
 
 async def _do(tlc: str, param1: int = None, param2: int = None) -> None:
-  
     # If param2 not exits, then motor uses param1 as motor num
     # If param2 exists, then motor is (param1, param2)
     _motor = None # type Tuple[int, int]| None
@@ -41,7 +40,7 @@ async def __execute__(cmd: str):
     num = len(parsed)
     if num == 1:
         # 'forward' with implicit motor = 1st
-        await _do(tlc, int(parsed[1]))
+        await _do(tlc)
     elif num == 2:
         # 'forward 2' with explicit motor = nth
         try:
