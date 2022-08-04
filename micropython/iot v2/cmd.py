@@ -38,6 +38,7 @@ async def execute(cmd: str):
             from lib.gpio.hbridge import motors
             
             motorCmd = parsed[2:] # forward <n> <n> <v?>
+            print(f"Forall motor: {' '.join(motorCmd)}")
             
             # 0 forall motor forward
             # 1 forall motor forward  2
@@ -46,19 +47,20 @@ async def execute(cmd: str):
             # 2 forall motor forward  69  42  <pin1> <pin2>
             
             if len(motorCmd) == 1:
-                
-                for motor in motors:
-                    await parse_processed_cmd(f"motor {motorCmd[1]} {motor}") 
+                # forall motor 1:forward
+                if motorCmd[0].startswith("step"):
+                    raise ValueError(f"Invalid forall motor step command: {cmd}\nCannot step like `motor step <motorN>`")
+                for motorN in range(1, len(motors) + 1):
+                    await parse_processed_cmd(f"motor {motorCmd[0]} {motorN}")
             if len(motorCmd) == 2:
-                # e.g. execute('forall motors backward')
+                # e.g. execute('forall motors 1:step 2:<v>?'), 'step 1.5'
+                if not motorCmd[0].startswith("step"):
+                    raise ValueError(f"Invalid forall motor !step command: {cmd}\nCannot forward|back|step like `motor stop <motorN> <?? argv[0] ??>`")
                 for motor in motors:
-                    await parse_processed_cmd(f"motor {motorCmd[1]} {motor}")
-            elif len(motorCmd) == 4:
-                # e.g. execute('forall motor step 10')
-                for motor in motors:
-                    await parse_processed_cmd(f"motor {motorCmd[1]} {motorCmd[2]} {motor}")
+                  # step case: execute('forall motor step 10sec') => execute('motor step {motorN} 10seconds')
+                    await parse_processed_cmd(f"motor step {motor} {motorCmd[1]}")
             else:
-              raise ValueError(f"Invalid forall command for second arg motor: {cmd}: Wrong arg number to motor\nUsage: forall motors forward | forall motors step 10")
+              raise ValueError(f"Invalid forall command for second arg motor: {cmd}: Wrong arg number to motor\nUsage: forall motors forward | forall motors step 0.25")
         else:
           raise ValueError(f"Invalid tlc forall for second arg {parsed[1]}: {cmd}")
 
