@@ -1,7 +1,7 @@
 from umqtt.robust import MQTTClient
 import sys
 
-import networking
+import wifi as networking
 import secrets
 print("AIO.py executing ...")
 

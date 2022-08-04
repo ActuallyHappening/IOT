@@ -7,3 +7,7 @@ constants["machine"] = {
     "TEST_GREEN": 14,
     "TEST_BLUE": 27
 }
+
+__all__ = [
+  'aio', 'ble', 'gpio', 'wifi'
+]
