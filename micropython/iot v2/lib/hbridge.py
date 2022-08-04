@@ -2,8 +2,10 @@
 try:
     from __future__ import annotations
 except: ...
-import machine
-import uasyncio as asio
+try:
+  import uasyncio as asio
+except:
+  import asyncio as asio # type: ignore
 import gpio
 from gpio import __execute__ as gpio_do
 

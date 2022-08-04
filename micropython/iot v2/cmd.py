@@ -20,7 +20,7 @@ async def parse_processed_cmd(cmd: str):
         from lib.gpio import __execute__ as gpio
         await gpio(_cmd)
     elif tlc.startswith("motor"):
-        from lib.gpio.hbridge import __execute__ as motor
+        from lib.hbridge import __execute__ as motor
         await motor(_cmd)
     else:
         raise ValueError(f"Invalid tlc for cmd: {cmd}")
@@ -35,7 +35,7 @@ async def execute(cmd: str):
         if parsed[1].startswith("motor"):
             # e.g. execute('forall motors forward') or execute('forall motor step 10')
             # This is implementation aware! Not a good design practice!
-            from lib.gpio.hbridge import motors
+            from lib.hbridge import motors
             
             motorCmd = parsed[2:] # forward <n> <n> <v?>
             print(f"Forall motor: {' '.join(motorCmd)}")

@@ -1,6 +1,9 @@
 import machine
 import uasyncio as asio
 
+import hbridge
+
+motor = hbridge
 
 async def off(pin: int):
     print(f"Pin {pin} off")
