@@ -11,6 +11,8 @@ AIO_username = secrets.get_AIO_username()
 AIO_key = secrets.get_AIO_key()
 AIO_url = b'io.adafruit.com'
 
+async def __execute__(cmd: str):
+  print(f"aio.py executing ... {cmd}")
 
 def makeFeedName(feedName):
     return bytes(f'{str(AIO_username)}/feeds/embedded.embedded-{feedName}', 'utf-8')
