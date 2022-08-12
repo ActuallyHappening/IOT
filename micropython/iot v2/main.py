@@ -1,4 +1,5 @@
 from cmd import do
+import time
 try:
   import uasyncio as asio
 except ImportError:
@@ -32,11 +33,11 @@ def ble_received(msg):
   else:
     post("2")
 
-async def ping_status():
+def ping_status():
   while True:
-    dualLog("Regular Pinging ...", True)
+    dualLog("Regular Pinging ...", False)
     post("5")
-    await asio.sleep(8)
+    time.sleep(8)
 
 def main():
   # do("forall motor stop")
@@ -46,7 +47,7 @@ def main():
     
     asio.run(begin(handler=ble_received))
     
-    asio.run(ping_status()) # blocking
+    ping_status() # blocking
     
     dualLog("Finished ping ...", True)
     post("4")
