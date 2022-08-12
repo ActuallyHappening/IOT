@@ -46,7 +46,7 @@ def main():
     
     asio.run(begin(handler=ble_received))
     
-    asio.run(ping_status()) # blocking
+    # asio.run(ping_status()) # blocking
     
     dualLog("Finished ping ...", True)
     send("4")
