@@ -4,7 +4,7 @@ try:
 except ImportError:
   import asyncio as asio # type: ignore
 
-from lib.ble import begin, dualLog, send
+from lib.ble import begin, dualLog, post
 
 """
 Possible codes that AIO expects:
@@ -27,15 +27,15 @@ def ble_received(msg):
     do(msg)
   except Exception as e:
     dualLog(f"Exception caught on callback level: {e}", True)
-    send("100")
+    post("100")
     raise e
   else:
-    send("2")
+    post("2")
 
 async def ping_status():
   while True:
     dualLog("Regular Pinging ...", True)
-    send("5")
+    post("5")
     await asio.sleep(8)
 
 def main():
@@ -46,13 +46,13 @@ def main():
     
     asio.run(begin(handler=ble_received))
     
-    # asio.run(ping_status()) # blocking
+    asio.run(ping_status()) # blocking
     
     dualLog("Finished ping ...", True)
-    send("4")
+    post("4")
   except Exception as e:
     dualLog(f"!!! Exiting ... {e}", True)
-    send("0")
+    post("0")
     raise e
   
 if __name__ == "__main__":

@@ -1,4 +1,6 @@
 from blelib import ble_uart_peripheral as ble_DO
+try: import asyncio as asio
+except ImportError: import uasyncio as asio # type: ignore
 
 __uart = None
 _uart_buffer = "";
@@ -47,6 +49,9 @@ async def send(msg=..., *, __constructor__=..., logger=dualLog, **kwargs):
         await begin(logger=logger)
         __implicitRetry = True
         await send(msg, logger=logger, **kwargs)
+
+def post(msg=""):
+    asio.run(send(msg))
 
 async def begin(*, logger=dualLog, handler=_bluetoothCallback, **kwargs):
     """Function to register handler callback to ble messages"""
