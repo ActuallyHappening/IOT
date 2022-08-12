@@ -49,6 +49,7 @@ async def send(msg=..., *, __constructor__=..., logger=dualLog, **kwargs):
         await send(msg, logger=logger, **kwargs)
 
 async def begin(*, logger=dualLog, handler=_bluetoothCallback, **kwargs):
+    """Function to register handler callback to ble messages"""
     global __uart
     logger("$> <ble.py> Beginning ...")
 

@@ -42,11 +42,16 @@ def main():
   do("forall motor stop")
   # do("ble begin") # Can't do this, as handler callback needs to be passed in
   try:
-    asio.gather(begin(handler=ble_received), ping_status())
+    dualLog("Starting BLE ...", True)
+    
+    begin(handler=ble_received)
+    
+    asio.run(ping_status()) # blocking
+    
     dualLog("Finished ping ...", True)
     send("4")
-  except KeyboardInterrupt:
-    dualLog("Exiting ...", True)
+  except Exception as e:
+    dualLog(f"Exiting ... {e}", True)
     send("0")
   
 if __name__ == "__main__":
