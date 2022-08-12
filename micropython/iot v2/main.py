@@ -39,7 +39,7 @@ async def ping_status():
     await asio.sleep(8)
 
 def main():
-  do("forall motor stop")
+  # do("forall motor stop")
   # do("ble begin") # Can't do this, as handler callback needs to be passed in
   try:
     dualLog("Starting BLE ...", True)
@@ -56,4 +56,5 @@ def main():
     raise e
   
 if __name__ == "__main__":
+  print("Executing main.py as __main__ ...")
   main()
