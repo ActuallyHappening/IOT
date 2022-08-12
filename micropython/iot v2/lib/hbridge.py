@@ -117,6 +117,11 @@ async def stop(motor: "Tuple[int, int]") -> None:
     await gpio_do(f"off {motor[1]}")
 
 async def step(motor: "Tuple[int, int]", time: float = 1) -> None:
-    await forward(motor)
-    await asio.sleep(time)
-    await stop(motor)
+    if time > 0:
+      await forward(motor)
+      await asio.sleep(time)
+      await stop(motor)
+    else:
+      await backward(motor)
+      await asio.sleep(-time)
+      await stop(motor)
