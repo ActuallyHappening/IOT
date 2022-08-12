@@ -44,15 +44,16 @@ def main():
   try:
     dualLog("Starting BLE ...", True)
     
-    begin(handler=ble_received)
+    asio.run(begin(handler=ble_received))
     
     asio.run(ping_status()) # blocking
     
     dualLog("Finished ping ...", True)
     send("4")
   except Exception as e:
-    dualLog(f"Exiting ... {e}", True)
+    dualLog(f"!!! Exiting ... {e}", True)
     send("0")
+    raise e
   
 if __name__ == "__main__":
   main()
