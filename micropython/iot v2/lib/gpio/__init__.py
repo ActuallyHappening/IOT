@@ -1,5 +1,5 @@
 try: import machine
-except: print("No machine module")
+except: print("No machine module: Probably not running on ESP32")
 try: import uasyncio as asio
 except: import asyncio as asio # type: ignore
 

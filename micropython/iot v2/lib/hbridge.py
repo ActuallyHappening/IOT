@@ -5,7 +5,7 @@ except:
   import asyncio as asio # type: ignore
 from .gpio import __execute__ as gpio_do
 
-motor1 = (15, 2)
+motor1 = (15, 4)
 motor2 = (5, 18)
 motor3 = (13, 12)
 motors = (motor1, motor1, motor2, motor3) # 0 index is implicit motor
