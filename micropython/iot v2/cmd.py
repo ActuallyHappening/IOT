@@ -28,6 +28,7 @@ async def parse_processed_cmd(cmd: str):
 
 async def execute(cmd: str):
     # Check for 'for' loops:
+    if cmd == "": raise ValueError("Empty cmd: required param")
     parsed = cmd.strip().lower().split(" ")
     tlc = parsed[0]
     if tlc == "forall":
