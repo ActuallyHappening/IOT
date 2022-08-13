@@ -1,62 +1,27 @@
-import 'dart:async';
-import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/rendering.dart';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:thermal_camera/AIO/AIORenderer.dart';
-
-import 'AIO/AIO.dart' as AIO;
-
-Future main() async {
-  await dotenv.load(fileName: ".env");
+void main() {
+  debugPrint("Running!");
+  debugPaintSizeEnabled = true;
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Future<AIO.ThermalStream> currentStream;
-
-  @override
-  void initState() {
-    super.initState();
-    currentStream = AIO.fetchStream();
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Fetch Data Example'),
-        ),
-        body: Center(
-          child: FutureBuilder<AIO.ThermalStream>(
-            future: currentStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return createFromParsedStream(stream: snapshot.data!.parse());
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-
-              // By default, show a loading spinner.
-              return const CircularProgressIndicator();
-            },
+    return CupertinoApp(
+        title: 'Learning',
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Learning'),
           ),
-        ),
-      ),
-    );
+          body: const Center(
+            child: Text('Hello World'),
+          ),
+        ));
   }
 }

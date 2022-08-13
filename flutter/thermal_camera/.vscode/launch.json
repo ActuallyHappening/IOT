@@ -8,7 +8,7 @@
       "name": "thermal_camera",
       "request": "launch",
       "type": "dart",
-      "deviceId": "all",
+      // "deviceId": "web",
     },
     {
       "name": "thermal_camera (profile mode)",

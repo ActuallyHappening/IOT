@@ -1,10 +1,11 @@
 from cmd import do
+import time
 try:
   import uasyncio as asio
 except ImportError:
   import asyncio as asio # type: ignore
 
-from lib.ble import begin, dualLog, send
+from lib.ble import begin, dualLog, post
 
 """
 Possible codes that AIO expects:
@@ -27,27 +28,34 @@ def ble_received(msg):
     do(msg)
   except Exception as e:
     dualLog(f"Exception caught on callback level: {e}", True)
-    send("100")
+    post("100")
     raise e
   else:
-    send("2")
+    post("2")
 
-async def ping_status():
+def ping_status():
   while True:
-    dualLog("Regular Pinging ...", True)
-    send("5")
-    await asio.sleep(8)
+    dualLog("Regular Pinging ...", False)
+    post("5")
+    time.sleep(8)
 
 def main():
-  do("forall motor stop")
+  # do("forall motor stop")
   # do("ble begin") # Can't do this, as handler callback needs to be passed in
   try:
-    asio.gather(begin(handler=ble_received), ping_status())
+    dualLog("Starting BLE ...", True)
+    
+    asio.run(begin(handler=ble_received))
+    
+    ping_status() # blocking
+    
     dualLog("Finished ping ...", True)
-    send("4")
-  except KeyboardInterrupt:
-    dualLog("Exiting ...", True)
-    send("0")
+    post("4")
+  except Exception as e:
+    dualLog(f"!!! Exiting ... {e}", True)
+    post("0")
+    raise e
   
 if __name__ == "__main__":
+  print("Executing main.py as __main__ ...")
   main()
