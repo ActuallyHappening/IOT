@@ -24,7 +24,11 @@ class MyApp extends StatelessWidget {
           ),
           const Center(child: Text("Yay!")),
           CachedNetworkImage(
+<<<<<<< HEAD
             imageUrl: "http://via.placeholder.com/350",
+=======
+            imageUrl: "http://via.placeholder.com/350x150",
+>>>>>>> ef5bf8b3f2060c35639e9d4cc5810ec59203b1b2
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
             errorWidget: (context, url, error) => const Icon(Icons.error),
