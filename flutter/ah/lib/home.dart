@@ -1,3 +1,5 @@
+import 'package:ah/routing.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,16 +22,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ListTile _generateDrawerOption(
       {required String title, required IconData icon}) {
-    final routeName = _routeNames[title];
-    if (routeName == null) {
-      throw Exception("No route name for $title");
-    }
+    final routeName = MyRouting.toRoute(title);
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
       subtitle: Text("Go to $title"),
       onTap: () {
-        print("Going to $routeName");
+        debugPrint("Going to $routeName");
         Navigator.pushNamed(context, routeName);
       },
     );

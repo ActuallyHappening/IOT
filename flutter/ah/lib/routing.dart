@@ -9,6 +9,7 @@ class MyRouting {
     '/settings': (context) => const settings_route(),
     '/signin': (context) => const aio_signIn_route(),
   };
+  static const String initialRoute = '/';
 
   static String toRoute(String name) {
     return commonRouteNames.keys.firstWhere(
