@@ -2,16 +2,16 @@ import 'package:ah/routing.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomeRoute extends StatefulWidget {
+  const HomeRoute({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeRoute> createState() => _HomeRouteState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeRouteState extends State<HomeRoute> {
   int _counter = 0;
 
   void _incrementCounter() {
