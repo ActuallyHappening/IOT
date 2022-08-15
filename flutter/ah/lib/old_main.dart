@@ -14,28 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TouchBarPopover popover = TouchBarPopover(
-      items: [
-        TouchBarButton(
-          label: 'Settings',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => settings_route()),
-            );
-          },
-        ),
-        TouchBarButton(
-          label: 'About',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => about_route()),
-            );
-          },
-        ),
-      ],
-    );
+    
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
