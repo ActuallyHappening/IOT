@@ -70,12 +70,18 @@ class _HomeRouteState extends State<HomeRoute> {
         child: const Icon(Icons.add),
       ),
       drawer: Drawer(
-        child: ListWheelScrollView(
-          itemExtent: 30,
+        child: ListView(
+          // itemExtent: 65,
           children: [
             _generateDrawerOption(title: 'Home', icon: Icons.home),
             _generateDrawerOption(title: 'Sign In', icon: Icons.account_circle),
             _generateDrawerOption(title: 'Settings', icon: Icons.settings),
+            // FloatingActionButton(
+            //     onPressed: () {
+            //       debugPrint("Pressed!");
+            //       Navigator.pushNamed(context, '/settings');
+            //     },
+            //     child: const Text("YAY!"))
           ],
         ),
       ),

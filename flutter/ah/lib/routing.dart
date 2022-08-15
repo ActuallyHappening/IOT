@@ -14,9 +14,9 @@ class MyRouting {
 
   static String toRoute(String name) {
     print("toRoute: $name");
-    return commonRouteNames.keys.firstWhere(
+    return commonRouteNames[commonRouteNames.keys.firstWhere(
         (commonName) => name.toLowerCase() == commonName.toLowerCase(),
-        orElse: () => throw Exception('No route found for $name'));
+        orElse: () => throw Exception('No route found for $name'))] as String;
   }
 
   static final Map<String, String> commonRouteNames = {

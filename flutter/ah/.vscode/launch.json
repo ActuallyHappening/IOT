@@ -11,6 +11,30 @@
       // "deviceId": "all",
     },
     {
+      "name": "macOS",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "macOS",
+    },
+    {
+      "name": "chrome",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "chrome",
+    },
+    {
+      "name": "iPad",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "86",
+    },
+    {
+      "name": "OPPO",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "NN",
+    },
+    {
       "name": "ah (profile mode)",
       "request": "launch",
       "type": "dart",
@@ -21,6 +45,14 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "COOL hot reloading!",
+      "configurations": [
+        "iPad", "OPPO", "macOS", "chrome"
+      ]
     }
   ]
 }
