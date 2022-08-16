@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:menubar/menubar.dart';
 import 'package:touch_bar/touch_bar.dart';
 
-class settings_route extends StatefulWidget {
-  const settings_route({Key? key}) : super(key: key);
+class SettingsRoute extends StatefulWidget {
+  const SettingsRoute({Key? key}) : super(key: key);
 
   @override
-  State<settings_route> createState() => _settings_routeState();
+  State<SettingsRoute> createState() => _SettingsRouteState();
 }
 
-class _settings_routeState extends State<settings_route> {
-  Future<void> asyncStuffHere() async {
+class _SettingsRouteState extends State<SettingsRoute> {
+  Future<void> touchBarAsync() async {
     final settingsIcon =
         await TouchBarImage.loadFrom(path: 'icons/settings.png');
 
@@ -26,10 +27,27 @@ class _settings_routeState extends State<settings_route> {
     setTouchBar(bar);
   }
 
+  menuBarAsync() {
+    setApplicationMenu([
+      NativeSubmenu(label: 'TEST submenu', children: [
+        NativeMenuItem(
+            label: 'test item',
+            onSelected: () {
+              print('test item clicked');
+            }),
+        NativeMenuItem(
+            label: 'test item 2',
+            onSelected: () {
+              print('test item 2 clicked');
+            }),
+      ]),
+    ]);
+  }
+
   @override
   void initState() {
     super.initState();
-    asyncStuffHere();
+    touchBarAsync();
   }
 
   @override
