@@ -122,6 +122,7 @@ async def step(motor: "Tuple[int, int]", time: float = 1) -> None:
       await asio.sleep(time)
       await stop(motor)
     else:
+      time = abs(time)
       await backward(motor)
-      await asio.sleep(-time)
+      await asio.sleep(time)
       await stop(motor)
