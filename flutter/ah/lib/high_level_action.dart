@@ -1,3 +1,5 @@
+// Eventually implement the touchbar and menuitem stuff in here
+
 class HighLevelAction {
   final String name;
   final String description;
