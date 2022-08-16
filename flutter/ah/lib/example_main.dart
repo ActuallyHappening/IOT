@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:touch_bar/touch_bar.dart';
 
 void main() {
+  print("Running cool touchbar example");
+
   runApp(MyApp());
 }
 
@@ -230,7 +232,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    loadAsyncData();
+    try {
+      setTouchBar(TouchBar(
+          children: [TouchBarLabel('Testing if touch bar exists ...')]));
+    } catch (e) {
+      print("YAY the touch bar not-working has been detected! $e");
+    }
+    // loadAsyncData();
   }
 
   void loadAsyncData() async {
