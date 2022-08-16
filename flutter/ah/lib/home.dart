@@ -2,10 +2,9 @@ import 'package:ah/routing.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
+const String title = "Actually Happening Portal Home";
 class HomeRoute extends StatefulWidget {
-  const HomeRoute({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const HomeRoute({super.key});
 
   @override
   State<HomeRoute> createState() => _HomeRouteState();
@@ -38,7 +37,7 @@ class _HomeRouteState extends State<HomeRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text(title),
       ),
       body: Center(
         child: Column(
@@ -71,17 +70,10 @@ class _HomeRouteState extends State<HomeRoute> {
       ),
       drawer: Drawer(
         child: ListView(
-          // itemExtent: 65,
           children: [
             _generateDrawerOption(title: 'Home', icon: Icons.home),
             _generateDrawerOption(title: 'Sign In', icon: Icons.account_circle),
             _generateDrawerOption(title: 'Settings', icon: Icons.settings),
-            // FloatingActionButton(
-            //     onPressed: () {
-            //       debugPrint("Pressed!");
-            //       Navigator.pushNamed(context, '/settings');
-            //     },
-            //     child: const Text("YAY!"))
           ],
         ),
       ),

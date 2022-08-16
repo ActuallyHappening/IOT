@@ -6,7 +6,7 @@ import 'aio_sign_in.dart';
 
 class MyRouting {
   static final Map<String, Widget Function(BuildContext)> routes = {
-    '/': (context) => const HomeRoute(title: "Actually Happening Portal"),
+    '/': (context) => const HomeRoute(),
     '/settings': (context) => const SettingsRoute(),
     '/signin': (context) => const AIOSignInRoute(),
   };
