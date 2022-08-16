@@ -1,16 +1,13 @@
 import 'package:ah/routing.dart';
 import 'package:flutter/material.dart';
-import 'package:touch_bar/touch_bar.dart';
 
 void main() async {
-  print("Starting ...");
-  final TouchBarImage icon =
-      await TouchBarImage.loadFrom(path: 'assets/icon.png');
-  runApp(MyApp(icon: icon));
+  debugPrint("Starting ...");
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required TouchBarImage icon}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
