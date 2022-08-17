@@ -30,7 +30,7 @@ async def _do(tlc: str, *, p1: int = motors[0][0], p2: int = motors[0][1], v: fl
       raise ValueError(f"Invalid tlc cmd: {tlc}")
 
 def _get_motor(motorN: int, cmd: str = "<unknown cmd>") -> "Tuple[int, int]":
-    if motorN < 0 or motorN > len(motors)-1:
+    if motorN < 1 or motorN > len(motors):
         raise ValueError(f"Unknown motor for motorN for cmd (motor) int({motorN}): {cmd}")
     return motors[motorN-1]
 
