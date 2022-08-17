@@ -8,7 +8,7 @@ from .gpio import __execute__ as gpio_do
 motor1 = (15, 4)
 motor2 = (5, 18)
 motor3 = (13, 12)
-motors = (motor1, motor1, motor2, motor3) # 0 index is implicit motor
+motors = (motor1, motor2, motor3) # 0 index is implicit motor
 
 async def _do(tlc: str, *, p1: int = motors[0][0], p2: int = motors[0][1], v: float = 0.5) -> None:
     """Executes a motor command, tlc = 'forward' | 'backward' | 'step' | 'stop'
@@ -30,9 +30,9 @@ async def _do(tlc: str, *, p1: int = motors[0][0], p2: int = motors[0][1], v: fl
       raise ValueError(f"Invalid tlc cmd: {tlc}")
 
 def _get_motor(motorN: int, cmd: str = "<unknown cmd>") -> "Tuple[int, int]":
-    if motorN < 1 or motorN > len(motors):
+    if motorN < 0 or motorN > len(motors)-1:
         raise ValueError(f"Unknown motor for motorN for cmd (motor) int({motorN}): {cmd}")
-    return motors[motorN]
+    return motors[motorN-1]
 
 def _get_motor_num(motorN: str, cmd: str = "<unknown cmd>") -> int:
     try:
