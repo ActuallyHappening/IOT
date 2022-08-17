@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 
 void main() async {
   debugPrint("Starting ...");
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
+
+  final MyRouting _route = MyRouting(routes: defaultRoutes);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      initialRoute: MyRouting.initialRoute,
-      routes: MyRouting.routes,
+      initialRoute: _route.initialRoute,
+      routes: _route.routes,
     );
   }
 }

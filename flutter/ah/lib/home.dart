@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 const String title = "Actually Happening Portal Home";
+
 class HomeRoute extends StatefulWidget {
   const HomeRoute({super.key});
 
@@ -12,6 +13,15 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   int _counter = 0;
+  final MyRouting _routing = MyRouting(routes: defaultRoutes);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _routing.registerAsync(context);
+    return;
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -21,7 +31,7 @@ class _HomeRouteState extends State<HomeRoute> {
 
   ListTile _generateDrawerOption(
       {required String title, required IconData icon}) {
-    final routeName = MyRouting.toRoute(title);
+    final routeName = _routing.toRoute(title);
     return ListTile(
       leading: Icon(icon),
       title: Text(title),

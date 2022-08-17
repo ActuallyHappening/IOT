@@ -8,31 +8,41 @@ import 'package:touch_bar/touch_bar.dart';
 
 import 'aio_sign_in.dart';
 
-class MyRouting {
-  static final Map<String, Widget Function(BuildContext)> routes = {
-    '/': (context) => const HomeRoute(),
-    '/settings': (context) => const SettingsRoute(),
-    '/signin': (context) => const AIOSignInRoute(),
-  };
-  static const String initialRoute = '/';
+final Map<String, Widget Function(BuildContext)> defaultRoutes = {
+  '/': (context) => const HomeRoute(),
+  '/settings': (context) => const SettingsRoute(),
+  '/signin': (context) => const AIOSignInRoute(),
+};
 
-  static String toRoute(String name) {
+const Map<String, String> _commonRouteNames = {
+  "Sign In": "/signin",
+  "Settings": "/settings",
+  "Home": "/",
+};
+
+class MyRouting extends ChangeNotifier {
+  MyRouting({
+    required this.routes,
+    this.commonRouteNames = _commonRouteNames,
+    this.initialRoute = '/',
+  });
+
+  final Map<String, Widget Function(BuildContext)> routes;
+  final Map<String, String> commonRouteNames;
+  final String initialRoute;
+
+  String toRoute(String name) {
     debugPrint("toRoute: $name");
     return commonRouteNames[commonRouteNames.keys.firstWhere(
         (commonName) => name.toLowerCase() == commonName.toLowerCase(),
         orElse: () => throw Exception('No route found for $name'))] as String;
   }
 
-  static const Map<String, String> commonRouteNames = {
-    "Sign In": "/signin",
-    "Settings": "/settings",
-    "Home": "/",
-  };
-
-  final asyncRegisterhighLevelActions = (BuildContext context) async {
-    if (Platform.isMacOS) {
+  void registerAsync(BuildContext context) async {
+    commonRouteNames;
+    if (Platform.isMacOS | Platform.isLinux | Platform.isWindows) {
       debugPrint(
-          "Yay, we're on macOS; registering touch_bar actions and menu items");
+          "Yay, we're on menubar supporting platform; registering menubar actions and menu items");
 
       final TouchBar touchBar;
       List<TouchBarItem> touchBarItems = [];
@@ -41,7 +51,7 @@ class MyRouting {
       final List<NativeMenuItem> menuItems = [];
 
       commonRouteNames.forEach((name, route) {
-        debugPrint("  $name -> $route");
+        debugPrint("  Rigging $name -> $route");
         touchBarItems.add(TouchBarButton(
           label: name,
           onClick: () {
@@ -59,8 +69,11 @@ class MyRouting {
       touchBar = TouchBar(children: touchBarItems);
       menu = NativeSubmenu(label: "Screens", children: menuItems);
 
-      setTouchBar(touchBar);
+      if (Platform.isMacOS) {
+        debugPrint("Registering touch bar for macOS ...");
+        setTouchBar(touchBar);
+      }
       setApplicationMenu([menu]);
     }
-  };
+  }
 }
