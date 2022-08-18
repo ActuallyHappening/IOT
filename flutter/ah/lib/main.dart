@@ -3,13 +3,24 @@ import 'package:flutter/material.dart';
 
 void main() async {
   debugPrint("Starting ...");
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final MyRouting _route = MyRouting(routes: defaultRoutes);
+
+  @override
+  void initState() {
+    super.initState();
+    // _route.registerAsync(context);
+  }
 
   @override
   Widget build(BuildContext context) {

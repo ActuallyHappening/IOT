@@ -17,7 +17,6 @@ class _HomeRouteState extends State<HomeRoute> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _routing.registerAsync(context);
     return;
@@ -37,8 +36,7 @@ class _HomeRouteState extends State<HomeRoute> {
       title: Text(title),
       subtitle: Text("Go to $title"),
       onTap: () {
-        debugPrint("Going to $routeName");
-        Navigator.pushNamed(context, routeName);
+        _routing.to(context, routeName);
       },
     );
   }

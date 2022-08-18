@@ -32,10 +32,25 @@ class MyRouting extends ChangeNotifier {
   final String initialRoute;
 
   String toRoute(String name) {
-    debugPrint("toRoute: $name");
     return commonRouteNames[commonRouteNames.keys.firstWhere(
         (commonName) => name.toLowerCase() == commonName.toLowerCase(),
         orElse: () => throw Exception('No route found for $name'))] as String;
+  }
+
+  /// Navigates to the specified route by either [name] or [route].
+  void to(BuildContext context, {String? name, String? route}) {
+    assert(name != null || route != null);
+    assert(!(name == null && route == null));
+    final String routeName;
+    if (name != null) {
+      routeName = toRoute(name);
+    } else if (route != null) {
+      routeName = route;
+    } else {
+      throw Exception('No usable option found for name $name and route $route');
+    }
+    debugPrint("to: $routeName");
+    Navigator.restorablePushNamed(context, routeName);
   }
 
   void registerAsync(BuildContext context) async {
@@ -44,35 +59,53 @@ class MyRouting extends ChangeNotifier {
       debugPrint(
           "Yay, we're on menubar supporting platform; registering menubar actions and menu items");
 
-      final TouchBar touchBar;
-      List<TouchBarItem> touchBarItems = [];
+      final TouchBar tb;
+      List<TouchBarScrubberItem> tbRouteButtons = [];
+      TouchBarScrubber tbRouteScrubber;
 
       final NativeSubmenu menu;
-      final List<NativeMenuItem> menuItems = [];
+      final List<NativeMenuItem> mRouteButtons = [];
 
       commonRouteNames.forEach((name, route) {
         debugPrint("  Rigging $name -> $route");
-        touchBarItems.add(TouchBarButton(
-          label: name,
-          onClick: () { 
-            Navigator.pushNamed(context, route);
-          },
-          backgroundColor: const Color(0xFF0000FF),
+        tbRouteButtons.add(TouchBarScrubberLabel(
+          name,
         ));
-        menuItems.add(NativeMenuItem(
+        mRouteButtons.add(NativeMenuItem(
           label: name,
           onSelected: () {
-            Navigator.pushNamed(context, route);
+            to(context, name);
           },
         ));
       });
 
-      touchBar = TouchBar(children: touchBarItems);
-      menu = NativeSubmenu(label: "Screens", children: menuItems);
+      tbRouteScrubber = TouchBarScrubber(
+        children: tbRouteButtons,
+        mode: ScrubberMode.fixed,
+        selectedStyle: ScrubberSelectionStyle.roundedBackground,
+        overlayStyle: ScrubberSelectionStyle.outlineOverlay,
+        onSelect: (itemIndex) {
+          debugPrint("  Scrubber selected $itemIndex");
+          to(context, toRoute(commonRouteNames.keys.elementAt(itemIndex)));
+        },
+        onHighlight: (itemIndex) {
+          debugPrint(
+              "Highlighted ${commonRouteNames.keys.elementAt(itemIndex)}");
+        },
+      );
+
+      tb = TouchBar(children: [
+        TouchBarPopover(
+          label: 'Routes',
+          children: [tbRouteScrubber],
+          showCloseButton: true,
+        )
+      ]);
+      menu = NativeSubmenu(label: "Screens", children: mRouteButtons);
 
       if (Platform.isMacOS) {
         debugPrint("Registering touch bar for macOS ...");
-        setTouchBar(touchBar);
+        setTouchBar(tb);
       }
       setApplicationMenu([menu]);
     }
