@@ -81,7 +81,11 @@ class MyRouting extends ChangeNotifier {
         return;
       }
       debugPrint("() Popping until home page, can pop");
-      Navigator.popUntil(context, ModalRoute.withName(initialRoute));
+      // Navigator.popUntil(context, ModalRoute.withName(initialRoute));
+      // Removes old routing widgets from history
+      Navigator.pushNamedAndRemoveUntil(
+          context, routeName, (Route<dynamic> route) => false);
+      return;
     }
     Navigator.restorablePushNamed(context, routeName);
   }

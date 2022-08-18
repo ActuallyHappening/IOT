@@ -13,6 +13,18 @@ import 'routing.dart';
 class HighLevelAction {
   HighLevelAction({required this.tb, required this.menu});
 
+  static HighLevelAction make() {
+    return HighLevelAction(
+        tb: TouchBarButton(),
+        menu: NativeSubmenu(label: 'Home', children: [
+          NativeMenuItem(
+              label: 'Home',
+              onSelected: () {
+                //
+              })
+        ]));
+  }
+
   /// Can contain a [TouchBarPopover] which has a [TouchBarScrubber]
   final AbstractTouchBarItem tb;
 
@@ -27,15 +39,34 @@ void initHighLevel(BuildContext context,
     {List<HighLevelAction>? actions = const [], bool useDefault = true}) async {
   final TouchBar tb;
   final List<NativeSubmenu> menu;
+
   // ignore: no_leading_underscores_for_local_identifiers
-  final List<HighLevelAction> _actions = actions ?? [];
+  List<HighLevelAction> _actions; // actions after defaults are loaded if needed
+  _actions = [];
+  _actions.addAll([
+    HighLevelAction(
+        tb: TouchBarButton(),
+        menu: NativeSubmenu(label: 'Home', children: [
+          NativeMenuItem(
+              label: 'Home',
+              onSelected: () {
+                //
+              })
+        ]))
+  ]);
   if (actions == null) {
     /// Set [useDefault] to true and instantiate [_actions] with empty list
-    useDefault = true;
+    _actions = [];
+  } else {
+    _actions = actions;
   }
   if (useDefault) {
-    _actions.addAll(await MyRouting().getHighLevelActions(context));
+    // Load defaults from MyRouting
+    final defaults = await MyRouting().getHighLevelActions(context);
+    _actions = _actions.toList();
+    _actions.addAll(defaults);
   }
+
   if (Platform.isMacOS) {
     debugPrint("Registering touch bar for macOS ...");
     tb = TouchBar(
