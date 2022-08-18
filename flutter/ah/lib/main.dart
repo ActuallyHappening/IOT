@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final MyRouting _route = MyRouting(routes: defaultRoutes);
+  final MyRouting _routing = MyRouting();
 
   @override
   void initState() {
@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      initialRoute: _route.initialRoute,
-      routes: _route.routes,
+      initialRoute: _routing.initialRoute,
+      routes: _routing.routes,
     );
   }
 }

@@ -13,12 +13,12 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   int _counter = 0;
-  final MyRouting _routing = MyRouting(routes: defaultRoutes);
+  final MyRouting _routing = MyRouting();
 
   @override
   void initState() {
     super.initState();
-    _routing.registerAsync(context);
+    // _routing.registerAsync(context);
     return;
   }
 
@@ -30,13 +30,12 @@ class _HomeRouteState extends State<HomeRoute> {
 
   ListTile _generateDrawerOption(
       {required String title, required IconData icon}) {
-    final routeName = _routing.toRoute(title);
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
       subtitle: Text("Go to $title"),
       onTap: () {
-        _routing.to(context, routeName);
+        _routing.to(context, name: title);
       },
     );
   }
