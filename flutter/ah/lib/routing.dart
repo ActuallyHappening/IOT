@@ -49,9 +49,14 @@ class MyRouting extends ChangeNotifier {
 
   /// Takes a [name] like 'Home' and maps it to '/'
   String toRoute(String name) {
-    return commonRouteNames[commonRouteNames.keys.firstWhere(
+    final actualName = commonRouteNames.keys.firstWhere(
         (commonName) => name.toLowerCase() == commonName.toLowerCase(),
-        orElse: () => throw Exception('No route found for $name'))] as String;
+        orElse: () {
+      debugPrint("ERR: No common route found for $name");
+      throw Exception('No route found for $name');
+    });
+    assert(commonRouteNames.keys.contains(actualName));
+    return commonRouteNames[actualName]!;
   }
 
   /// Navigates to the specified route by either [name] or [route].
@@ -61,14 +66,26 @@ class MyRouting extends ChangeNotifier {
   ///
   /// If navigating to the 'home' route, attempts to restore its state for the Touch and Menu Bars.
   void to(BuildContext context, {String? name, String? route}) {
-    assert(name != null || route != null);
-    assert(!(name == null && route == null));
-    final String routeName;
+    debugPrint("&& Navigating to $name / $route");
+    if (!(name != null || route != null)) {
+      debugPrint(
+          "ERR: Must provide either a name or route to the `to` function");
+      throw Exception(
+          'Must provide either a name or route to the `to` function');
+    }
+    if (name == null && route == null) {
+      debugPrint(
+          "ERR: Must provide only name *or* route to the `to` function, not both");
+      throw Exception(
+          'Must provide only name *or* route to the `to` function, not both');
+    }
+    String routeName;
     if (name != null) {
       routeName = toRoute(name);
     } else if (route != null) {
       routeName = route;
     } else {
+      debugPrint("&& No route name or route provided");
       throw Exception('No usable option found for name $name and route $route');
     }
     debugPrint("to: $routeName");
@@ -122,11 +139,11 @@ class MyRouting extends ChangeNotifier {
       overlayStyle: ScrubberSelectionStyle.outlineOverlay,
       onSelect: (itemIndex) {
         debugPrint("> Scrubber selected ${routeFromNum(itemIndex)}");
-        to(context, name: toRoute(routeFromNum(itemIndex)));
+        // to(context, name: toRoute(routeFromNum(itemIndex)));
       },
       onHighlight: (itemIndex) {
         debugPrint("> Highlighted ${routeFromNum(itemIndex)}");
-        to(context, name: toRoute(routeFromNum(itemIndex)));
+        to(context, name: routeFromNum(itemIndex));
       },
     );
 
