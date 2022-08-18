@@ -43,6 +43,7 @@ dependencies:
       url: https://github.com/google/flutter-desktop-embedding.git
       path: plugins/menubar
       ref: 12decbe0f592e14e03223f6f2c0c7e0e2dbd70a1
+  touch_bar_platform_interface: ^0.1.0-alpha.1
 
 dev_dependencies:
   flutter_test:

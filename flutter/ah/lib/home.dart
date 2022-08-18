@@ -1,3 +1,4 @@
+import 'package:ah/high_level_actions.dart';
 import 'package:ah/routing.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _HomeRouteState extends State<HomeRoute> {
   void initState() {
     super.initState();
     // _routing.registerAsync(context);
+    initHighLevel(context);
     return;
   }
 

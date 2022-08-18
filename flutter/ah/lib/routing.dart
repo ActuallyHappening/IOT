@@ -1,6 +1,6 @@
+import 'package:ah/high_level_actions.dart';
 import 'package:ah/home.dart';
 import 'package:ah/settings.dart';
-import 'package:ah/yet/high_level_action.dart';
 import 'package:flutter/material.dart';
 import 'package:menubar/menubar.dart';
 import 'package:touch_bar/touch_bar.dart';
@@ -88,7 +88,6 @@ class MyRouting extends ChangeNotifier {
 
   Future<List<HighLevelAction>> getHighLevelActions(
       BuildContext context) async {
-    final TouchBarItem tb;
     List<TouchBarScrubberItem> tbRouteButtons = [];
     TouchBarScrubber tbRouteScrubber;
 
@@ -127,11 +126,11 @@ class MyRouting extends ChangeNotifier {
       },
     );
 
-    tb = TouchBarPopover(
+    final tb = TouchBarPopover(
       label: 'Routes',
       children: [tbRouteScrubber],
       showCloseButton: true,
-    ) as TouchBarItem; // Don't know if this will work at runtime ???
+    ); // Don't know if this will work at runtime ???
     menu = NativeSubmenu(label: "Screens", children: mRouteButtons);
     return [
       HighLevelAction(

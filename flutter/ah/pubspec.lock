@@ -208,7 +208,7 @@ packages:
     source: hosted
     version: "0.1.0-alpha.1"
   touch_bar_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: touch_bar_platform_interface
       url: "https://pub.dartlang.org"
