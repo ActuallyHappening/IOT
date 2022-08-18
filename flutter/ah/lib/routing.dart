@@ -54,9 +54,10 @@ class MyRouting extends ChangeNotifier {
         debugPrint("  Rigging $name -> $route");
         touchBarItems.add(TouchBarButton(
           label: name,
-          onClick: () {
+          onClick: () { 
             Navigator.pushNamed(context, route);
           },
+          backgroundColor: const Color(0xFF0000FF),
         ));
         menuItems.add(NativeMenuItem(
           label: name,
