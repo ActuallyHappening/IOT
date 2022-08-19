@@ -13,7 +13,7 @@ import 'routing.dart';
 class HighLevelAction {
   HighLevelAction({required this.tb, required this.menu});
 
-  static HighLevelAction make() {
+  factory HighLevelAction.make() {
     return HighLevelAction(
         tb: TouchBarButton(),
         menu: NativeSubmenu(label: 'Home', children: [
@@ -25,11 +25,18 @@ class HighLevelAction {
         ]));
   }
 
+  factory HighLevelAction.clickAction(
+      {required String label, VoidCallback? onSelected}) {
+    return HighLevelAction(
+        tb: TouchBarButton(label: label, onClick: onSelected),
+        menu: NativeMenuItem(label: label, onSelected: onSelected));
+  }
+
   /// Can contain a [TouchBarPopover] which has a [TouchBarScrubber]
   final AbstractTouchBarItem tb;
 
   /// Is a single button in the menu bar
-  final NativeSubmenu menu;
+  final AbstractNativeMenuItem menu;
 }
 
 /// Implements the touch and menu bars for easy use using [HighLevelAction]s.
@@ -76,7 +83,21 @@ void initHighLevel(BuildContext context,
   }
   if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
     debugPrint("Registering menu for Linux/Windows/macOS ...");
-    menu = _actions.map((action) => action.menu).toList();
+    final abstractMenu = _actions.map((action) => action.menu).toList();
+    // TODO add abstract menu items to menu bar by grouping them in submenus
+    List<NativeMenuItem> looseMenuItems = [];
+    for (final abstractItem in abstractMenu) {
+      if (abstractItem is NativeSubmenu) {
+        // return abstractItem;
+      } else if (abstractItem is NativeMenuItem) {
+        looseMenuItems.add(abstractItem);
+        // return null;
+      } else {
+        debugPrint("ERR: Unknown menu item type: ${abstractItem.runtimeType}");
+        throw Exception("Unknown menu item type: ${abstractItem.runtimeType}");
+      }
+    }).toList();
+    menu = looseMenuItems.cast(); // Might error, be careful!
     setApplicationMenu(menu);
   }
 }
