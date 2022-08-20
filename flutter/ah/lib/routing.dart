@@ -24,7 +24,7 @@ class MyRouting extends ChangeNotifier {
   /// Contains the necessary information for the routing
   factory MyRouting() => _instance;
 
-  /// Used to construct dynamically
+  /// Used to construct routing info dynamically
   /// Don't construct this directly, use [MyRouting] Singleton instead
   /// Like: `MyRouting()`
   MyRouting.from({
