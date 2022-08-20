@@ -20,7 +20,17 @@ class _HomeRouteState extends State<HomeRoute> {
   void initState() {
     super.initState();
     // _routing.registerAsync(context);
-    initHighLevel(context);
+    initHighLevel(context,
+        actions: [
+          HighLevelAction.clickAction(
+              label: 'Increment',
+              onSelected: () {
+                setState(() {
+                  _counter++;
+                });
+              }),
+        ],
+        useDefault: true);
     return;
   }
 
