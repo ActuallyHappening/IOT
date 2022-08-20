@@ -38,7 +38,7 @@ def _get_motor_num(motorN: str, cmd: str = "<unknown cmd>") -> int:
     try:
         motorNum = int(motorN)
     except ValueError as exc:
-        raise ValueError(f"Invalid motor number for cmd (motor): {cmd}")
+        raise ValueError(f"Invalid motor number {motorNum} for cmd (motor): {cmd}")
     return motorNum
 
 async def __execute__(cmd: str):
