@@ -84,20 +84,19 @@ void initHighLevel(BuildContext context,
   if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
     debugPrint("Registering menu for Linux/Windows/macOS ...");
     final abstractMenu = _actions.map((action) => action.menu).toList();
-    // TODO add abstract menu items to menu bar by grouping them in submenus
     List<NativeMenuItem> looseMenuItems = [];
     for (final abstractItem in abstractMenu) {
       if (abstractItem is NativeSubmenu) {
-        // return abstractItem;
+        // We done :)
       } else if (abstractItem is NativeMenuItem) {
         looseMenuItems.add(abstractItem);
-        // return null;
       } else {
         debugPrint("ERR: Unknown menu item type: ${abstractItem.runtimeType}");
         throw Exception("Unknown menu item type: ${abstractItem.runtimeType}");
       }
-    }).toList();
-    menu = looseMenuItems.cast(); // Might error, be careful!
+    }
+    abstractMenu.add(NativeSubmenu(label: 'Actions', children: looseMenuItems));
+    menu = abstractMenu.cast(); // Might error, be careful!
     setApplicationMenu(menu);
   }
 }
