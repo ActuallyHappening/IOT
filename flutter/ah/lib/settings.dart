@@ -1,3 +1,4 @@
+import 'package:ah/high_level_actions.dart';
 import 'package:flutter/material.dart';
 
 class SettingsRoute extends StatefulWidget {
@@ -12,7 +13,13 @@ class _SettingsRouteState extends State<SettingsRoute> {
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
+    initHighLevel(context, actions: [
+      HighLevelAction.clickAction(
+          label: 'Change Setting',
+          onSelected: () {
+            debugPrint('Change Setting');
+          }),
+    ]);
   }
 
   @override

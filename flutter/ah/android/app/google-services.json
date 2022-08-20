@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "431633313063",
+    "project_id": "actually-happening-portal",
+    "storage_bucket": "actually-happening-portal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431633313063:android:f02cf8283a31325e110d02",
+        "android_client_info": {
+          "package_name": "com.example.ah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431633313063-n18has503k9jvrgkt892t172ct3jdqds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVOuao7oUgPlpxh--uCyaXjA4zgYy8N0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431633313063-n18has503k9jvrgkt892t172ct3jdqds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
