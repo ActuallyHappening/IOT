@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:431633313063:android:b986c7a2ece851b9110d02",
+        "mobilesdk_app_id": "1:431633313063:android:1e173a6fc8b74871110d02",
         "android_client_info": {
-          "package_name": "com.example.ah"
+          "package_name": "com.ahportal.first"
         }
       },
       "oauth_client": [
