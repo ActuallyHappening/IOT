@@ -1,7 +1,7 @@
 PODS:
   - Firebase/CoreOnly (7.3.0):
     - FirebaseCore (= 7.3.0)
-  - firebase_core (0.8.0-nullsafety.1):
+  - firebase_core (0.7.0):
     - Firebase/CoreOnly (~> 7.3.0)
     - FlutterMacOS
   - FirebaseCore (7.3.0):
@@ -61,7 +61,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
-  firebase_core: cdd93e03266c7dcc55d634d1256e5f2d53f8e3ca
+  firebase_core: 2385663692e232c6bb79fd8dd9c5df711b7ac55b
   FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
   FirebaseCoreDiagnostics: 68ad972f99206cef818230f3f3179d52ccfb7f8c
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
