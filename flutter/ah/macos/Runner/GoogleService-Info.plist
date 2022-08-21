@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>431633313063-c3a9v453i0n6g3ucf51qok244bevv6l1.apps.googleusercontent.com</string>
+	<string>431633313063-2tqg0kg8vu5eehrmts75i6u3nar3o8lb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.431633313063-c3a9v453i0n6g3ucf51qok244bevv6l1</string>
+	<string>com.googleusercontent.apps.431633313063-2tqg0kg8vu5eehrmts75i6u3nar3o8lb</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCcC7PJAkSGOSl9_chIMFoW6HeFef9Dmag</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.ah</string>
+	<string>com.ahportal.first</string>
 	<key>PROJECT_ID</key>
 	<string>actually-happening-portal</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:431633313063:ios:0a272d109160a1de110d02</string>
+	<string>1:431633313063:ios:d8be0c1a2c1b0f32110d02</string>
 </dict>
 </plist>

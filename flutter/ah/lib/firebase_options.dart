@@ -45,17 +45,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA63ZORAodp0lMe7vplwWSRgk9mbZ_Rt5c',
-    appId: '1:431633313063:web:a781f067eef494fe110d02',
+    appId: '1:431633313063:web:92a2fabb2beb98c7110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
     authDomain: 'actually-happening-portal.firebaseapp.com',
     storageBucket: 'actually-happening-portal.appspot.com',
-    measurementId: 'G-XTM230LWMP',
+    measurementId: 'G-8016X6E64C',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBVOuao7oUgPlpxh--uCyaXjA4zgYy8N0w',
-    appId: '1:431633313063:android:f02cf8283a31325e110d02',
+    appId: '1:431633313063:android:b986c7a2ece851b9110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
     storageBucket: 'actually-happening-portal.appspot.com',
@@ -63,21 +63,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCcC7PJAkSGOSl9_chIMFoW6HeFef9Dmag',
-    appId: '1:431633313063:ios:e4086648c48dabc6110d02',
+    appId: '1:431633313063:ios:d8be0c1a2c1b0f32110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
     storageBucket: 'actually-happening-portal.appspot.com',
-    iosClientId: '431633313063-6brdvu05m61csngt3crstmfqadktjijm.apps.googleusercontent.com',
-    iosBundleId: 'com.ah.testing',
+    iosClientId: '431633313063-2tqg0kg8vu5eehrmts75i6u3nar3o8lb.apps.googleusercontent.com',
+    iosBundleId: 'com.ahportal.first',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCcC7PJAkSGOSl9_chIMFoW6HeFef9Dmag',
-    appId: '1:431633313063:ios:0a272d109160a1de110d02',
+    appId: '1:431633313063:ios:d8be0c1a2c1b0f32110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
     storageBucket: 'actually-happening-portal.appspot.com',
-    iosClientId: '431633313063-c3a9v453i0n6g3ucf51qok244bevv6l1.apps.googleusercontent.com',
-    iosBundleId: 'com.example.ah',
+    iosClientId: '431633313063-2tqg0kg8vu5eehrmts75i6u3nar3o8lb.apps.googleusercontent.com',
+    iosBundleId: 'com.ahportal.first',
   );
 }
