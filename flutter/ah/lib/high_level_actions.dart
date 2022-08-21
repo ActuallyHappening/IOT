@@ -4,18 +4,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:menubar/menubar.dart';
-import 'package:touch_bar/touch_bar.dart';
-import 'package:touch_bar_platform_interface/models/touch_bar_item.dart'
-    show AbstractTouchBarItem;
+
+// import 'package:touch_bar/touch_bar.dart';
+// import 'package:touch_bar_platform_interface/models/touch_bar_item.dart'
+// show AbstractTouchBarItem;
 
 import 'routing.dart';
 
 class HighLevelAction {
-  HighLevelAction({required this.tb, required this.menu});
+  HighLevelAction({/* required this.tb, */ required this.menu});
 
   factory HighLevelAction.make() {
     return HighLevelAction(
-        tb: TouchBarButton(),
+        // tb: TouchBarButton(),
         menu: NativeSubmenu(label: 'Home', children: [
           NativeMenuItem(
               label: 'Home',
@@ -28,12 +29,12 @@ class HighLevelAction {
   factory HighLevelAction.clickAction(
       {required String label, VoidCallback? onSelected}) {
     return HighLevelAction(
-        tb: TouchBarButton(label: label, onClick: onSelected),
+        // tb: TouchBarButton(label: label, onClick: onSelected),
         menu: NativeMenuItem(label: label, onSelected: onSelected));
   }
 
   /// Can contain a [TouchBarPopover] which has a [TouchBarScrubber]
-  final AbstractTouchBarItem tb;
+  // final AbstractTouchBarItem tb;
 
   /// Is a single button in the menu bar
   final AbstractNativeMenuItem menu;
@@ -44,7 +45,7 @@ class HighLevelAction {
 /// provide [useDefault] if the default HighLevelActions are still wanted from [MyRouting].
 void initHighLevel(BuildContext context,
     {List<HighLevelAction>? actions = const [], bool useDefault = true}) async {
-  final TouchBar tb;
+  // final TouchBar tb;
   final List<NativeSubmenu> menu;
 
   // ignore: no_leading_underscores_for_local_identifiers
@@ -52,7 +53,7 @@ void initHighLevel(BuildContext context,
   _actions = [];
   _actions.addAll([
     HighLevelAction(
-        tb: TouchBarButton(),
+        // tb: TouchBarButton(),
         menu: NativeSubmenu(label: 'Home', children: [
           NativeMenuItem(
               label: 'Home',
@@ -75,11 +76,11 @@ void initHighLevel(BuildContext context,
   }
 
   if (Platform.isMacOS) {
-    debugPrint("Registering touch bar for macOS ...");
-    tb = TouchBar(
-      children: _actions.map((action) => action.tb).toList(),
-    );
-    setTouchBar(tb);
+    debugPrint("Registering touch bar for macOS ...FAILED");
+    // tb = TouchBar(
+    //   children: _actions.map((action) => action.tb).toList(),
+    // );
+    // setTouchBar(tb);
   }
   if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
     debugPrint("Registering menu for Linux/Windows/macOS ...");

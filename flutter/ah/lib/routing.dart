@@ -3,7 +3,8 @@ import 'package:ah/home.dart';
 import 'package:ah/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:menubar/menubar.dart';
-import 'package:touch_bar/touch_bar.dart';
+
+// import 'package:touch_bar/touch_bar.dart';
 
 import 'aio_sign_in.dart';
 
@@ -109,17 +110,17 @@ class MyRouting extends ChangeNotifier {
 
   Future<List<HighLevelAction>> getHighLevelActions(
       BuildContext context) async {
-    List<TouchBarScrubberItem> tbRouteButtons = [];
-    TouchBarScrubber tbRouteScrubber;
+    // List<TouchBarScrubberItem> tbRouteButtons = [];
+    // TouchBarScrubber tbRouteScrubber;
 
     final NativeSubmenu menu;
     final List<NativeMenuItem> mRouteButtons = [];
 
     commonRouteNames.forEach((name, route) {
       debugPrint("  Rigging $name -> $route");
-      tbRouteButtons.add(TouchBarScrubberLabel(
-        name,
-      ));
+      // tbRouteButtons.add(TouchBarScrubberLabel(
+      //   name,
+      // ));
       mRouteButtons.add(NativeMenuItem(
         label: name,
         onSelected: () {
@@ -132,30 +133,30 @@ class MyRouting extends ChangeNotifier {
       return commonRouteNames.keys.elementAt(num);
     }
 
-    tbRouteScrubber = TouchBarScrubber(
-      children: tbRouteButtons,
-      mode: ScrubberMode.fixed,
-      selectedStyle: ScrubberSelectionStyle.roundedBackground,
-      overlayStyle: ScrubberSelectionStyle.outlineOverlay,
-      onSelect: (itemIndex) {
-        debugPrint("> Scrubber selected ${routeFromNum(itemIndex)}");
-        // to(context, name: toRoute(routeFromNum(itemIndex)));
-      },
-      onHighlight: (itemIndex) {
-        debugPrint("> Highlighted ${routeFromNum(itemIndex)}");
-        to(context, name: routeFromNum(itemIndex));
-      },
-    );
+    // tbRouteScrubber = TouchBarScrubber(
+    //   children: tbRouteButtons,
+    //   mode: ScrubberMode.fixed,
+    //   selectedStyle: ScrubberSelectionStyle.roundedBackground,
+    //   overlayStyle: ScrubberSelectionStyle.outlineOverlay,
+    //   onSelect: (itemIndex) {
+    //     debugPrint("> Scrubber selected ${routeFromNum(itemIndex)}");
+    //     // to(context, name: toRoute(routeFromNum(itemIndex)));
+    //   },
+    //   onHighlight: (itemIndex) {
+    //     debugPrint("> Highlighted ${routeFromNum(itemIndex)}");
+    //     to(context, name: routeFromNum(itemIndex));
+    //   },
+    // );
 
-    final tb = TouchBarPopover(
-      label: 'Routes',
-      children: [tbRouteScrubber],
-      showCloseButton: true,
-    ); // Don't know if this will work at runtime ???
+    // final tb = TouchBarPopover(
+    //   label: 'Routes',
+    //   children: [tbRouteScrubber],
+    //   showCloseButton: true,
+    // ); // Don't know if this will work at runtime ???
     menu = NativeSubmenu(label: "Screens", children: mRouteButtons);
     return [
       HighLevelAction(
-        tb: tb,
+        // tb: tb,
         menu: menu,
       ),
     ];
