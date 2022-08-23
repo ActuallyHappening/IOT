@@ -40,7 +40,7 @@ def ping_status():
     time.sleep(8)
 
 def main():
-  # do("forall motor stop")
+  do("forall motor stop")
   # do("ble begin") # Can't do this, as handler callback needs to be passed in
   try:
     dualLog("Starting BLE ...", True)
