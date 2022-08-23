@@ -25,12 +25,13 @@ Possible codes that AIO expects:
 
 _ping = True;
 
-def ble_received(msg):
-  if msg.startsWith("pingstop"):
+def ble_received(msg: str):
+  global _ping;
+  if msg.startswith("pingstop"):
     _ping = False;
     post("6")
     return
-  if msg.startsWIth("pingstart"): 
+  if msg.startswith("pingstart"): 
     _ping = True;
     post("6")
     return
@@ -44,7 +45,10 @@ def ble_received(msg):
     post("2")
 
 def ping_status():
+  global _ping;
   while True:
+    if not _ping:
+      continue
     dualLog("Regular Pinging ...", False)
     post("5")
     time.sleep(8)
