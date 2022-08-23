@@ -23,7 +23,17 @@ Possible codes that AIO expects:
 
 """
 
+_ping = True;
+
 def ble_received(msg):
+  if msg.startsWith("pingstop"):
+    _ping = False;
+    post("6")
+    return
+  if msg.startsWIth("pingstart"): 
+    _ping = True;
+    post("6")
+    return
   try:
     do(msg)
   except Exception as e:
