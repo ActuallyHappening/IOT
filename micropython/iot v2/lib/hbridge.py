@@ -8,7 +8,7 @@ from .gpio import __execute__ as gpio_do
 motor1 = (15, 4)
 motor2 = (5, 18)
 motor3 = (19, 21)
-motors = (motor1, motor2, motor3) # 0 index is implicit motor
+motors = (motor1, motor2, motor3)
 
 async def _do(tlc: str, *, p1: int = motors[0][0], p2: int = motors[0][1], v: float = 0.5) -> None:
     """Executes a motor command, tlc = 'forward' | 'backward' | 'step' | 'stop'
