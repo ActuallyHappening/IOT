@@ -25,7 +25,7 @@ Implementation Notes
 import struct
 import math
 import time
-from i2c_lib import I2CDevice
+from .i2c_lib import I2CDevice
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_MLX90640.git"
