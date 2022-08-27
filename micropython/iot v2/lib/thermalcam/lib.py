@@ -2,7 +2,7 @@
 import time
 # import board
 from machine import I2C
-import cam_lib as adafruit_mlx90640
+from . import cam_lib as adafruit_mlx90640
 
 print("Initializing Thermal Camera ...")
 print(adafruit_mlx90640)
