@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "431633313063",
+    "project_id": "actually-happening-portal",
+    "storage_bucket": "actually-happening-portal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431633313063:android:9608feb2f188322e110d02",
+        "android_client_info": {
+          "package_name": "com.example.ah_portal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431633313063-n18has503k9jvrgkt892t172ct3jdqds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVOuao7oUgPlpxh--uCyaXjA4zgYy8N0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431633313063-n18has503k9jvrgkt892t172ct3jdqds.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "431633313063-2tqg0kg8vu5eehrmts75i6u3nar3o8lb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ahportal.first"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
