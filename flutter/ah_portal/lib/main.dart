@@ -15,27 +15,29 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  _drawer(BuildContext context) => ListView(
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+  Widget _drawer(BuildContext context) => Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
             ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('To Debug'),
-            onTap: () {
-              Navigator.of(context).pushNamed('/debug');
-            },
-          ),
-          ListTile(
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.of(context).pushNamed('/');
-            },
-          ),
-        ],
+            ListTile(
+              title: const Text('To Debug'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/debug');
+              },
+            ),
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/');
+              },
+            ),
+          ],
+        ),
       );
 
   @override
@@ -45,9 +47,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: "/",
       routes: <String, WidgetBuilder>{
-        '/': (context) => DefaultHomeView(drawer: _drawer(context)),
-        '/debug': (context) => DebugView(drawer: _drawer(context)),
+        '/': (context) => DefaultHomeView(drawer: _drawer),
+        '/debug': (context) => DebugView(drawer: _drawer),
       },
     );
   }

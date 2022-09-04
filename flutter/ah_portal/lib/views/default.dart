@@ -2,14 +2,14 @@ import 'package:ah_portal/views/views.dart';
 import 'package:flutter/material.dart';
 
 class DefaultHomeView extends StatelessWidget implements Viewable {
-  const DefaultHomeView({super.key, this.drawer});
+  const DefaultHomeView({super.key, required this.drawer});
 
   @override
-  final Widget? drawer;
+  final WidgetBuilder drawer;
 
   @override
   Widget build(BuildContext context) {
-    return DefaultHomeWidget(drawer: drawer);
+    return DefaultHomeWidget(drawer: drawer(context));
   }
 }
 
