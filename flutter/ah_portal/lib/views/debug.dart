@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DebugWidget extends StatelessWidget {
-  const DebugWidget({super.key, required this.drawer});
-
-  @override
-  final WidgetBuilder drawer;
+  const DebugWidget({super.key});
 
   static const String _headerImage =
       "https://en.gravatar.com/userimage/223688227/4db4c41ba91ea03e7c43a76023782588.png";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: drawer(context),
-      appBar: AppBar(
-        title: const Text('Debug Page'),
-      ),
-      body: CustomScrollView(
+    return CustomScrollView(
         slivers: <Widget>[
           // SliverAppBar(
           //   title: const Text('Debug Info'),
@@ -64,8 +56,6 @@ class DebugWidget extends StatelessWidget {
               childCount: 5,
             ),
           ),
-        ],
-      ),
-    );
+    ]);
   }
 }

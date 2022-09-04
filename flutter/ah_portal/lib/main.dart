@@ -15,7 +15,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  WidgetBuilder _makeView(widget) {
+  WidgetBuilder _makeView(Widget widget) {
     return (BuildContext context) => Scaffold(
           drawer: _drawer(context),
           appBar: AppBar(
@@ -57,10 +57,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/debug",
+      initialRoute: "/",
       routes: <String, WidgetBuilder>{
-        '/': _makeView(DefaultHomeWidget),
-        '/debug': _makeView(DebugWidget),
+        '/': _makeView(const DefaultHomeWidget()),
+        '/debug': _makeView(const DebugWidget()),
       },
     );
   }
