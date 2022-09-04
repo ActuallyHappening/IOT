@@ -1,24 +1,9 @@
-import 'package:ah_portal/views/views.dart';
 import 'package:flutter/material.dart';
 
-class DebugView extends StatelessWidget implements Viewable {
-  const DebugView({super.key, required this.drawer});
+class DebugWidget extends StatelessWidget {
+  const DebugWidget({super.key, required this.drawer});
 
   @override
-  final WidgetBuilder drawer;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Debug Page',
-      home: DebugInfoWidget(drawer: drawer),
-    );
-  }
-}
-
-class DebugInfoWidget extends StatelessWidget {
-  const DebugInfoWidget({super.key, required this.drawer});
-
   final WidgetBuilder drawer;
 
   static const String _headerImage =

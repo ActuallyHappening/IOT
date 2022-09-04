@@ -15,6 +15,16 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  WidgetBuilder _makeView(widget) {
+    return (BuildContext context) => Scaffold(
+          drawer: _drawer(context),
+          appBar: AppBar(
+            title: const Text('Flutter Demo'),
+          ),
+          body: widget,
+        );
+  }
+
   Widget _drawer(BuildContext context) => Drawer(
         child: ListView(
           children: [
@@ -47,10 +57,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/",
+      initialRoute: "/debug",
       routes: <String, WidgetBuilder>{
-        '/': (context) => DefaultHomeView(drawer: _drawer),
-        '/debug': (context) => DebugView(drawer: _drawer),
+        '/': _makeView(DefaultHomeWidget),
+        '/debug': _makeView(DebugWidget),
       },
     );
   }
