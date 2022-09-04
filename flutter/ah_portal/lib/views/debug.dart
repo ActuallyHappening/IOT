@@ -28,41 +28,44 @@ class DebugInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer,
+      appBar: AppBar(
+        title: const Text('Debug Page'),
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-            title: const Text('Debug Info'),
-            pinned: true,
-            stretch: true,
-            onStretchTrigger: () async {
-              // Function callback for stretch
-              debugPrint("onStretchTrigger");
-              return;
-            },
-            expandedHeight: 200.0,
-            flexibleSpace: FlexibleSpaceBar(
-              stretchModes: const [
-                StretchMode.zoomBackground,
-                StretchMode.fadeTitle,
-                StretchMode.blurBackground,
-              ],
-              title: const Text('Debug Info'),
-              background: DecoratedBox(
-                position: DecorationPosition.foreground,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.center,
-                    colors: <Color>[Colors.teal[800]!, Colors.transparent],
-                  ),
-                ),
-                child: Image.network(
-                  _headerImage,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
+          // SliverAppBar(
+          //   title: const Text('Debug Info'),
+          //   pinned: true,
+          //   stretch: true,
+          //   onStretchTrigger: () async {
+          //     // Function callback for stretch
+          //     debugPrint("onStretchTrigger");
+          //     return;
+          //   },
+          //   expandedHeight: 200.0,
+          //   flexibleSpace: FlexibleSpaceBar(
+          //     stretchModes: const [
+          //       StretchMode.zoomBackground,
+          //       StretchMode.fadeTitle,
+          //       StretchMode.blurBackground,
+          //     ],
+          //     title: const Text('Debug Info'),
+          //     background: DecoratedBox(
+          //       position: DecorationPosition.foreground,
+          //       decoration: BoxDecoration(
+          //         gradient: LinearGradient(
+          //           begin: Alignment.bottomCenter,
+          //           end: Alignment.center,
+          //           colors: <Color>[Colors.teal[800]!, Colors.transparent],
+          //         ),
+          //       ),
+          //       child: Image.network(
+          //         _headerImage,
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -73,7 +76,7 @@ class DebugInfoWidget extends StatelessWidget {
                   child: Text('list item $index'),
                 );
               },
-              childCount: 20,
+              childCount: 5,
             ),
           ),
         ],
