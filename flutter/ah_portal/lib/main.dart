@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
-        '/': _makeView(const DefaultHomeWidget()),
+        '/': _makeView(DefaultHomeWidget()),
         '/debug': _makeView(const DebugWidget()),
       },
     );

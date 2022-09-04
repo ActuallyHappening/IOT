@@ -1,7 +1,10 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class DefaultHomeWidget extends StatelessWidget {
-  const DefaultHomeWidget({super.key});
+  DefaultHomeWidget({super.key});
+
+  final db = FirebaseDatabase.instance.ref();
 
   @override
   Widget build(BuildContext context) {
