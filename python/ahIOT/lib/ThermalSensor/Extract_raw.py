@@ -4,6 +4,7 @@ try:
   import board
 except NotImplementedError as exc:
   print(f"Note: This machine is not compatible with MLX90640")
+  raise NotImplementedError from exc
 else:
   import busio
   import adafruit_mlx90640

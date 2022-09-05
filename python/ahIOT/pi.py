@@ -1,8 +1,15 @@
+from __future__ import annotations
 import json
-from typing import Callable, Tuple, Type, TypeVar
-from .lib.AIO import aio
-from .lib.ThermalSensor.Extract_raw import get_frame
+from random import randrange
+import sys
+from typing import Callable, List, Tuple, Type, TypeVar
 
+from ahIOT.firebase import send_firebase
+try:
+  from .lib.AIO import aio
+  from .lib.ThermalSensor.Extract_raw import get_frame
+except NotImplementedError:
+  print("Not implemented for this platform :(")
 
 _isFirebase = False
 
@@ -26,7 +33,6 @@ def _method():
 
 def _send(data):
   # print(f"[Debug: pi.py] Sending data: {data=}")
-  
   try:
     aio.send_stream_data(data)
     return True
@@ -35,28 +41,26 @@ def _send(data):
     aio.pi_status_send("JSONDecodeError - pi.py")
     return False
 
-def _sendFirebase(data):
-  import requests
-  from dotenv import dotenv_values
-  import os
-  env_variables = dotenv_values() | os.environ
-  r = requests.put(env_variables["FIREBASE_ENDPOINT"], json={"json":json.dumps(data)})
-
 def step():
-  aio.pi_ping()
   # Step for uploading data
-  if not _isFirebase: _step(
-    method = _method,
-    callback = _send,
-  )
+  if not _isFirebase:
+    aio.pi_ping()
+    _step(
+      method = _method,
+      callback = _send,
+    )
   # Other steps could be added below, such as 8x8 LED matrix
   if _isFirebase: _step(
     method = _method,
-    callback = _send,
+    callback = send_firebase,
   )
 
 def main():
   print("Beginning pi ...")
+  global _isFirebase
+  if sys.argv[1] == "firebase":
+    _isFirebase = True
+    print("Using firebase!")
   while True: 
     step()
 
