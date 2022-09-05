@@ -1,4 +1,3 @@
-import 'package:ah_portal/views/debug.dart';
 import 'package:ah_portal/views/default.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +59,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
         '/': _makeView(DefaultHomeWidget()),
-        '/debug': _makeView(const DebugWidget()),
+        // '/debug': _makeView(const DebugWidget()),
       },
     );
   }

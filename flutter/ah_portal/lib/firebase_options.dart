@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
     authDomain: 'actually-happening-portal.firebaseapp.com',
+    databaseURL: 'https://actually-happening-portal-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'actually-happening-portal.appspot.com',
     measurementId: 'G-7P71DTW8BF',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:431633313063:android:9608feb2f188322e110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
+    databaseURL: 'https://actually-happening-portal-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'actually-happening-portal.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:431633313063:ios:bfcee2cb778dc4af110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
+    databaseURL: 'https://actually-happening-portal-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'actually-happening-portal.appspot.com',
     iosClientId: '431633313063-qbhkboo1e7mqlus3uoacfkso1evrceq0.apps.googleusercontent.com',
     iosBundleId: 'com.ah-portal.initial',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:431633313063:ios:a27f99dd59a274a6110d02',
     messagingSenderId: '431633313063',
     projectId: 'actually-happening-portal',
+    databaseURL: 'https://actually-happening-portal-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'actually-happening-portal.appspot.com',
     iosClientId: '431633313063-3flkrhsmg70uslifvfrista992rata42.apps.googleusercontent.com',
     iosBundleId: 'com.example.ahPortal',
