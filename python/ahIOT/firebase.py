@@ -22,5 +22,5 @@ def reset_firebase_stream(strategy: str = "lines"):
         fakeStream.append(y)
       elif strategy == "random" or True:
         fakeStream.append(randrange(69))
-  print("Sending fake stream through firebase ...")
+  print(f"Sending fake {strategy} through firebase ...")
   send_firebase(fakeStream)
