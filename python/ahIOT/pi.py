@@ -3,6 +3,9 @@ from typing import Callable, Tuple, Type, TypeVar
 from .lib.AIO import aio
 from .lib.ThermalSensor.Extract_raw import get_frame
 
+
+_isFirebase = False
+
 T_Data = TypeVar('T_Data')
 def _step(
   method: Callable[[], Tuple[bool, T_Data]],
@@ -32,14 +35,25 @@ def _send(data):
     aio.pi_status_send("JSONDecodeError - pi.py")
     return False
 
+def _sendFirebase(data):
+  import requests
+  from dotenv import dotenv_values
+  import os
+  env_variables = dotenv_values() | os.environ
+  r = requests.put(env_variables["FIREBASE_ENDPOINT"], json={"json":json.dumps(data)})
+
 def step():
   aio.pi_ping()
   # Step for uploading data
-  _step(
+  if not _isFirebase: _step(
     method = _method,
     callback = _send,
   )
   # Other steps could be added below, such as 8x8 LED matrix
+  if _isFirebase: _step(
+    method = _method,
+    callback = _send,
+  )
 
 def main():
   print("Beginning pi ...")
