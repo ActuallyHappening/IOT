@@ -17,7 +17,7 @@ class DefaultHomeWidget extends StatelessWidget {
     final DatabaseReference streamChild = db.child('v1/stream/json');
 
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(10.0),
       //   child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       //     const Text("Yay!"),
       //     SizedBox(
@@ -40,37 +40,37 @@ class DefaultHomeWidget extends StatelessWidget {
       //         icon: const Icon(Icons.wifi_protected_setup),
       //         label: const Text("Write debug Test!")),
       // ]
-      child: InteractiveViewer(
-        boundaryMargin: const EdgeInsets.all(10.0),
-        minScale: 0.01,
-        maxScale: 2000,
-        child: StreamBuilder(
-          stream: streamChild.onValue,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final data = snapshot.data!
-                  as DatabaseEvent; // Fails if there is no data stored
-              final String rawJson = data.snapshot.value
-                  as String; // Fails if the data is not simply a string
-              final List<dynamic> rawData = jsonDecode(rawJson)
-                  as List<dynamic>; // Fails if the data is not valid JSON
-              final List<int> typedData = rawData
-                  .map((e) => e as int)
-                  .toList(); // Fails if the data is not a list of integers
-              assert(rawData.length ==
-                  width * height); // Fails if the data is not the correct size
-              return GridView.count(crossAxisCount: width, children: [
-                for (final int value in typedData)
-                  Container(
-                    color: Color.fromARGB(10, value * 3, 0, 0),
-                    child: Text("$value"),
-                  )
-              ]);
-            } else {
-              return const Text("No data");
-            }
-          },
-        ),
+      child: StreamBuilder(
+        stream: streamChild.onValue,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data!
+                as DatabaseEvent; // Fails if there is no data stored
+            final String rawJson = data.snapshot.value
+                as String; // Fails if the data is not simply a string
+            final List<dynamic> rawData = jsonDecode(rawJson)
+                as List<dynamic>; // Fails if the data is not valid JSON
+            final List<int> typedData = rawData
+                .map((e) => e as int)
+                .toList(); // Fails if the data is not a list of integers
+            assert(rawData.length ==
+                width * height); // Fails if the data is not the correct size
+            return GridView.count(
+                crossAxisCount: width,
+                padding: const EdgeInsets.all(0),
+                children: [
+                  ...typedData
+                      .map((value) => Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, value * 3, 0, 0)),
+                          )
+              )
+                      .toList()
+                ]);
+          } else {
+            return const Text("No data");
+          }
+        },
       ),
     );
   }
