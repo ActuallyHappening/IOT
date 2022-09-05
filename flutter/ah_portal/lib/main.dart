@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  // Wait for binding
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -34,9 +36,9 @@ class MyApp extends StatelessWidget {
               child: Text('Drawer Header'),
             ),
             ListTile(
-              title: const Text('To Debug'),
+              title: const Text('To Image'),
               onTap: () {
-                Navigator.of(context).pushNamed('/debug');
+                Navigator.of(context).pushNamed('/image');
               },
             ),
             ListTile(
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
         '/': _makeView(DefaultHomeWidget()),
-        // '/debug': _makeView(const DebugWidget()),
+        // '/image': _makeView(const ImageTester()),
       },
     );
   }
