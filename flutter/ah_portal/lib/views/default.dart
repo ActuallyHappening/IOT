@@ -8,6 +8,8 @@ class DefaultHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final testingChild = db.child('v1/testing/1');
+
     return Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -25,6 +27,9 @@ class DefaultHomeWidget extends StatelessWidget {
           ElevatedButton.icon(
               onPressed: () {
                 debugPrint("Debug Write pressed");
+                testingChild.set(
+                  {"time": DateTime.now().millisecondsSinceEpoch},
+                );
               },
               icon: const Icon(Icons.wifi_protected_setup),
               label: const Text("Write debug Test!")),
