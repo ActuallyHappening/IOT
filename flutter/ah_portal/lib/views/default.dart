@@ -39,13 +39,13 @@ class DefaultHomeWidget extends StatelessWidget {
                   ...typedData
                       .map((value) => Container(
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, value * 3, 0, 0)),
+                                color: Color.fromARGB(255, value * 4, 0, 0)),
                           )
               )
                       .toList()
                 ]);
           } else {
-            return const Text("No data");
+            return const Center(child: Text("No data"));
           }
         },
       ),

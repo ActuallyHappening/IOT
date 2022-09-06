@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return (BuildContext context) => Scaffold(
           drawer: _drawer(context),
           appBar: AppBar(
-            title: const Text('Flutter Demo'),
+            title: const Text('Thermal Camera Live Feed'),
           ),
           body: widget,
         );
@@ -36,15 +36,15 @@ class MyApp extends StatelessWidget {
               child: Text('Extra options here ...'),
             ),
             ListTile(
-              title: const Text('To Image'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/image');
-              },
-            ),
-            ListTile(
               title: const Text('Home'),
               onTap: () {
                 Navigator.of(context).pushNamed('/');
+              },
+            ),
+            ListTile(
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/settings');
               },
             ),
           ],
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Actually Happening Portal - Thermal Camera Live Feed',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
