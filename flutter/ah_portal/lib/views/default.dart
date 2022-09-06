@@ -13,48 +13,25 @@ class DefaultHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final testingChild = db.child('v1/testing/1');
     final DatabaseReference streamChild = db.child('v1/stream/json');
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      //   child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      //     const Text("Yay!"),
-      //     SizedBox(
-      //       height: 10,
-      //       width: MediaQuery.of(context).size.width,
-      //     ),
-      //     ElevatedButton.icon(
-      //         onPressed: () {
-      //           debugPrint("Debug Read pressed");
-      //         },
-      //         icon: const Icon(Icons.read_more),
-      //         label: const Text("Read debug Test!")),
-      //     ElevatedButton.icon(
-      //         onPressed: () {
-      //           debugPrint("Debug Write pressed");
-      //           testingChild.set(
-      //             {"time": DateTime.now().millisecondsSinceEpoch},
-      //           );
-      //         },
-      //         icon: const Icon(Icons.wifi_protected_setup),
-      //         label: const Text("Write debug Test!")),
-      // ]
       child: StreamBuilder(
         stream: streamChild.onValue,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data!
-                as DatabaseEvent; // Fails if there is no data stored
+                as DatabaseEvent; 
             final String rawJson = data.snapshot.value
-                as String; // Fails if the data is not simply a string
+                as String; 
             final List<dynamic> rawData = jsonDecode(rawJson)
-                as List<dynamic>; // Fails if the data is not valid JSON
+                as List<dynamic>; 
             final List<int> typedData = rawData
                 .map((e) => e as int)
-                .toList(); // Fails if the data is not a list of integers
+                .toList(); 
             assert(rawData.length ==
-                width * height); // Fails if the data is not the correct size
+                width * height); 
             return GridView.count(
                 crossAxisCount: width,
                 padding: const EdgeInsets.all(0),

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Drawer Header'),
+              child: Text('Extra options here ...'),
             ),
             ListTile(
               title: const Text('To Image'),
