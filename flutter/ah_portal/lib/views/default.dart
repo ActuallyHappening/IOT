@@ -35,7 +35,7 @@ class DefaultHomeWidget extends StatelessWidget {
             return GridView.count(
                 crossAxisCount: width,
                 padding: const EdgeInsets.all(0),
-                children: [
+                children: <Widget>[
                   ...typedData
                       .map((value) => Container(
                             decoration: BoxDecoration(
