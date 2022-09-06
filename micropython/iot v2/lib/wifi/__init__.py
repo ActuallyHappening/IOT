@@ -22,10 +22,14 @@ def __execute__(cmd: str):
         print(f"Unknown command: {cmd}")
 
 def scan():
-    return wlan.scan()
+    try:
+      return wlan.scan()
+    except RuntimeError as exc:
+      print(f"{exc}\nNo wifi access points found :(")
+      raise exc
 
 def networkInScan(__scan):
-    print("networkInScan: ", wifi_known_names)
+    print("network names known: ", wifi_known_names)
     for s in __scan:
         detected_name = s[0]
         # print(f"Checking if {detected_name}")
@@ -55,9 +59,9 @@ def plsConnect():
             # print('Connecting... _')
             tryNum = 0
             while not wlan.isconnected() and tryNum < 10:
-                tryNum += 1
-                time.sleep(1)
-                print('Connecting ... ' + str(tryNum))
+                tryNum += 10
+                time.sleep(10)
+                print(f"Connecting ... {str(tryNum)} seconds ...")
             return isGood(False)
         elif type(wifi_pass) is tuple:
             print(
@@ -78,8 +82,12 @@ def getGoodWIFI():
         print("Top level attempting WIFI connect ...")
         plsConnect()
         time.sleep(1)
-    # print(f"Got good wifi: {wlan.ifconfig()}")
+    print(f"Got good wifi: {wlan.ifconfig()}")
 
 
 def printStatus():
     print(f"Got good wifi: {wlan.ifconfig()}")
+
+if __name__ == "__main__":
+    print("wifi.py running as main, running getGoodWIFI ...")
+    getGoodWIFI()
