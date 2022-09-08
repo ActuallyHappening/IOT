@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             ListTile(
               title: const Text('Settings'),
               onTap: () {
-                Navigator.of(context).pushNamed('/settings');
+                Navigator.of(context).pushNamed('/');
               },
             ),
           ],

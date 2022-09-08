@@ -21,30 +21,39 @@ class DefaultHomeWidget extends StatelessWidget {
         stream: streamChild.onValue,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            try {
-              final data = snapshot.data! as DatabaseEvent;
-              final String rawJson = data.snapshot.value as String;
-              final List<dynamic> rawData =
-                  jsonDecode(rawJson) as List<dynamic>;
-              final List<int> typedData =
-                  rawData.map((e) => int.parse(e)).toList();
-              assert(rawData.length == width * height);
-              return GridView.count(
-                  crossAxisCount: width,
-                  padding: const EdgeInsets.all(0),
-                  children: <Widget>[
-                    ...typedData
-                        .map((value) => Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, value * 4, 0, 0)),
-                            ))
-                        .toList()
-                  ]);
-            } catch (e) {
-              debugPrint("Error while parsing data stream")
-              debugPrint(e.toString());
-              return const Text('Error while trying to show you the thermal camera data :( ');
-            }
+            // try {
+            final data = snapshot.data! as DatabaseEvent;
+            final String rawJson = data.snapshot.value as String;
+            final List<dynamic> rawData = jsonDecode(rawJson) as List<dynamic>;
+            final List<double> typedData = rawData.map((tempSerialized) {
+              if (tempSerialized is int) {
+                return tempSerialized.toDouble();
+              } else if (tempSerialized is double) {
+                return tempSerialized;
+              } else {
+                throw Exception('Invalid data type');
+              }
+            }).toList();
+            assert(rawData.length == width * height);
+            return GridView.count(
+                crossAxisCount: width,
+                padding: const EdgeInsets.all(0),
+                children: <Widget>[
+                  ...typedData
+                      .map((value) => Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(
+                                    255, (value * 4).toInt(), 0, 0)),
+                          ))
+                      .toList()
+                ]);
+            // } catch (e) {
+            //   debugPrint("Error while parsing data stream");
+            //   debugPrint(e.toString());
+            //   rethrow;
+            //   return const Text(
+            //       'Error while trying to show you the thermal camera data :( ');
+            // }
           } else {
             return const Center(child: Text("No data"));
           }
