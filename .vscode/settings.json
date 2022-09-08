@@ -3,9 +3,11 @@
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": false,
   "cSpell.words": [
+    "alloc",
     "capsys",
     "forall",
     "hbridge",
-    "rprint"
+    "rprint",
+    "ussl"
   ]
 }
