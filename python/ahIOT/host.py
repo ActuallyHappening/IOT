@@ -1,10 +1,6 @@
 import json
 from typing import List
 from .lib.AIO import aio
-from .lib.ThermalSensor.Process_raw import print_frame
-import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 def _load(strict=True):
   data = None

@@ -3,7 +3,6 @@ from typing import Callable
 from .do_test import test_host_import
 host = test_host_import()
 
-@cache
 def test_host_main_exists():
   assert host.main
   return host.main

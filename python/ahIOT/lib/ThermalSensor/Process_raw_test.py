@@ -4,15 +4,15 @@ from typing import Callable
 import pytest
 from rich import print as rprint
 
-@cache
-def test_process_import():
-  from . import Process_raw as raw
-  assert raw
-  return raw
-
 @pytest.fixture
 def raw():
-  return test_process_import()
+  try:
+    from . import Process_raw as raw
+  except NotImplementedError as exc:
+    import pytest
+    pytest.skip(f"Cannot test raw process import :(\n{exc}")
+  assert raw
+  return raw
 
 def test_process_funcs_exists(raw):
   assert raw.iterate_frame
