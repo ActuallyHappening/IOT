@@ -1,11 +1,12 @@
 from functools import cache
 from typing import Callable
+import pytest
 
+@pytest.fixture
 def extract():
   try:
     from . import Extract_raw as extract
   except NotImplementedError as exc:
-    import pytest
     pytest.skip(f"NotImplementedError: {exc}")
   assert extract
   return extract
