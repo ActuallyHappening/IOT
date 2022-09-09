@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Actually Happening Portal - Thermal Camera Live Feed',
+      title: 'Smile Pal Live Camera Feed',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
