@@ -49,16 +49,16 @@ def step():
       method = _method,
       callback = _send,
     )
-  # Other steps could be added below, such as 8x8 LED matrix
-  if _isFirebase: _step(
-    method = _method,
-    callback = send_firebase,
-  )
+  else:
+    if _isFirebase: _step(
+      method = _method,
+      callback = send_firebase,
+    )
 
 def main():
   print("Beginning pi ...")
-  global _isFirebase
   if sys.argv[1] == "firebase":
+    global _isFirebase
     _isFirebase = True
     print("Using firebase!")
   while True: 

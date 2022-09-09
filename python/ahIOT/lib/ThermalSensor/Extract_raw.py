@@ -24,7 +24,7 @@ def main():
   except ImportError as exc:
     print("Error: Could not import Process_raw, not started main loop")
   while True:
-    process.iterate(process.print_frame_value)
+    print(get_frame())
 
 def get_frame():
   frame = [0] * (24*32)

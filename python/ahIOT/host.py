@@ -8,7 +8,7 @@ def _load(strict=True):
     data = aio.receive_stream_data()
   except json.JSONDecodeError as exc:
     print(f"(Error: Received stream bad: {exc}")
-    print(f"{loaded=}")
+    print(f"{data=}")
     aio.host_status_send("JSONDecodeError - host.py")
     if strict:
       raise TypeError(f"(Error: JSONDecodeError - host.py :: Strict=True)")
