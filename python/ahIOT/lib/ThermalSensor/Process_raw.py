@@ -2,8 +2,13 @@
 from typing import List, Tuple
 from . import Extract_raw as raw
 from .Extract_raw import get_frame
-from rich import pretty as p
-from rich import print as rprint
+pretty_print = print
+try:
+  from rich import pretty as p
+  from rich import print as _pretty_print
+  pretty_print = _pretty_print
+except ImportError:
+  print(f"Warning: Cannot find package `rich`, printing is now not as pretty")
 p.install()
 
 ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'."
@@ -54,7 +59,7 @@ def print_frame_value(value, x, y, list, *, previous=None, dimensions=defaultDim
   assert value in list
   final = final or bool(x == dimensions[0]-1 and y == dimensions[1]-1)
   toPrint = get_char(value, list=list, previous=previous, final=final)
-  rprint(toPrint, end="")
+  pretty_print(toPrint, end="")
   if x == dimensions[0]-1:
     print() # newline every line of chars
     if y == dimensions[1]-1:
