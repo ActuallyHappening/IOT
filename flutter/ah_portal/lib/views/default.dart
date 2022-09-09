@@ -25,6 +25,7 @@ class DefaultHomeWidget extends StatelessWidget {
             final data = snapshot.data! as DatabaseEvent;
             final String rawJson = data.snapshot.value as String;
             final List<dynamic> rawData = jsonDecode(rawJson) as List<dynamic>;
+            assert(rawData.length == width * height); // Fails
             final List<double> typedData = rawData.map((tempSerialized) {
               if (tempSerialized is int) {
                 return tempSerialized.toDouble();
@@ -34,16 +35,27 @@ class DefaultHomeWidget extends StatelessWidget {
                 throw Exception('Invalid data type');
               }
             }).toList();
-            assert(rawData.length == width * height);
+            final highestTemp = typedData.reduce((a, b) => a > b ? a : b);
+            final lowestTemp = typedData.reduce((a, b) => a < b ? a : b);
+            final tempRange = highestTemp - lowestTemp;
+            final tempColors = typedData.map((temp) {
+              final tempNormalized = (temp - lowestTemp) / tempRange;
+              final tempColor = Color.lerp(
+                Colors.red,
+                Colors.green,
+                tempNormalized,
+              );
+              return tempColor;
+            }).toList();
             return GridView.count(
                 crossAxisCount: width,
                 padding: const EdgeInsets.all(0),
                 children: <Widget>[
-                  ...typedData
+                  ...tempColors
                       .map((value) => Container(
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(
-                                    255, (value * 4).toInt(), 0, 0)),
+                              color: value,
+                            ),
                           ))
                       .toList()
                 ]);
