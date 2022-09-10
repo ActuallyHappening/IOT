@@ -1,7 +1,7 @@
 # Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
 import busio
 try:
-  import modified_adafruit_mlx90640 as adafruit_mlx90640
+  from . import modified_adafruit_mlx90640 as adafruit_mlx90640
 except ImportError as exc:
   raise exc
   from .. .. import modified_adafruit_mlx90640 as adafruit_mlx90640
