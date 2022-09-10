@@ -4,7 +4,7 @@ from random import randrange
 import sys
 from typing import Callable, List, Tuple, Type, TypeVar
 
-from ahIOT.firebase import send_firebase
+from .firebase import send_firebase
 try:
   from .lib.AIO import aio
   from .lib.ThermalSensor.Extract_raw import get_frame
