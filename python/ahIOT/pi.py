@@ -56,7 +56,7 @@ def step():
     )
 
 def main():
-  print("Beginning pi ...")
+  print("Beginning pi ... {sys.argv}")
   if sys.argv[1] == "firebase":
     global _isFirebase
     _isFirebase = True
