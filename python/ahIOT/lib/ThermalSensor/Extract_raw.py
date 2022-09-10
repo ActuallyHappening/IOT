@@ -1,4 +1,5 @@
 # Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
+import time
 import busio
 try:
   from . import adafruit_mlx90640 as adafruit_mlx90640
@@ -19,6 +20,7 @@ else:
       mlx = adafruit_mlx90640.MLX90640(i2c)
     except ValueError as exc:
       print(f"No MLX90640 detected :( - {exc}")
+      time.sleep(1)
     else:
       break
   
@@ -37,6 +39,9 @@ def main():
     print(get_frame())
 
 def get_frame():
+  """Get a frame from the MLX90640 sensor
+  Returns a 24x32 array of temperature values in degrees C
+  """
   frame = [0] * (24*32)
   _err_count = 0
   while True:
