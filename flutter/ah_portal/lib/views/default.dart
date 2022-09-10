@@ -52,11 +52,75 @@ class DefaultHomeWidget extends StatelessWidget {
             final tempColors = typedData.map((temp) {
               final tempNormalized = (temp - lowestTemp) / tempRange;
               if (tempNormalized < 0 || tempNormalized > 1) {
-                return Colors.white;
+                // Is an outlier pixel
+                int index = typedData.indexOf(temp);
+                int x = index % width;
+                int y = index ~/ width;
+                List<double> adjecentPixelValues;
+
+                if (x == 0) {
+                  adjecentPixelValues = [
+                    typedData[index + 1],
+                    typedData[index + width],
+                    typedData[index + width + 1],
+                  ];
+                } else if (x == width - 1) {
+                  adjecentPixelValues = [
+                    typedData[index - 1],
+                    typedData[index + width],
+                    typedData[index + width - 1],
+                  ];
+                } else if (y == 0) {
+                  adjecentPixelValues = [
+                    typedData[index - 1],
+                    typedData[index + 1],
+                    typedData[index + width],
+                    typedData[index + width - 1],
+                    typedData[index + width + 1],
+                  ];
+                } else if (y == height - 1) {
+                  adjecentPixelValues = [
+                    typedData[index - 1],
+                    typedData[index + 1],
+                    typedData[index - width],
+                    typedData[index - width - 1],
+                    typedData[index - width + 1],
+                  ];
+                } else {
+                  adjecentPixelValues = [
+                    typedData[index - 1],
+                    typedData[index + 1],
+                    typedData[index - width],
+                    typedData[index - width - 1],
+                    typedData[index - width + 1],
+                    typedData[index + width],
+                    typedData[index + width - 1],
+                    typedData[index + width + 1],
+                  ];
+                }
+
+                final adjecentPixelValuesFiltered = adjecentPixelValues
+                    .where((temp) =>
+                        temp <= highestPossibleTemp &&
+                        temp >= lowestPossibleTemp)
+                    .toList();
+
+                final adjecentPixelValuesAvg = adjecentPixelValuesFiltered
+                        .reduce((value, element) => value + element) /
+                    adjecentPixelValuesFiltered.length;
+                final tempNormalized =
+                    (adjecentPixelValuesAvg - lowestTemp) / tempRange;
+
+                final tempColor = Color.lerp(
+                  Colors.green,
+                  Colors.red,
+                  tempNormalized,
+                )!;
+                return tempColor;
               }
               final tempColor = Color.lerp(
-                Colors.red,
                 Colors.green,
+                Colors.red,
                 tempNormalized,
               );
               return tempColor;
