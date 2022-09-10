@@ -253,7 +253,7 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
 
         for pixelNumber in range(768):
             if self._IsPixelBad(pixelNumber):
-                # print("Fixing broken pixel %d" % pixelNumber)
+                print("Fixing broken pixel %d" % pixelNumber)
                 result[pixelNumber] = -273.15
                 continue
 
@@ -305,12 +305,15 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
                 )
 
                 if Sx < 0:
+                  print(f"(Warning: {Sx=}")
                   continue
                 
                 Sx = math.sqrt(math.sqrt(Sx)) * self.ksTo[1]
 
                 _calc = irData / (alphaCompensated * (1 - self.ksTo[1] * 273.15) + Sx) + taTr
-                if _calc < 0: continue
+                if _calc < 0:
+                  print(f"(Warning: {_calc=}")
+                  continue
 
                 To = (
                     math.sqrt(
@@ -332,6 +335,7 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
 
                 _calc2 = irData / ( alphaCompensated * alphaCorrR[torange] * (1 + self.ksTo[torange] * (To - self.ct[torange])) )+ taTr
                 if _calc2 < 0:
+                  print(f"(Warning: {_calc2=}")
                   continue
 
                 To = (
@@ -364,23 +368,23 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
         self._ExtractDeviatingPixels()
 
         # debug output
-        # print('-'*40)
-        # print("kVdd = %d, vdd25 = %d" % (self.kVdd, self.vdd25))
-        # print("KvPTAT = %f, KtPTAT = %f, vPTAT25 = %d, alphaPTAT = %f" %
-        #      (self.KvPTAT, self.KtPTAT, self.vPTAT25, self.alphaPTAT))
-        # print("Gain = %d, Tgc = %f, Resolution = %d" % (self.gainEE, self.tgc, self.resolutionEE))
-        # print("KsTa = %f, ksTo = %s, ct = %s" % (self.KsTa, self.ksTo, self.ct))
-        # print("cpAlpha:", self.cpAlpha, "cpOffset:", self.cpOffset)
-        # print("alpha: ", self.alpha)
-        # print("alphascale: ", self.alphaScale)
-        # print("offset: ", self.offset)
-        # print("kta:", self.kta)
-        # print("ktaScale:", self.ktaScale)
-        # print("kv:", self.kv)
-        # print("kvScale:", self.kvScale)
-        # print("calibrationModeEE:", self.calibrationModeEE)
-        # print("ilChessC:", self.ilChessC)
-        # print('-'*40)
+        print('-'*40)
+        print("kVdd = %d, vdd25 = %d" % (self.kVdd, self.vdd25))
+        print("KvPTAT = %f, KtPTAT = %f, vPTAT25 = %d, alphaPTAT = %f" %
+             (self.KvPTAT, self.KtPTAT, self.vPTAT25, self.alphaPTAT))
+        print("Gain = %d, Tgc = %f, Resolution = %d" % (self.gainEE, self.tgc, self.resolutionEE))
+        print("KsTa = %f, ksTo = %s, ct = %s" % (self.KsTa, self.ksTo, self.ct))
+        print("cpAlpha:", self.cpAlpha, "cpOffset:", self.cpOffset)
+        print("alpha: ", self.alpha)
+        print("alphascale: ", self.alphaScale)
+        print("offset: ", self.offset)
+        print("kta:", self.kta)
+        print("ktaScale:", self.ktaScale)
+        print("kv:", self.kv)
+        print("kvScale:", self.kvScale)
+        print("calibrationModeEE:", self.calibrationModeEE)
+        print("ilChessC:", self.ilChessC)
+        print('-'*40)
 
     def _ExtractVDDParameters(self):
         # extract VDD
