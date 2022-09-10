@@ -309,12 +309,13 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
                 
                 Sx = math.sqrt(math.sqrt(Sx)) * self.ksTo[1]
 
+                _calc = irData / (alphaCompensated * (1 - self.ksTo[1] * 273.15) + Sx) + taTr
+                if _calc < 0: continue
+
                 To = (
                     math.sqrt(
                         math.sqrt(
-                            irData
-                            / (alphaCompensated * (1 - self.ksTo[1] * 273.15) + Sx)
-                            + taTr
+                          _calc
                         )
                     )
                     - 273.15
