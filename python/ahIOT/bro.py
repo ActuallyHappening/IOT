@@ -1,5 +1,5 @@
 from firebase import send_firebase
-from .lib.ThermalSensor.Extract_raw import get_frame
+from lib.ThermalSensor.Extract_raw import get_frame
 
 # i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
 

@@ -15,7 +15,7 @@ except NotImplementedError as exc:
 else:
   
   while True:
-    i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
+    i2c = busio.I2C(board.SCL, board.SDA, frequency=5_000_000)
     try:
       mlx = adafruit_mlx90640.MLX90640(i2c)
     except ValueError as exc:
@@ -28,7 +28,7 @@ else:
 
   # if using higher refresh rates yields a 'too many retries' exception,
   # try decreasing this value to work with certain pi/camera combinations
-  mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
+  mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_8_HZ
 
 def main():
   try:
