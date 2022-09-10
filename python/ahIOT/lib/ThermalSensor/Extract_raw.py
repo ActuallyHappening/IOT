@@ -1,4 +1,6 @@
 # Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
+import busio
+import modified_adafruit_mlx90640 as adafruit_mlx90640
 
 try:
   import board
@@ -6,9 +8,7 @@ except NotImplementedError as exc:
   print(f"Note: This machine is not compatible with MLX90640")
   raise NotImplementedError from exc
 else:
-  import busio
-  import adafruit_mlx90640
-
+  
   while True:
     i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
     try:
