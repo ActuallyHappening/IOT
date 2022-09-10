@@ -762,8 +762,8 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
             raise RuntimeError("More than 4 outlier pixels")
         if (len(self.brokenPixels) + len(self.outlierPixels)) > 4:
             raise RuntimeError("More than 4 faulty pixels")
-        # print("Found %d broken pixels, %d outliers"
-        #         % (len(self.brokenPixels), len(self.outlierPixels)))
+        print("Found %d broken pixels, %d outliers"
+                % (len(self.brokenPixels), len(self.outlierPixels)))
 
         for brokenPixel1, brokenPixel2 in self._UniqueListPairs(self.brokenPixels):
             if self._ArePixelsAdjacent(brokenPixel1, brokenPixel2):
