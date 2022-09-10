@@ -9,9 +9,15 @@ else:
   import busio
   import adafruit_mlx90640
 
-  i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
-
-  mlx = adafruit_mlx90640.MLX90640(i2c)
+  while True:
+    i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
+    try:
+      mlx = adafruit_mlx90640.MLX90640(i2c)
+    except ValueError as exc:
+      print(f"No MLX90640 detected :( - {exc}")
+    else:
+      break
+  
   print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 
   # if using higher refresh rates yields a 'too many retries' exception,
