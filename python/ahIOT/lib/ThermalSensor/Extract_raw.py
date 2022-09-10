@@ -38,6 +38,7 @@ def main():
   while True:
     print(get_frame())
 
+_errs = 0
 def get_frame():
   """Get a frame from the MLX90640 sensor
   Returns a 24x32 array of temperature values in degrees C
@@ -51,17 +52,22 @@ def get_frame():
         # these happen, no biggie - retry
         print(f"(Error) ValueError: {exc}")
         _err_count += 1
-        if _err_count > 3:
+        if _err_count > 1:
           print(f"(Warning: Changing mls_refresh_rate to 2Hz)")
           mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
-        if _err_count > 6:
+        if _err_count > 2:
           print(f"(Warning: Changing mls_refresh_rate to 1Hz)")
           mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_1_HZ
-        if _err_count > 9:
+        if _err_count > 3:
           print(f"(ERROR: Too many retries, exiting, at refresh rate of 1Hz)")
+    global _errs
     if _err_count == 0:
-        print(f"(Info: Changing/Keeping mlx_refresh_rate to 4Hz)")
-        mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
+        if _errs > 0: _errs -= 1
+        else:
+          print(f"(Info: Changing/Keeping mlx_refresh_rate to 4Hz)")
+          mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
+    else:
+      _errs += 1
     return frame
 
 if __name__ == "__main__":
