@@ -2,7 +2,8 @@
 import busio
 try:
   import modified_adafruit_mlx90640 as adafruit_mlx90640
-except ImportError:
+except ImportError as exc:
+  raise exc
   from .. .. import modified_adafruit_mlx90640 as adafruit_mlx90640
 
 try:
