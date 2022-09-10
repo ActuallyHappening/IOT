@@ -1,10 +1,10 @@
 # Original Source: https://docs.circuitpython.org/projects/mlx90640/en/latest/
 import busio
 try:
-  from . import modified_adafruit_mlx90640 as adafruit_mlx90640
+  from . import adafruit_mlx90640 as adafruit_mlx90640
 except ImportError as exc:
   raise exc
-  from .. .. import modified_adafruit_mlx90640 as adafruit_mlx90640
+  from .. .. import adafruit_mlx90640 as adafruit_mlx90640
 
 try:
   import board
@@ -38,13 +38,25 @@ def main():
 
 def get_frame():
   frame = [0] * (24*32)
+  _err_count = 0
   while True:
     try:
         mlx.getFrame(frame)
     except ValueError as exc:
         # these happen, no biggie - retry
         print(f"(Error) ValueError: {exc}")
-        raise exc
+        _err_count += 1
+        if _err_count > 3:
+          print(f"(Warning: Changing mls_refresh_rate to 2Hz)")
+          mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
+        if _err_count > 6:
+          print(f"(Warning: Changing mls_refresh_rate to 1Hz)")
+          mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_1_HZ
+        if _err_count > 9:
+          print(f"(ERROR: Too many retries, exiting, at refresh rate of 1Hz)")
+    if _err_count == 0:
+        print(f"(Info: Changing/Keeping mlx_refresh_rate to 4Hz)")
+        mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
     return frame
 
 if __name__ == "__main__":

@@ -27,6 +27,8 @@ import math
 import time
 from adafruit_bus_device.i2c_device import I2CDevice
 
+print(f"Starting adafruit_mlx90640.py that allows for more than 4 outlier pixels")
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_MLX90640.git"
 
@@ -747,11 +749,14 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
             pixCnt += 1
 
         if len(self.brokenPixels) > 4:
-            raise RuntimeError("More than 4 broken pixels")
+            # raise RuntimeError("More than 4 broken pixels")
+            print(RuntimeError("More than 4 broken pixels"))
         if len(self.outlierPixels) > 4:
-            raise RuntimeError("More than 4 outlier pixels")
+            # raise RuntimeError("More than 4 outlier pixels")
+            print(RuntimeError("More than 4 outlier pixels"))
         if (len(self.brokenPixels) + len(self.outlierPixels)) > 4:
-            raise RuntimeError("More than 4 faulty pixels")
+            # raise RuntimeError("More than 4 faulty pixels")
+            print(RuntimeError("More than 4 faulty pixels"))
         # print("Found %d broken pixels, %d outliers"
         #         % (len(self.brokenPixels), len(self.outlierPixels)))
 

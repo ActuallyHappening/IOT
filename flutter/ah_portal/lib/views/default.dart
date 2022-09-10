@@ -35,11 +35,25 @@ class DefaultHomeWidget extends StatelessWidget {
                 throw Exception('Invalid data type');
               }
             }).toList();
-            final highestTemp = typedData.reduce((a, b) => a > b ? a : b);
-            final lowestTemp = typedData.reduce((a, b) => a < b ? a : b);
+            const highestPossibleTemp = 50;
+            const lowestPossibleTemp = 10;
+
+            // Find temps not higher than highestPossibleTemp and not lower than lowestPossibleTemp
+            final List<double> filteredData = typedData
+                .where((temp) =>
+                    temp <= highestPossibleTemp && temp >= lowestPossibleTemp)
+                .toList();
+
+            final highestTemp = filteredData.reduce((a, b) => a > b ? a : b);
+            final lowestTemp = filteredData.reduce((a, b) => a < b ? a : b);
+            final avgTemp =
+                filteredData.reduce((a, b) => a + b) / typedData.length;
             final tempRange = highestTemp - lowestTemp;
             final tempColors = typedData.map((temp) {
               final tempNormalized = (temp - lowestTemp) / tempRange;
+              if (tempNormalized < 0 || tempNormalized > 1) {
+                return Colors.white;
+              }
               final tempColor = Color.lerp(
                 Colors.red,
                 Colors.green,
