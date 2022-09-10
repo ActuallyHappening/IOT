@@ -49,67 +49,50 @@ class DefaultHomeWidget extends StatelessWidget {
             final avgTemp =
                 filteredData.reduce((a, b) => a + b) / typedData.length;
             final tempRange = highestTemp - lowestTemp;
+            int pixelsGuessed = 0;
             final tempColors = typedData.map((temp) {
               final tempNormalized = (temp - lowestTemp) / tempRange;
               if (tempNormalized < 0 || tempNormalized > 1) {
                 // Is an outlier pixel
+                pixelsGuessed += 1;
+
                 int index = typedData.indexOf(temp);
                 int x = index % width;
                 int y = index ~/ width;
-                List<double> adjecentPixelValues;
+                List<double> adjacentPixelValues = [];
 
-                if (x == 0) {
-                  adjecentPixelValues = [
-                    typedData[index + 1],
-                    typedData[index + width],
-                    typedData[index + width + 1],
-                  ];
-                } else if (x == width - 1) {
-                  adjecentPixelValues = [
-                    typedData[index - 1],
-                    typedData[index + width],
-                    typedData[index + width - 1],
-                  ];
-                } else if (y == 0) {
-                  adjecentPixelValues = [
-                    typedData[index - 1],
-                    typedData[index + 1],
-                    typedData[index + width],
-                    typedData[index + width - 1],
-                    typedData[index + width + 1],
-                  ];
-                } else if (y == height - 1) {
-                  adjecentPixelValues = [
-                    typedData[index - 1],
-                    typedData[index + 1],
-                    typedData[index - width],
-                    typedData[index - width - 1],
-                    typedData[index - width + 1],
-                  ];
-                } else {
-                  adjecentPixelValues = [
-                    typedData[index - 1],
-                    typedData[index + 1],
-                    typedData[index - width],
-                    typedData[index - width - 1],
-                    typedData[index - width + 1],
-                    typedData[index + width],
-                    typedData[index + width - 1],
-                    typedData[index + width + 1],
-                  ];
+                if (x != 0) {
+                  // If not left edge pixel, add pixel to left
+                  adjacentPixelValues.add(typedData[index - 1]);
+                }
+                if (x != width - 1) {
+                  // If not right edge pixel, add pixel to right
+                  adjacentPixelValues.add(typedData[index + 1]);
+                }
+                if (y != 0) {
+                  // If not top edge pixel, add pixel above
+                  adjacentPixelValues.add(typedData[index - width]);
+                }
+                if (y != height - 1) {
+                  // If not bottom edge pixel, add pixel below
+                  adjacentPixelValues.add(typedData[index + width]);
                 }
 
-                final adjecentPixelValuesFiltered = adjecentPixelValues
+                final adjacentPixelValuesFiltered = adjacentPixelValues
                     .where((temp) =>
                         temp <= highestPossibleTemp &&
                         temp >= lowestPossibleTemp)
                     .toList();
 
-                final adjecentPixelValuesAvg = adjecentPixelValuesFiltered
+                if (adjacentPixelValuesFiltered.isEmpty) {
+                  // If no adjacent pixels are valid, return black
+                  return Colors.black;
+                }
+                final adjacentPixelValuesAvg = adjacentPixelValuesFiltered
                         .reduce((value, element) => value + element) /
-                    adjecentPixelValuesFiltered.length;
+                    adjacentPixelValuesFiltered.length;
                 final tempNormalized =
-                    (adjecentPixelValuesAvg - lowestTemp) / tempRange;
+                    (adjacentPixelValuesAvg - lowestTemp) / tempRange;
 
                 final tempColor = Color.lerp(
                   Colors.green,
@@ -125,7 +108,27 @@ class DefaultHomeWidget extends StatelessWidget {
               );
               return tempColor;
             }).toList();
-            return GridView.count(
+
+            Widget info = Wrap(
+              children: [
+                Chip(
+                    label: Text(
+                        'Highest temp: ${highestTemp.toStringAsFixed(2)}C')),
+                Chip(
+                    label:
+                        Text('Lowest temp: ${lowestTemp.toStringAsFixed(2)}C')),
+                Chip(
+                    label:
+                        Text('Average temp: ${avgTemp.toStringAsFixed(2)}C')),
+                Chip(
+                    label:
+                        Text('Temp range: ${tempRange.toStringAsFixed(2)}C')),
+                Chip(
+                    label: Text(
+                        'Percentage of pixels interpolated: ${((pixelsGuessed / typedData.length) * 100).toStringAsFixed(2)}%')),
+              ],
+            );
+            final pixels = GridView.count(
                 crossAxisCount: width,
                 padding: const EdgeInsets.all(0),
                 children: <Widget>[
@@ -137,13 +140,13 @@ class DefaultHomeWidget extends StatelessWidget {
                           ))
                       .toList()
                 ]);
-            // } catch (e) {
-            //   debugPrint("Error while parsing data stream");
-            //   debugPrint(e.toString());
-            //   rethrow;
-            //   return const Text(
-            //       'Error while trying to show you the thermal camera data :( ');
-            // }
+            return Column(
+              children: [
+                info,
+                const SizedBox(height: 20),
+                Expanded(child: pixels),
+              ],
+            );
           } else {
             return const Center(child: Text("No data"));
           }
