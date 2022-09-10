@@ -40,6 +40,7 @@ def get_frame():
     except ValueError as exc:
         # these happen, no biggie - retry
         print(f"(Error) ValueError: {exc}")
+        raise exc
     return frame
 
 if __name__ == "__main__":
