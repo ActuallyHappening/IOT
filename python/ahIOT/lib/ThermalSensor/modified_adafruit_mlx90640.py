@@ -305,15 +305,17 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
                 )
 
                 if Sx < 0:
-                  print(f"(Warning: {Sx=}")
-                  continue
+                  print(f"(Warning: {Sx=} (abs()ing it)")
+                  Sx = abs(Sx)
+                  # continue
                 
                 Sx = math.sqrt(math.sqrt(Sx)) * self.ksTo[1]
 
                 _calc = irData / (alphaCompensated * (1 - self.ksTo[1] * 273.15) + Sx) + taTr
                 if _calc < 0:
-                  print(f"(Warning: {_calc=}")
-                  continue
+                  print(f"(Warning: {_calc=} (abs()ing it)")
+                  _calc = abs(_calc)
+                  # continue
 
                 To = (
                     math.sqrt(
@@ -335,8 +337,9 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
 
                 _calc2 = irData / ( alphaCompensated * alphaCorrR[torange] * (1 + self.ksTo[torange] * (To - self.ct[torange])) )+ taTr
                 if _calc2 < 0:
-                  print(f"(Warning: {_calc2=}")
-                  continue
+                  print(f"(Warning: {_calc2=} abs()ing it")
+                  _calc2 = abs(_calc2)
+                  # continue
 
                 To = (
                     math.sqrt(
