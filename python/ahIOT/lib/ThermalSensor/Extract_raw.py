@@ -34,12 +34,12 @@ def main():
 
 def get_frame():
   frame = [0] * (24*32)
-  while frame[0] == 0:
+  while True:
     try:
         mlx.getFrame(frame)
     except ValueError as exc:
         # these happen, no biggie - retry
-        print("(Error) ValueError: {exc}")
+        print(f"(Error) ValueError: {exc}")
     return frame
 
 if __name__ == "__main__":

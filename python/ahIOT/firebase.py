@@ -1,14 +1,15 @@
 import json
 from random import randrange
 from typing import List
+from dotenv import dotenv_values
+import os
 
+_env_variables = dotenv_values() | os.environ
+_endpoint = _env_variables["FIREBASE_ENDPOINT"]
 
 def send_firebase(data: "List[int]"):
   import requests
-  from dotenv import dotenv_values
-  import os
-  env_variables = dotenv_values() | os.environ
-  r = requests.put(env_variables["FIREBASE_ENDPOINT"], json={"json":json.dumps(data)})
+  r = requests.put(_endpoint, json={"json":json.dumps(data)})
 
 def reset_firebase_stream(strategy: str = "lines"):
   fakeStream: List[int] = []

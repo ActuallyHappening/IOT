@@ -1,8 +1,6 @@
 from __future__ import annotations
-import json
-from random import randrange
 import sys
-from typing import Callable, List, Tuple, Type, TypeVar
+from typing import Callable, Tuple, TypeVar
 
 from .firebase import send_firebase
 try:
@@ -49,8 +47,8 @@ def step():
       method = _method,
       callback = _send,
     )
-  else:
-    if _isFirebase: _step(
+  elif _isFirebase:
+    _step(
       method = _method,
       callback = send_firebase,
     )
