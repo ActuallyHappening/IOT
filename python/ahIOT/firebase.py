@@ -9,7 +9,9 @@ _endpoint = _env_variables["FIREBASE_ENDPOINT"]
 
 def send_firebase(data: "List[int]"):
   import requests
+  print("Sending firebase request ...")
   r = requests.put(_endpoint, json={"json":json.dumps(data)})
+  print(f"Sent firebase request {r}; Status code: {r.status_code}")
 
 def reset_firebase_stream(strategy: str = "lines"):
   fakeStream: List[int] = []

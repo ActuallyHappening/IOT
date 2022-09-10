@@ -26,7 +26,7 @@ else:
 
   # if using higher refresh rates yields a 'too many retries' exception,
   # try decreasing this value to work with certain pi/camera combinations
-  mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
+  mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
 
 def main():
   try:
