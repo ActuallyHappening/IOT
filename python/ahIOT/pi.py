@@ -8,8 +8,8 @@ from .firebase import send_firebase
 try:
   from .lib.AIO import aio
   from .lib.ThermalSensor.Extract_raw import get_frame
-except NotImplementedError:
-  print("Not implemented for this platform :(")
+except NotImplementedError as exc:
+  print("Caught error while importing Extract_raw - {exc}; continuing")
 
 _isFirebase = False
 
