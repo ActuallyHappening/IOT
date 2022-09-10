@@ -3,14 +3,16 @@ from random import randrange
 from typing import List
 from dotenv import dotenv_values
 import os
+import requests
 
 _env_variables = dotenv_values() | os.environ
 _endpoint = _env_variables["FIREBASE_ENDPOINT"]
 
+s = requests.Session()
+
 def send_firebase(data: "List[int]"):
-  import requests
   print("Sending firebase request ...")
-  r = requests.put(_endpoint, json={"json":json.dumps(data)})
+  r = s.put(_endpoint, json={"json":json.dumps(data)})
   print(f"Sent firebase request {r}; Status code: {r.status_code}")
 
 def reset_firebase_stream(strategy: str = "lines"):
