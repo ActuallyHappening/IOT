@@ -34,7 +34,12 @@ class MyApp extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Other options below ...'),
+              margin: EdgeInsets.only(bottom: 16),
+              padding: EdgeInsets.all(64),
+              child: Text(
+                'Other options below ...',
+                // textScaleFactor: 1.5,
+              ),
             ),
             ListTile(
               title: const Text('Go to Home'),
