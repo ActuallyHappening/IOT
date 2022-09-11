@@ -13,6 +13,7 @@ class DefaultHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
     final DatabaseReference streamChild = db.child('v1/stream/json');
 
     return Padding(
@@ -21,7 +22,6 @@ class DefaultHomeWidget extends StatelessWidget {
         stream: streamChild.onValue,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // try {
             final data = snapshot.data! as DatabaseEvent;
             final String rawJson = data.snapshot.value as String;
             final List<dynamic> rawData = jsonDecode(rawJson) as List<dynamic>;
@@ -32,7 +32,11 @@ class DefaultHomeWidget extends StatelessWidget {
               } else if (tempSerialized is double) {
                 return tempSerialized;
               } else {
-                throw Exception('Invalid data type');
+                throw FlutterError(
+                    '''All temperature readings have to be numbers: '$tempSerialized' is not
+                    ${tempSerialized.runtimeType} in stream is not a number
+                    ${tempSerialized.runtimeType} was attempted to be converted to a double if it was an int/double/string
+                    This is a bug in the server, likely the camera sending bad data''');
               }
             }).toList();
             const highestPossibleTemp = 50;
@@ -99,7 +103,7 @@ class DefaultHomeWidget extends StatelessWidget {
                     adjacentPixelValuesFiltered.length;
                 final surroundingTempNormalized =
                     (adjacentPixelValuesAvg - lowestTemp) / tempRange;
-                
+
                 assert(surroundingTempNormalized >= 0 &&
                     surroundingTempNormalized <= 1);
 
