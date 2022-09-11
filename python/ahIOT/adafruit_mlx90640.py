@@ -5,6 +5,7 @@
 """
 `adafruit_mlx90640`
 ================================================================================
+Slightly changed: Allows more than 4 outlier pixels
 
 Driver for the MLX90640 thermal camera
 
