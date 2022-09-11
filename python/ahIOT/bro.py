@@ -38,6 +38,10 @@ finally:
   yellow.on()
   blue.off()  
 
+green.on()
+red.off()
+yellow.off()
+blue.off()
 while True:
   try:
     yellow.on()
