@@ -1,3 +1,4 @@
-image_path: 'assets/images/square_brand.png'
-android: true
-ios: true
+flutter_icons:
+  image_path: 'assets/images/square_brand.png'
+  android: true
+  ios: true
