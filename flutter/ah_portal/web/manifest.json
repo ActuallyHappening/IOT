@@ -1,11 +1,11 @@
 {
-    "name": "ah_portal",
-    "short_name": "ah_portal",
+    "name": "Smile Pal Live Camera Feed",
+    "short_name": "Smile Pal",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "AH Portal - PWA",
+    "description": "Actually Happening Portal: Smile Pal's Live Camera Feed App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
