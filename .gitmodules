@@ -1,6 +1,3 @@
 [submodule "micropython/mlx"]
 	path = micropython/mlx
 	url = https://github.com/ActuallyHappening/MLX90640_micropython_esp32.git
-[submodule "python/ahIOT/python-dotenv"]
-	path = python/ahIOT/python-dotenv
-	url = https://github.com/theskumar/python-dotenv.git
