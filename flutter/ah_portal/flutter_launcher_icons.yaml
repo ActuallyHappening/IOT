@@ -1,0 +1,9 @@
+flutter_icons:
+  image_path: 'assets/images/square_brand.png'
+  remove_alpha_ios: true
+  android: true
+  ios: true
+  web:
+    generate: true
+  windows:
+    generate: true
