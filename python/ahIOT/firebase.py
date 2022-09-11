@@ -1,7 +1,11 @@
+from ast import Import
 import json
 from random import randrange
 from typing import List
-from dotenv import dotenv_values
+try:
+  from dotenv import dotenv_values
+except ImportError:
+  from python_dotenv.src.dotenv import dotenv_values
 import os
 import requests
 
