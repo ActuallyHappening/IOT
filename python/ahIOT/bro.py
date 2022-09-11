@@ -11,5 +11,8 @@ from lib.ThermalSensor.Extract_raw import get_frame
 # mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
 while True:
-  send_firebase(get_frame())
+  try:
+    send_firebase(get_frame())
+  except Exception as exc:
+    print(f"Error caught top level: {exc}")
     
