@@ -50,17 +50,20 @@ class DefaultHomeWidget extends StatelessWidget {
                 filteredData.reduce((a, b) => a + b) / typedData.length;
             final tempRange = highestTemp - lowestTemp;
             int pixelsGuessed = 0;
-            final tempColors = typedData.map((temp) {
+            int pixelsDead = 0;
+            final tempColors = typedData.asMap().entries.map((tempInfo) {
+              final temp = tempInfo.value;
+              final index = tempInfo.key;
               final tempNormalized = (temp - lowestTemp) / tempRange;
               if (tempNormalized < 0 || tempNormalized > 1) {
-                // Is an outlier pixel
+                // This pixel is an outlier pixel / broken
                 pixelsGuessed += 1;
 
-                int index = typedData.indexOf(temp);
                 int x = index % width;
                 int y = index ~/ width;
                 List<double> adjacentPixelValues = [];
 
+                // Since pixel is outlier then take average of surrounding pixels
                 if (x != 0) {
                   // If not left edge pixel, add pixel to left
                   adjacentPixelValues.add(typedData[index - 1]);
@@ -78,26 +81,36 @@ class DefaultHomeWidget extends StatelessWidget {
                   adjacentPixelValues.add(typedData[index + width]);
                 }
 
+                // Only consider pixels that are not outliers
                 final adjacentPixelValuesFiltered = adjacentPixelValues
                     .where((temp) =>
                         temp <= highestPossibleTemp &&
                         temp >= lowestPossibleTemp)
                     .toList();
 
+                // If no adjacent pixels are not outliers, then pixel is dead
                 if (adjacentPixelValuesFiltered.isEmpty) {
-                  // If no adjacent pixels are valid, return black
+                  // Dead pixel = Black
+                  pixelsDead += 1;
                   return Colors.black;
                 }
                 final adjacentPixelValuesAvg = adjacentPixelValuesFiltered
                         .reduce((value, element) => value + element) /
                     adjacentPixelValuesFiltered.length;
-                final tempNormalized =
+                final surroundingTempNormalized =
                     (adjacentPixelValuesAvg - lowestTemp) / tempRange;
+                
+                assert(surroundingTempNormalized >= 0 &&
+                    surroundingTempNormalized <= 1);
+
+                if (x == 15 && y == 12) {
+                  print("Pixel at 15, 12 is outlier");
+                }
 
                 final tempColor = Color.lerp(
                   Colors.green,
                   Colors.red,
-                  tempNormalized,
+                  surroundingTempNormalized,
                 )!;
                 return tempColor;
               }
@@ -126,6 +139,7 @@ class DefaultHomeWidget extends StatelessWidget {
                 Chip(
                     label: Text(
                         'Percentage of pixels interpolated: ${((pixelsGuessed / typedData.length) * 100).toStringAsFixed(2)}%')),
+                Chip(label: Text('Number of pixels dead: $pixelsDead')),
               ],
             );
             final pixels = GridView.count(
