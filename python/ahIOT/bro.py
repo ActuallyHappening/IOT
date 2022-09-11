@@ -1,18 +1,52 @@
-from firebase import send_firebase
-from lib.ThermalSensor.Extract_raw import get_frame
+from gpiozero import LED
+green = LED(14) # Working at all (typically script loaded)
+red = LED(15) # Not working at all
 
-# i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
+yellow = LED(27) # Collecting from camera
+blue = LED(17) # Transmitting data
 
-# mlx = adafruit_mlx90640.MLX90640(i2c)
-# print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
+green.blink(0.5, 0, 1, False)
+red.off()
+blue.off()
+yellow.off()
 
-# # if using higher refresh rates yields a 'too many retries' exception,
-# # try decreasing this value to work with certain pi/camera combinations
-# mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
+try:
+  blue.on()
+  from firebase import send_firebase
+  blue.off()
+except Exception as exc:
+  red.on()
+  print(f"Exc while importing firebase: {exc}")
+  blue.blink(0.5, 0, 1, False)
+  raise SystemExit(69)
+finally:
+  red.on()
+  green.off()
+  blue.on()
+  yellow.off()
+
+try:
+  from lib.ThermalSensor.Extract_raw import get_frame
+except Exception as exc:
+  red.on()
+  print(f"Exc while importing Extract_raw: {exc}")
+  yellow.blink(0.5, 0, 1, False)
+  raise SystemExit(420)
+finally:
+  red.on()
+  green.off()
+  yellow.on()
+  blue.off()  
 
 while True:
   try:
-    send_firebase(get_frame())
+    yellow.on()
+    d = get_frame()
+    yellow.off()
+    blue.on()
+    send_firebase(d)
+    blue.off()
   except Exception as exc:
+    red.blink(0.5, 0.5, 2)
     print(f"Error caught top level: {exc}")
     
