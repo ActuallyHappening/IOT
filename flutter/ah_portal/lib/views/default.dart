@@ -126,6 +126,8 @@ class DefaultHomeWidget extends StatelessWidget {
             }).toList();
 
             Widget info = Wrap(
+              spacing: 10,
+              runSpacing: 10,
               children: [
                 Chip(
                     label: Text(
