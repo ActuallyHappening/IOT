@@ -13,7 +13,6 @@ class DefaultHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseDatabase.instance.setPersistenceEnabled(true);
     final DatabaseReference streamChild = db.child('v1/stream/json');
 
     return Padding(
