@@ -33,16 +33,18 @@ class MyApp extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Extra options here ...'),
+              child: Text('Other options below'),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: const Text('Go to Home'),
+              leading: const Icon(Icons.home),
               onTap: () {
                 Navigator.of(context).pushNamed('/');
               },
             ),
             ListTile(
-              title: const Text('Settings'),
+              title: const Text('Go to Settings'),
+              leading: const Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pushNamed('/');
               },
