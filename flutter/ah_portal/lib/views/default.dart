@@ -106,9 +106,9 @@ class DefaultHomeWidget extends StatelessWidget {
                 assert(surroundingTempNormalized >= 0 &&
                     surroundingTempNormalized <= 1);
 
-                if (x == 15 && y == 12) {
-                  print("Pixel at 15, 12 is outlier");
-                }
+                // if (x == 15 && y == 12) {
+                //   print("Pixel at 15, 12 is outlier");
+                // }
 
                 final tempColor = Color.lerp(
                   Colors.green,

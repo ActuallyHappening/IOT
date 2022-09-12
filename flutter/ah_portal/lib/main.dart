@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   WidgetBuilder _makeView(Widget widget) {
     return (BuildContext context) => Scaffold(
           // drawer: _drawer(context),
-          drawer: Image.asset('assets/images/'),
+          // drawer: Image.asset('assets/images/teeth_only_brand.jpg'),
           appBar: AppBar(
               // title: const Text('Thermal Camera Live Feed'),
               backgroundColor: const Color.fromARGB(255, 92, 192, 230),
@@ -33,8 +33,7 @@ class MyApp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Image.asset('assets/images/horizontal_brand.png')),
-          )
-                
+              )    
           ),
           body: widget,
         );
