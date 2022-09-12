@@ -21,7 +21,19 @@ class MyApp extends StatelessWidget {
     return (BuildContext context) => Scaffold(
           drawer: _drawer(context),
           appBar: AppBar(
-            title: const Text('Thermal Camera Live Feed'),
+              // title: const Text('Thermal Camera Live Feed'),
+              title: SizedBox(
+            height: 40.0, // height of the button
+            width: MediaQuery.of(context).size.width * 0.8,
+
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Image.asset('assets/images/horizontal_brand.png')),
+          )
+                
           ),
           body: widget,
         );
