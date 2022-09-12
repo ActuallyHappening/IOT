@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
           drawer: _drawer(context),
           appBar: AppBar(
               // title: const Text('Thermal Camera Live Feed'),
+              backgroundColor: const Color.fromARGB(255, 92, 192, 230),
               title: SizedBox(
             height: 40.0, // height of the button
-            width: MediaQuery.of(context).size.width * 0.8,
-
+                width: MediaQuery.of(context).size.width * 0.8,
             child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
