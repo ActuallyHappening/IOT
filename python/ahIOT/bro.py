@@ -61,7 +61,7 @@ def get_frame():
     _init()
     frame = [0] * (24*32)
     try:
-      _mlx.get_frame(frame)
+      _mlx.getFrame(frame)
     except ValueError as exc:
       print(f"Camera frame error - {exc}")
       red.on()
