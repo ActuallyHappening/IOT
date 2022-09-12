@@ -1,6 +1,7 @@
 import 'package:ah_portal/views/default.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
 
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
       title: 'Smile Pal Live Camera Feed',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: GoogleFonts
       ),
       initialRoute: "/",
       routes: <String, WidgetBuilder>{

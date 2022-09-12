@@ -1,3 +1,4 @@
+import time
 from gpiozero import LED
 green = LED(14) # Working at all (typically script loaded)
 red = LED(15) # Not working at all
@@ -26,23 +27,54 @@ finally:
   yellow.off()
 
 try:
-  from lib.ThermalSensor.Extract_raw import get_frame
+  import busio
+  import board
+  import adafruit_mlx90640 as adafruit_mlx90640
 except Exception as exc:
   red.on()
-  print(f"Exc while importing Extract_raw: {exc}")
+  print(f"Exc while importing raw extracting libraries: {exc}")
   yellow.blink(0.5, 0, 1, False)
   raise SystemExit(420)
 finally:
   red.on()
   green.off()
   yellow.on()
-  blue.off()  
+  blue.off()
+
+_mlx: adafruit_mlx90640.MLX90640 = None
+def _init():
+  global _mlx
+  if _mlx is not None: return
+  
+  while True:
+    i2c = busio.I2C(board.SCL, board.SDA, frequency=5_000_000)
+    try:
+      _mlx = adafruit_mlx90640.MLX90640(i2c)
+    except ValueError as exc:
+      print(f"Camera needs to be connected - {exc}")
+      time.sleep(1)
+    else:
+      break
+
+def get_frame():
+  while True:
+    _init()
+    frame = [0] * (24*32)
+    try:
+      _mlx.get_frame(frame)
+    except ValueError as exc:
+      print(f"Camera frame error - {exc}")
+      red.on()
+    else:
+      red.off()
+      return frame
 
 green.on()
 red.off()
 yellow.off()
 blue.off()
 while True:
+  _init()
   try:
     yellow.on()
     d = get_frame()
