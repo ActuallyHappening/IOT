@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
 
   WidgetBuilder _makeView(Widget widget) {
     return (BuildContext context) => Scaffold(
-          drawer: _drawer(context),
+          // drawer: _drawer(context),
+          drawer: Image.asset('assets/images/'),
           appBar: AppBar(
               // title: const Text('Thermal Camera Live Feed'),
               backgroundColor: const Color.fromARGB(255, 92, 192, 230),
