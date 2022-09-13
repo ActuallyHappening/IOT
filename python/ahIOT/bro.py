@@ -10,7 +10,11 @@ red.off()
 blue.off()
 yellow.off()
 green.blink(2, 1, 3, False)
+
+_mlx = None
+
 def main():
+  global _mlx
   green.blink(2, 1, 3, False)
   try:
     blue.on()
@@ -42,7 +46,6 @@ def main():
     yellow.on()
     blue.off()
 
-  _mlx: adafruit_mlx90640.MLX90640 = None
   def _init():
     global _mlx
     if _mlx is not None: return
@@ -59,9 +62,11 @@ def main():
         break
 
   def get_frame():
+    global _mlx
     while True:
       _init()
       frame = [0] * (24*32)
+      if _mlx is not None: return frame
       try:
         _mlx.getFrame(frame)
       except ValueError as exc:
