@@ -50,6 +50,7 @@ def _init():
     i2c = busio.I2C(board.SCL, board.SDA, frequency=5_000_000)
     try:
       _mlx = adafruit_mlx90640.MLX90640(i2c)
+      _mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
     except ValueError as exc:
       print(f"Camera needs to be connected - {exc}")
       time.sleep(1)
