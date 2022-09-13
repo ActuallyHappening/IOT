@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
                     ),
                     child: Image.asset('assets/images/horizontal_brand.png')),
               )),
+          // backgroundColor: Color.fromARGB(255, 92, 192, 230),
+          backgroundColor: Color.fromARGB(255, 58, 127, 169),
           body: widget,
         );
   }
