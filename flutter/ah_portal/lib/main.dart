@@ -8,6 +8,9 @@ import 'firebase_options.dart';
 Future<void> main() async {
   // Wait for binding
   WidgetsFlutterBinding.ensureInitialized();
+  // allow/stop google fonts from http requests
+  GoogleFonts.config.allowRuntimeFetching = true;
+  // Firebase init app
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -75,7 +78,7 @@ class MyApp extends StatelessWidget {
     ThemeData baseTheme =
         ThemeData(primarySwatch: Colors.blue, brightness: brightness);
     return baseTheme.copyWith(
-        textTheme: GoogleFonts.robotoCondensedTextTheme(baseTheme.textTheme));
+        textTheme: GoogleFonts.robotoSerifTextTheme(baseTheme.textTheme));
   }
 
   @override
