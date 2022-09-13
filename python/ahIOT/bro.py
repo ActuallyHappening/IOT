@@ -6,10 +6,10 @@ red = LED(15) # Not working at all
 yellow = LED(27) # Collecting from camera
 blue = LED(17) # Transmitting data
 
-green.blink(0.5, 0, 1, False)
 red.off()
 blue.off()
 yellow.off()
+green.blink(2, 1, 3, False)
 
 try:
   blue.on()
@@ -33,7 +33,7 @@ try:
 except Exception as exc:
   red.on()
   print(f"Exc while importing raw extracting libraries: {exc}")
-  yellow.blink(0.5, 0, 1, False)
+  yellow.blink(3, 1, 3, False)
   raise SystemExit(420)
 finally:
   red.on()
