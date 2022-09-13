@@ -128,6 +128,7 @@ class DefaultHomeWidget extends StatelessWidget {
             Widget info = Wrap(
               spacing: 10,
               runSpacing: 10,
+              alignment: WrapAlignment.center,
               children: [
                 Chip(
                     label: Text(
