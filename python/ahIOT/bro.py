@@ -66,7 +66,7 @@ def main():
     while True:
       _init()
       frame = [0] * (24*32)
-      if _mlx is not None: return frame
+      if _mlx is None: return frame
       try:
         _mlx.getFrame(frame)
       except ValueError as exc:
