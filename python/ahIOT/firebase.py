@@ -7,11 +7,16 @@ except ImportError:
   from python_dotenv.src.dotenv import dotenv_values
 import os
 import requests
+from requests.adapters import HTTPAdapter, Retry
 
 _env_variables = dotenv_values() | os.environ
 _endpoint = _env_variables["FIREBASE_ENDPOINT"]
 
 s = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+# s.mount('http://', adapter)
+s.mount('https://', adapter)
 
 def send_firebase(data: "List[int]"):
   print("Sending firebase request ...")
